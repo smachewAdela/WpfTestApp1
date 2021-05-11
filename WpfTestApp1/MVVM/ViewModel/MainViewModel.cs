@@ -9,9 +9,6 @@ namespace WpfTestApp1.MVVM.ViewModel
 {
     class MainViewModel : ObservableObject
     {
-        public MainViewModel()
-        {
-
-        }
+    
     }
 }

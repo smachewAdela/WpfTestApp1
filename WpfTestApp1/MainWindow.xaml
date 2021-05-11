@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfTestApp1"
+              xmlns:ViewModel="clr-namespace:WpfTestApp1.MVVM.ViewModel"
+             xmlns:View="clr-namespace:WpfTestApp1.MVVM.View"
         mc:Ignorable="d"
         Height="650" 
         Width="920" 
@@ -12,6 +14,11 @@
         WindowStyle="None"
         ResizeMode="CanMinimize" >
 
+
+    <Window.DataContext>
+        <ViewModel:MainViewModel></ViewModel:MainViewModel>
+    </Window.DataContext>
+    
     <Border 
         CornerRadius="5"
         Background="#272537">
@@ -42,7 +49,10 @@
             </StackPanel>
 
 
-            <ContentControl Grid.Row="1" Grid.Column="1" Margin="10"></ContentControl>
+            <ContentControl Grid.Row="1" 
+                            Grid.Column="1" 
+                            Margin="10"
+                            Content="{Binding CurrentView}"></ContentControl>
         </Grid>
 
 
