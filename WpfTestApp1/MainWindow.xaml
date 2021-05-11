@@ -5,9 +5,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfTestApp1"
         mc:Ignorable="d"
-        Height="450" Width="800">
-    <StackPanel>
-        <Label>Hello world</Label>
-        <Button Margin="20,0,20,0">Click Me</Button>
-    </StackPanel>
+        Height="650" 
+        Width="920" 
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        WindowStyle="None"
+        ResizeMode="CanMinimize" >
+
+    <Border 
+        CornerRadius="5"
+        Background="#272537">
+
+        <Grid>
+            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+
+            <TextBlock Text="Smachew" VerticalAlignment="Center" Foreground="WhiteSmoke" HorizontalAlignment="Center"/>
+
+
+            <StackPanel Grid.Row="1">
+                <RadioButton Content="Home" Height="50" Foreground="WhiteSmoke" 
+                             FontSize="14" Style="{StaticResource MenuButtonTheme}"></RadioButton>
+
+                <RadioButton Content="Categories" Height="50" Foreground="WhiteSmoke" 
+                             FontSize="14" Style="{StaticResource MenuButtonTheme}"></RadioButton>
+
+            </StackPanel>
+
+
+            <ContentControl Grid.Row="1" Grid.Column="1" Margin="10"></ContentControl>
+        </Grid>
+
+
+        
+        
+        
+
+    </Border>
 </Window>
