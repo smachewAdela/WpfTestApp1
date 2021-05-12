@@ -24,7 +24,7 @@
 
     <Border 
         CornerRadius="5"
-        Background="#003CB3">
+        Background="#0099cc">
 
         <Grid>
 
@@ -42,9 +42,13 @@
             </Grid.RowDefinitions >
 
 
-            <TextBlock Text="Adela" 
+            <TextBlock Text="Adela-Balance" 
                        VerticalAlignment="Center" 
-                       Foreground="WhiteSmoke" 
+                       Background="#0086b3"
+                       Padding="7"
+                       Foreground="#1ac6ff"
+                       FontSize="22"
+                       FontStyle="Oblique"
                        HorizontalAlignment="Center"/>
 
 
@@ -64,6 +68,40 @@
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding CategoriesViewCommand}"></RadioButton>
 
+                <RadioButton Content="הכנסות"
+                             Height="50" 
+                             Foreground="WhiteSmoke" 
+                             FontSize="14" 
+                             Style="{StaticResource MenuButtonTheme}"
+                             Command="{Binding CategoriesViewCommand}"></RadioButton>
+
+                <RadioButton Content="תקציב"
+                             Height="50" 
+                             Foreground="WhiteSmoke" 
+                             FontSize="14" 
+                             Style="{StaticResource MenuButtonTheme}"
+                             Command="{Binding CategoriesViewCommand}"></RadioButton>
+
+                <RadioButton Content="תנועות"
+                             Height="50" 
+                             Foreground="WhiteSmoke" 
+                             FontSize="14" 
+                             Style="{StaticResource MenuButtonTheme}"
+                             Command="{Binding CategoriesViewCommand}"></RadioButton>
+
+                <RadioButton Content="דוחות"
+                             Height="50" 
+                             Foreground="WhiteSmoke" 
+                             FontSize="14" 
+                             Style="{StaticResource MenuButtonTheme}"
+                             Command="{Binding CategoriesViewCommand}"></RadioButton>
+
+                <RadioButton Content="סטטוס"
+                             Height="50" 
+                             Foreground="WhiteSmoke" 
+                             FontSize="14" 
+                             Style="{StaticResource MenuButtonTheme}"
+                             Command="{Binding CategoriesViewCommand}"></RadioButton>
             </StackPanel>
 
             <!--<TextBox Width="250"
@@ -96,11 +134,6 @@
             </Button>
 
         </Grid>
-
-
-
-
-
 
     </Border>
 </Window>

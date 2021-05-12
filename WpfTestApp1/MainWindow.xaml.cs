@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,8 @@ namespace WpfTestApp1
         {
             InitializeComponent();
             //this.Width = 1920;
+            string queuePath = ConfigurationManager.AppSettings["POCPublishSubscribeQueueName"].ToString();
+
         }
 
         private void BtnExit_Click(object sender, RoutedEventArgs e)
