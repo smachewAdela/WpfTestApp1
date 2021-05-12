@@ -10,7 +10,7 @@
         Title="YourApplication" 
         Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={Model:RatioConverter}, ConverterParameter='0.9' }" 
         Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={Model:RatioConverter}, ConverterParameter='0.9' }" 
-     
+        FlowDirection="RightToLeft"
         WindowStartupLocation="CenterScreen"
         Background="Transparent"
         WindowStyle="None"
@@ -37,34 +37,42 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="75"></RowDefinition>
                 <RowDefinition></RowDefinition>
-                <RowDefinition Height="75"></RowDefinition>
+                <RowDefinition Height="75">
+                </RowDefinition>
             </Grid.RowDefinitions >
 
 
-            <TextBlock Text="Smachew" VerticalAlignment="Center" Foreground="WhiteSmoke" HorizontalAlignment="Center"/>
+            <TextBlock Text="Adela" 
+                       VerticalAlignment="Center" 
+                       Foreground="WhiteSmoke" 
+                       HorizontalAlignment="Center"/>
 
 
             <StackPanel Grid.Row="1">
-                <RadioButton Content="Home" Height="50" Foreground="WhiteSmoke" 
+                <RadioButton Content="בית" 
+                             Height="50" 
+                             Foreground="WhiteSmoke" 
                              FontSize="14" 
                              Style="{StaticResource MenuButtonTheme}"
                              IsChecked="True"
                              Command="{Binding HomeViewCommand}"></RadioButton>
 
-                <RadioButton Content="Categories" Height="50" Foreground="WhiteSmoke" 
+                <RadioButton Content="קטגוריות"
+                             Height="50" 
+                             Foreground="WhiteSmoke" 
                              FontSize="14" 
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding CategoriesViewCommand}"></RadioButton>
 
             </StackPanel>
 
-            <TextBox Width="250"
+            <!--<TextBox Width="250"
                      Height="40"
                      VerticalAlignment="Center"
                      HorizontalAlignment="Center"
                      Margin="5"
                      Grid.Column="1"
-                     Style="{StaticResource ModernTextBox}"></TextBox>
+                     Style="{StaticResource ModernTextBox}"></TextBox>-->
 
 
             <ContentControl Grid.Row="1" 
@@ -73,13 +81,19 @@
                             Content="{Binding CurrentView}"
                             ></ContentControl>
 
-       
 
-            <Button Content="Exit"  
-                    Name="btnExit" 
-                     Click="BtnExit_Click"
-                        Margin="10"
-                    Grid.Column="2"   Grid.Row="2" Style="{StaticResource SimpleButtonStyle}"/>
+
+            <Button Name="btnExit" 
+                    Click="BtnExit_Click"
+                    Margin="10"
+                    Grid.Column="2"   
+                    Grid.Row="2" 
+                    Background="Transparent" 
+                    BorderBrush="Transparent">
+                <DockPanel>
+                    <Image Source="/Images/iconfinder_exit_6035.png"/>
+                </DockPanel>
+            </Button>
 
         </Grid>
 
