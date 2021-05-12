@@ -7,6 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="DarkRed">
     <Grid>
-            
+        <Button Name="btnEditCategory"  Content="Edit" Click="BtnEditCategory_Click"></Button>
     </Grid>
 </UserControl>

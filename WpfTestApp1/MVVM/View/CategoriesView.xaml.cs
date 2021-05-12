@@ -24,5 +24,10 @@ namespace WpfTestApp1.MVVM.View
         {
             InitializeComponent();
         }
+
+        private void BtnEditCategory_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
