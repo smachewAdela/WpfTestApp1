@@ -53,11 +53,20 @@
 
             </StackPanel>
 
+            <TextBox Width="250"
+                     Height="40"
+                     VerticalAlignment="Center"
+                     HorizontalAlignment="Center"
+                     Margin="5"
+                     Grid.Column="1"
+                     Style="{StaticResource ModernTextBox}"></TextBox>
+
 
             <ContentControl Grid.Row="1" 
                             Grid.Column="1" 
                             Margin="10"
-                            Content="{Binding CurrentView}"></ContentControl>
+                            Content="{Binding CurrentView}"
+                            ></ContentControl>
         </Grid>
 
 
