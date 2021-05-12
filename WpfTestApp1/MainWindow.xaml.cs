@@ -25,5 +25,10 @@ namespace WpfTestApp1
             InitializeComponent();
             //this.Width = 1920;
         }
+
+        private void BtnExit_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
     }
 }

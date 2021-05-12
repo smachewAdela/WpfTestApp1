@@ -3,11 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:Model="clr-namespace:WpfTestApp1.MVVM.Model"
         xmlns:local="clr-namespace:WpfTestApp1"
         xmlns:ViewModel="clr-namespace:WpfTestApp1.MVVM.ViewModel"
         mc:Ignorable="d"
-        Height="650" 
-        Width="920" 
+        Title="YourApplication" 
+        Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={Model:RatioConverter}, ConverterParameter='0.9' }" 
+        Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={Model:RatioConverter}, ConverterParameter='0.9' }" 
+     
         WindowStartupLocation="CenterScreen"
         Background="Transparent"
         WindowStyle="None"
@@ -18,22 +21,24 @@
     <Window.DataContext>
         <ViewModel:MaunViewModel></ViewModel:MaunViewModel>
     </Window.DataContext>
-    
+
     <Border 
         CornerRadius="5"
-        Background="#272537">
+        Background="#003CB3">
 
         <Grid>
-            
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="75"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="75"></RowDefinition>
+            </Grid.RowDefinitions >
 
 
             <TextBlock Text="Smachew" VerticalAlignment="Center" Foreground="WhiteSmoke" HorizontalAlignment="Center"/>
@@ -67,12 +72,21 @@
                             Margin="10"
                             Content="{Binding CurrentView}"
                             ></ContentControl>
+
+       
+
+            <Button Content="Exit"  
+                    Name="btnExit" 
+                     Click="BtnExit_Click"
+                        Margin="10"
+                    Grid.Column="2"   Grid.Row="2" Style="{StaticResource SimpleButtonStyle}"/>
+
         </Grid>
 
 
-        
-        
-        
+
+
+
 
     </Border>
 </Window>
