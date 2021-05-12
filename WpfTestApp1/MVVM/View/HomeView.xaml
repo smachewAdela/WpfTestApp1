@@ -5,13 +5,33 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfTestApp1.MVVM.View"
              mc:Ignorable="d" 
+             Background="Transparent"
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
 
-        <TextBlock Text="Home View Content" FontSize="22" HorizontalAlignment="Center" Background="OrangeRed"></TextBlock>
+        <TextBlock Text="Discover"
+                   Foreground="WhiteSmoke"
+                   FontSize="24"
+                   HorizontalAlignment="Left"
+                   Margin="0,0,0,20"></TextBlock>
 
-        <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Border Width="400" Height="200">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,2">
+                        <GradientStop Color="Azure" Offset="0.0" ></GradientStop>
+                        <GradientStop Color="White" Offset="1" ></GradientStop>
+                    </LinearGradientBrush>
+                </Border.Background>
+
+                <Border.Clip>
+                    <RectangleGeometry RadiusX="10"
+                                       RadiusY="10"
+                                       Rect="0,0,400,200"></RectangleGeometry>
+                </Border.Clip>
+            </Border>
             
         </StackPanel>
+            
     </StackPanel>
 </UserControl>

@@ -4,19 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfTestApp1"
-              xmlns:ViewModel="clr-namespace:WpfTestApp1.MVVM.ViewModel"
-             xmlns:View="clr-namespace:WpfTestApp1.MVVM.View"
+        xmlns:ViewModel="clr-namespace:WpfTestApp1.MVVM.ViewModel"
         mc:Ignorable="d"
         Height="650" 
         Width="920" 
         WindowStartupLocation="CenterScreen"
         Background="Transparent"
         WindowStyle="None"
-        ResizeMode="CanMinimize" >
+        ResizeMode="CanMinimize" 
+        FontFamily="/Fonts/#Poppins">
 
 
     <Window.DataContext>
-        <ViewModel:MainViewModel></ViewModel:MainViewModel>
+        <ViewModel:MaunViewModel></ViewModel:MaunViewModel>
     </Window.DataContext>
     
     <Border 
@@ -41,10 +41,15 @@
 
             <StackPanel Grid.Row="1">
                 <RadioButton Content="Home" Height="50" Foreground="WhiteSmoke" 
-                             FontSize="14" Style="{StaticResource MenuButtonTheme}"></RadioButton>
+                             FontSize="14" 
+                             Style="{StaticResource MenuButtonTheme}"
+                             IsChecked="True"
+                             Command="{Binding HomeViewCommand}"></RadioButton>
 
                 <RadioButton Content="Categories" Height="50" Foreground="WhiteSmoke" 
-                             FontSize="14" Style="{StaticResource MenuButtonTheme}"></RadioButton>
+                             FontSize="14" 
+                             Style="{StaticResource MenuButtonTheme}"
+                             Command="{Binding CategoriesViewCommand}"></RadioButton>
 
             </StackPanel>
 
