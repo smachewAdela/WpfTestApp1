@@ -95,7 +95,28 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MVVM\Model\BaseDbItem.cs" />
+    <Compile Include="MVVM\Model\Budget.cs" />
+    <Compile Include="MVVM\Model\BudgetGroup.cs" />
+    <Compile Include="MVVM\Model\BudgetIncomeItem.cs" />
+    <Compile Include="MVVM\Model\BudgetItem.cs" />
+    <Compile Include="MVVM\Model\DbAccess.cs" />
+    <Compile Include="MVVM\Model\DbAccessProvider.cs" />
+    <Compile Include="MVVM\Model\DbEntityAttribute.cs" />
+    <Compile Include="MVVM\Model\DbFieldAttribute.cs" />
+    <Compile Include="MVVM\Model\DbParam.cs" />
+    <Compile Include="MVVM\Model\Ext.cs" />
+    <Compile Include="MVVM\Model\FinandaModels.cs" />
+    <Compile Include="MVVM\Model\FinandaSyncLog.cs" />
+    <Compile Include="MVVM\Model\GlobalsProviderBL.cs" />
+    <Compile Include="MVVM\Model\GZipWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MVVM\Model\IDbItem.cs" />
+    <Compile Include="MVVM\Model\ISettings.cs" />
+    <Compile Include="MVVM\Model\ListItem.cs" />
     <Compile Include="MVVM\Model\RatioConverter.cs" />
+    <Compile Include="MVVM\Model\SearchParameters.cs" />
     <Compile Include="MVVM\ViewModel\CategoriesViewModel.cs" />
     <Compile Include="MVVM\ViewModel\HomeViewModel.cs" />
     <Compile Include="MVVM\ViewModel\MaunViewModel.cs" />

@@ -9,27 +9,27 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid  x:Name="root">
 
-        <ItemsControl ItemsSource="{Binding A}"  Background="Transparent" Padding="12">
+        <ItemsControl ItemsSource="{Binding Groups}"  Background="Transparent" >
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal"  
-                                Width="450" 
                                 Background="#22202F"
                                 Height="45"
-                                Margin="4" HorizontalAlignment="Left">
-                        
-                        <Label Content="{Binding Heading}" VerticalAlignment="Center"
-                               FontSize="16"  HorizontalAlignment="Center"
-                               Foreground="WhiteSmoke"
-                                 Width="360" />
+                                Margin="4" 
+                                HorizontalAlignment="Stretch">
 
-                        <Label Content="{Binding BudgetAmount}" VerticalAlignment="Center"
-                               FontSize="14" Foreground="Orange" HorizontalAlignment="Center"
-                                Width="45"/>
+                        <Label Content="{Binding Name}" VerticalAlignment="Center"
+                               FontSize="16"  HorizontalAlignment="Stretch"
+                               Foreground="WhiteSmoke" HorizontalContentAlignment="Center"
+                                Width="600" />
 
-                        <Label Content="{Binding StatusAmount}" VerticalAlignment="Center"
-                               FontSize="14" Foreground="GreenYellow" HorizontalAlignment="Center"
-                                Width="45"/>
+                        <Label Content="{Binding BudgetStr}" VerticalAlignment="Center"
+                               FontSize="14" Foreground="WhiteSmoke" HorizontalAlignment="Stretch"
+                                Width="100" />
+
+                        <Label Content="{Binding StatusStr}" VerticalAlignment="Center"
+                               FontSize="14" Foreground="GreenYellow" HorizontalAlignment="Stretch"
+                              Width="100"  />
                        
                     </StackPanel>
                 </DataTemplate>
