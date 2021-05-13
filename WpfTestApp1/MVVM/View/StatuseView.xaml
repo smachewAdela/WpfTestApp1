@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="WpfTestApp1.MVVM.View.StatuseView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:Model="clr-namespace:WpfTestApp1.MVVM.Model"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfTestApp1.MVVM.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid  x:Name="root">
+
+        <ItemsControl ItemsSource="{Binding A}"  Background="Transparent" Padding="15" Margin="25">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal"  Opacity="0.5">
+                        <Label Content="{Binding Heading}" VerticalAlignment="Center"
+                               FontSize="16" Foreground="WhiteSmoke"
+                                Width="450" Background="#142952" Height="45" Margin="10"
+                               BorderThickness="2, 0, 0, 2" BorderBrush="WhiteSmoke"/>
+                        
+                        <!--<ItemsControl ItemsSource="{Binding Values}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="{Binding}" 
+                                               BorderThickness="0, 0, 2, 2" 
+                                               BorderBrush="Black"/>
+
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>-->
+                   
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+    </Grid>
+</UserControl>

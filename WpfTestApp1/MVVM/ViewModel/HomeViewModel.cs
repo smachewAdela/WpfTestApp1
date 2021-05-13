@@ -8,5 +8,6 @@ namespace WpfTestApp1.MVVM.ViewModel
 {
     class HomeViewModel
     {
+
     }
 }

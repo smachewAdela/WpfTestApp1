@@ -21,6 +21,10 @@
             <DataTemplate DataType="{x:Type ViewModel:CategoriesViewModel}">
                 <View:CategoriesView/>
             </DataTemplate>
+
+            <DataTemplate DataType="{x:Type ViewModel:StatuseViewModel}">
+                <View:StatuseView/>
+            </DataTemplate>
             
         </ResourceDictionary>
     </Application.Resources>

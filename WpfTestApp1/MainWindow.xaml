@@ -59,7 +59,7 @@
                              FontSize="14" 
                              Style="{StaticResource MenuButtonTheme}"
                              IsChecked="True"
-                             Command="{Binding HomeViewCommand}"></RadioButton>
+                             Command="{Binding StatusViewCommand}"></RadioButton>
 
                 <RadioButton Content="קטגוריות"
                              Height="50" 
@@ -101,7 +101,7 @@
                              Foreground="WhiteSmoke" 
                              FontSize="14" 
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding CategoriesViewCommand}"></RadioButton>
+                             Command="{Binding StatusViewCommand}"></RadioButton>
             </StackPanel>
 
             <!--<TextBox Width="250"
@@ -129,7 +129,7 @@
                     Background="Transparent" 
                     BorderBrush="Transparent">
                 <DockPanel>
-                    <Image Source="/Images/iconfinder_exit_6035.png"/>
+                    <Image Source="/Images/iconfinder_exit_6035.png" Height="43" Width="31"/>
                 </DockPanel>
             </Button>
 
