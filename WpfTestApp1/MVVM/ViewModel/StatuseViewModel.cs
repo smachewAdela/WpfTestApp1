@@ -13,12 +13,16 @@ namespace WpfTestApp1.MVVM.ViewModel
 
         public StatuseViewModel()
         {
-            Groups = GlobalsProviderBL.Db.GetData<BudgetGroup>(new SearchParameters());
+            var currentBudget = GlobalsProviderBL.GetLatestBudget();
+            Groups = GlobalsProviderBL.Db.GetData<BudgetGroup>(new SearchParameters { });
+
+            foreach (var g in Groups)
+                g.BudgetItems = currentBudget.Items.Where(x => x.GroupId == g.Id).ToList();
+
             BudgetGroup total = new BudgetGroup
             {
                 Name = "",
-                Budget = Groups.Sum(x => x.Budget),
-                Status = Groups.Sum(x => x.Status)
+                BudgetItems = currentBudget.Items
             };
             Groups.Add(total);
         }

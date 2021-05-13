@@ -33,7 +33,7 @@ namespace WpfTestApp1.MVVM.ViewModel
             CatsVm = new CategoriesViewModel();
             StatusVM = new StatuseViewModel();
 
-            CurrentView = HomeVM;
+            CurrentView = StatusVM;
 
             HomeViewCommand = new RelayCommand(o => 
             {

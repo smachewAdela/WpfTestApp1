@@ -52,7 +52,7 @@
                        HorizontalAlignment="Center"/>
 
 
-            <StackPanel Grid.Row="1">
+            <StackPanel Grid.Row="1" Margin="4" >
                 <RadioButton Content="בית" 
                              Height="50" 
                              Foreground="WhiteSmoke" 
@@ -96,12 +96,12 @@
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding CategoriesViewCommand}"></RadioButton>
 
-                <RadioButton Content="סטטוס"
+                <!--<RadioButton Content="סטטוס"
                              Height="50" 
                              Foreground="WhiteSmoke" 
                              FontSize="14" 
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding StatusViewCommand}"></RadioButton>
+                             Command="{Binding StatusViewCommand}"></RadioButton>-->
             </StackPanel>
 
             <!--<TextBox Width="250"
