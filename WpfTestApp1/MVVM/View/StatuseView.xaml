@@ -9,33 +9,28 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid  x:Name="root">
 
-        <ItemsControl ItemsSource="{Binding A}"  Background="Transparent" Padding="15" Margin="25">
+        <ItemsControl ItemsSource="{Binding A}"  Background="Transparent" Padding="12">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal"  Opacity="0.5">
-                        <Label Content="{Binding Heading}" VerticalAlignment="Center"
-                               FontSize="16" Foreground="WhiteSmoke"
-                                Width="450" Background="#142952" Height="45" Margin="10"
-                               BorderThickness="2, 0, 0, 2" BorderBrush="WhiteSmoke"/>
+                    <StackPanel Orientation="Horizontal"  
+                                Width="450" 
+                                Background="#22202F"
+                                Height="45"
+                                Margin="4" HorizontalAlignment="Left">
                         
-                        <!--<ItemsControl ItemsSource="{Binding Values}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label Content="{Binding}" 
-                                               BorderThickness="0, 0, 2, 2" 
-                                               BorderBrush="Black"/>
+                        <Label Content="{Binding Heading}" VerticalAlignment="Center"
+                               FontSize="16"  HorizontalAlignment="Center"
+                               Foreground="WhiteSmoke"
+                                 Width="360" />
 
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>-->
-                   
+                        <Label Content="{Binding BudgetAmount}" VerticalAlignment="Center"
+                               FontSize="14" Foreground="Orange" HorizontalAlignment="Center"
+                                Width="45"/>
+
+                        <Label Content="{Binding StatusAmount}" VerticalAlignment="Center"
+                               FontSize="14" Foreground="GreenYellow" HorizontalAlignment="Center"
+                                Width="45"/>
+                       
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

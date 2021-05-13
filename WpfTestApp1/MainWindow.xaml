@@ -115,9 +115,12 @@
 
             <ContentControl Grid.Row="1" 
                             Grid.Column="1" 
-                            Margin="10"
-                            Content="{Binding CurrentView}"
-                            ></ContentControl>
+                            Margin="6"
+                            BorderThickness="2"
+                            BorderBrush="WhiteSmoke"
+                            Background="Black"
+                            Content="{Binding CurrentView}">
+            </ContentControl>
 
 
 
