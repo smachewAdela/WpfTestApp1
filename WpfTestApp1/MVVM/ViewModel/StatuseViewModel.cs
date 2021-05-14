@@ -62,7 +62,7 @@ namespace WpfTestApp1.MVVM.ViewModel
             };
             gGroups.Add(total);
 
-            //Groups = gGroups;
+            Groups = gGroups;
         }
     }
 
