@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QBalanceDesktop;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -24,14 +25,35 @@ namespace WpfTestApp1
         public MainWindow()
         {
             InitializeComponent();
-            //this.Width = 1920;
-            string queuePath = ConfigurationManager.AppSettings["POCPublishSubscribeQueueName"].ToString();
+        }
 
+        public MVVM.ViewModel.MaunViewModel ViewModel
+        {
+            get { return (MVVM.ViewModel.MaunViewModel)this.DataContext; }
         }
 
         private void BtnExit_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
+        }
+
+        private void BtnNext_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalsProviderBL.ProgressMonth(1);
+            RefreshView();
+        }
+
+        private void BtnPrev_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalsProviderBL.ProgressMonth(-1);
+            RefreshView();
+        }
+
+        private void RefreshView()
+        {
+            BindingOperations.GetBindingExpressionBase(txTitle, TextBlock.TextProperty).UpdateTarget();
+            BindingOperations.GetBindingExpressionBase(dContent, ContentControl.ContentProperty).UpdateSource();
+            //ViewModel.RefreshView();
         }
     }
 }

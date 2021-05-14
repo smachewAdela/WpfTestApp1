@@ -159,5 +159,9 @@
   <ItemGroup>
     <Resource Include="Images\iconfinder_exit_6035.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\iconfinder_arrow-left-01_186409.png" />
+    <Resource Include="Images\iconfinder_arrow-right-01_186409.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

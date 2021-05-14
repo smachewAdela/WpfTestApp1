@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WpfTestApp1.MVVM.ViewModel
 {
-    class StatuseViewModel
+    public class StatuseViewModel
     {
         public List<BudgetGroup> Groups { get; set; }
 

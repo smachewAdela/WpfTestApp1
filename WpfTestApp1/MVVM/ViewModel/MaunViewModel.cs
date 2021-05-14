@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QBalanceDesktop;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using WpfTestApp1.Core;
 
 namespace WpfTestApp1.MVVM.ViewModel
 {
-    class MaunViewModel : ObservableObject
+    public class MaunViewModel : ObservableObject
     {
         private object _currentView;
 
@@ -17,6 +18,12 @@ namespace WpfTestApp1.MVVM.ViewModel
             set { _currentView = value;
                 OnPropertyChanged();
             }
+        }
+
+
+        public string CurrentTitle
+        {
+            get { return GlobalsProviderBL.CurrentBudget.Title; }
         }
 
         public HomeViewModel HomeVM { get; set; }
@@ -47,6 +54,11 @@ namespace WpfTestApp1.MVVM.ViewModel
             {
                 CurrentView = StatusVM;
             });
+        }
+
+        internal void RefreshView()
+        {
+            OnPropertyChanged();
         }
     }
 }

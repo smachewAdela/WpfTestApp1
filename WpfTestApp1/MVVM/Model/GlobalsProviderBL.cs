@@ -54,27 +54,38 @@ namespace QBalanceDesktop
             return b;
         }
 
-        //static Budget b;
-        //public static Budget CurrentBudget
-        //{
-        //    get
-        //    {
-        //        if (b == null)
-        //        {
-        //            var d = DateTime.Now.Date;
+        internal static void ProgressMonth(int dir)
+        {
+            var nextDate = CurrentBudget.Month.AddMonths(dir);
+            var nextB = Db.GetSingle<Budget>(new SearchParameters { BudgetDate = nextDate });
+            if (nextB != null)
+            {
+                CurrentBudget = nextB;
+            }
+        }
 
-        //            do
-        //            {
-        //                b = Db.GetSingle<Budget>(new SearchParameters { BudgetDate = d.FirstDayOfMonth() });
-        //                d = d.AddMonths(-1);
-        //            } 
-        //            while (b==null);
-
-        //        }
-        //        return b;
-        //    }
-        //}
-
-
+        static Budget b;
+        public static Budget CurrentBudget
+        {
+            get
+            {
+                if (b == null)
+                {
+                    //var d = DateTime.Now.Date;
+                    //do
+                    //{
+                    //    b = Db.GetSingle<Budget>(new SearchParameters { BudgetDate = d.FirstDayOfMonth() });
+                    //    d = d.AddMonths(-1);
+                    //}
+                    //while (b == null);
+                    b = GetLatestBudget();
+                }
+                return b;
+            }
+            private set
+            {
+                b = value;
+            }
+        }
     }
 }
