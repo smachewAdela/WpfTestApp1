@@ -39,21 +39,19 @@ namespace WpfTestApp1
 
         private void BtnNext_Click(object sender, RoutedEventArgs e)
         {
-            GlobalsProviderBL.ProgressMonth(1);
+          
             RefreshView();
         }
 
         private void BtnPrev_Click(object sender, RoutedEventArgs e)
         {
-            GlobalsProviderBL.ProgressMonth(-1);
             RefreshView();
         }
 
         private void RefreshView()
         {
-            BindingOperations.GetBindingExpressionBase(txTitle, TextBlock.TextProperty).UpdateTarget();
-            BindingOperations.GetBindingExpressionBase(dContent, ContentControl.ContentProperty).UpdateSource();
-            //ViewModel.RefreshView();
+            //BindingOperations.GetBindingExpressionBase(txTitle, TextBlock.TextProperty).UpdateTarget();
+            //BindingOperations.GetBindingExpressionBase(dContent, ContentControl.ContentProperty).UpdateSource();
         }
     }
 }

@@ -87,5 +87,6 @@ namespace QBalanceDesktop
                 b = value;
             }
         }
+
     }
 }

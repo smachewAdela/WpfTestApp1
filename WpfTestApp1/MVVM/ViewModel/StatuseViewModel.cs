@@ -4,19 +4,55 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfTestApp1.Core;
+using WpfTestApp1.MVVM.Model;
 
 namespace WpfTestApp1.MVVM.ViewModel
 {
-    public class StatuseViewModel
+    public class StatuseViewModel : ObservableObject
     {
-        public List<BudgetGroup> Groups { get; set; }
+        public string CurrentTitle
+        {
+            get { return GlobalsProviderBL.CurrentBudget.Title; }
+        }
+
+        private List<BudgetGroup> _g;
+
+        public List<BudgetGroup> Groups
+    {
+            get { return _g; }
+            set
+            {
+                _g = value;
+                OnPropertyChanged();
+                OnPropertyChanged("CurrentTitle");
+            }
+        }
+
+        public RelayCommand RefreshMonthCommand { get; set; }
 
         public StatuseViewModel()
         {
-            var currentBudget = GlobalsProviderBL.GetLatestBudget();
-            Groups = GlobalsProviderBL.Db.GetData<BudgetGroup>(new SearchParameters { });
+            RefreshMonthCommand = new RelayCommand(o =>
+            {
+                RefreshView(o);
+            });
+            LoadData();
+        }
 
-            foreach (var g in Groups)
+        private void RefreshView(object o)
+        {
+            int dir = Convert.ToInt32(o);
+            GlobalsProviderBL.ProgressMonth(dir);
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            var currentBudget = GlobalsProviderBL.CurrentBudget;
+            var gGroups = GlobalsProviderBL.Db.GetData<BudgetGroup>(new SearchParameters { });
+
+            foreach (var g in gGroups)
                 g.BudgetItems = currentBudget.Items.Where(x => x.GroupId == g.Id).ToList();
 
             BudgetGroup total = new BudgetGroup
@@ -24,7 +60,9 @@ namespace WpfTestApp1.MVVM.ViewModel
                 Name = "",
                 BudgetItems = currentBudget.Items
             };
-            Groups.Add(total);
+            gGroups.Add(total);
+
+            //Groups = gGroups;
         }
     }
 

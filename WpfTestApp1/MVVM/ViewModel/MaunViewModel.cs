@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfTestApp1.Core;
+using WpfTestApp1.MVVM.Model;
 
 namespace WpfTestApp1.MVVM.ViewModel
 {
@@ -20,19 +21,14 @@ namespace WpfTestApp1.MVVM.ViewModel
             }
         }
 
-
-        public string CurrentTitle
-        {
-            get { return GlobalsProviderBL.CurrentBudget.Title; }
-        }
-
         public HomeViewModel HomeVM { get; set; }
         public CategoriesViewModel CatsVm { get; set; }
         public StatuseViewModel StatusVM { get; set; }
-
+        
         public RelayCommand HomeViewCommand { get; set; }
         public RelayCommand CategoriesViewCommand { get; set; }
         public RelayCommand StatusViewCommand { get; set; }
+     
 
         public MaunViewModel()
         {
@@ -54,11 +50,6 @@ namespace WpfTestApp1.MVVM.ViewModel
             {
                 CurrentView = StatusVM;
             });
-        }
-
-        internal void RefreshView()
-        {
-            OnPropertyChanged();
         }
     }
 }

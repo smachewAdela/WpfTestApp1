@@ -23,10 +23,6 @@ namespace WpfTestApp1.MVVM.View
         public StatuseView()
         {
             InitializeComponent();
-
-         
         }
-        
     }
-
-   }
+}
