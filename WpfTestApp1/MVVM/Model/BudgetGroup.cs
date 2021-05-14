@@ -14,6 +14,7 @@ namespace QBalanceDesktop
 
         public int Budget
         {
+            set { }
             get { return BudgetItems.Sum(x => x.BudgetAmount); }
         }
 
@@ -24,11 +25,21 @@ namespace QBalanceDesktop
 
         public int Status
         {
+            set { }
             get { return BudgetItems.Sum(x => x.StatusAmount); }
         }
         public string StatusStr
         {
             get { return Status.ToNumberFormat(); }
+        }
+        public int Ratio
+        {
+            set { }
+            get
+            {
+                // 75/100
+                return (Status * 100) / Budget;
+            }
         }
     }
 }

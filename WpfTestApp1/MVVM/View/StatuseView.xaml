@@ -73,8 +73,10 @@
                         <Label Content="{Binding Name}" VerticalAlignment="Center"
                                FontSize="16"  HorizontalAlignment="Stretch"
                                Foreground="WhiteSmoke" HorizontalContentAlignment="Center"
-                                Width="600" />
+                                Width="450" />
 
+                      
+                        
                         <Label Content="{Binding BudgetStr}" VerticalAlignment="Center"
                                FontSize="14" Foreground="WhiteSmoke" HorizontalAlignment="Stretch"
                                 Width="100" />
@@ -82,7 +84,17 @@
                         <Label Content="{Binding StatusStr}" VerticalAlignment="Center"
                                FontSize="14" Foreground="GreenYellow" HorizontalAlignment="Stretch"
                               Width="100"  />
-                       
+
+                        <Grid Margin="2" Width="150" Background="Transparent">
+                            <ProgressBar Minimum="0" 
+                                         Maximum="100" 
+                                         Value="{Binding Ratio}" 
+                                         Name="pbStatus" 
+                                         Background="Transparent" Foreground="#339966"/>
+                            <TextBlock Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}{0:0}%}" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" Foreground="WhiteSmoke" />
+                        </Grid>
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
