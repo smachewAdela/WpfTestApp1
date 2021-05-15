@@ -29,6 +29,10 @@
             <DataTemplate DataType="{x:Type ViewModel:IncomeViewModel}">
                 <View:IncomeView/>
             </DataTemplate>
+
+            <DataTemplate DataType="{x:Type ViewModel:BudgetViewModel}">
+                <View:BudgetView/>
+            </DataTemplate>
             
         </ResourceDictionary>
     </Application.Resources>

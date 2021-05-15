@@ -69,6 +69,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MVVM\View\BudgetView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVVM\View\CategoriesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -122,11 +126,15 @@
     <Compile Include="MVVM\Model\PConverter.cs" />
     <Compile Include="MVVM\Model\RatioConverter.cs" />
     <Compile Include="MVVM\Model\SearchParameters.cs" />
+    <Compile Include="MVVM\ViewModel\BudgetViewModel.cs" />
     <Compile Include="MVVM\ViewModel\CategoriesViewModel.cs" />
     <Compile Include="MVVM\ViewModel\HomeViewModel.cs" />
     <Compile Include="MVVM\ViewModel\IncomeViewModel.cs" />
     <Compile Include="MVVM\ViewModel\MaunViewModel.cs" />
     <Compile Include="MVVM\ViewModel\StatuseViewModel.cs" />
+    <Compile Include="MVVM\View\BudgetView.xaml.cs">
+      <DependentUpon>BudgetView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MVVM\View\CategoriesView.xaml.cs">
       <DependentUpon>CategoriesView.xaml</DependentUpon>
     </Compile>
@@ -186,6 +194,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\iconfinder_website_-_pencil_3440848 %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\iconfinder_89_Import_Down_Download_Save_1864210.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

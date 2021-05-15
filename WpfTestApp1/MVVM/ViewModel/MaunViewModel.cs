@@ -25,12 +25,13 @@ namespace WpfTestApp1.MVVM.ViewModel
         public CategoriesViewModel CatsVm { get; set; }
         public StatuseViewModel StatusVM { get; set; }
         public IncomeViewModel IncomeVM { get; set; }
-
+        public BudgetViewModel BudgetVM { get; set; }
 
         public RelayCommand HomeViewCommand { get; set; }
         public RelayCommand CategoriesViewCommand { get; set; }
         public RelayCommand StatusViewCommand { get; set; }
         public RelayCommand IncomeViewCommand { get; set; }
+        public RelayCommand BudgetViewCommand { get; set; }
 
         public MaunViewModel()
         {
@@ -38,6 +39,8 @@ namespace WpfTestApp1.MVVM.ViewModel
             CatsVm = new CategoriesViewModel();
             StatusVM = new StatuseViewModel();
             IncomeVM = new IncomeViewModel();
+            BudgetVM = new BudgetViewModel();
+
 
             CurrentView = StatusVM;
 
@@ -56,6 +59,10 @@ namespace WpfTestApp1.MVVM.ViewModel
             IncomeViewCommand = new RelayCommand(o =>
             {
                 CurrentView = IncomeVM;
+            });
+            BudgetViewCommand = new RelayCommand(o =>
+            {
+                CurrentView = BudgetVM;
             });
         }
     }

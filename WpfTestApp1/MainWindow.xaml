@@ -80,7 +80,7 @@
                              Foreground="WhiteSmoke" 
                              FontSize="14" 
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding CategoriesViewCommand}"></RadioButton>
+                             Command="{Binding BudgetViewCommand}"></RadioButton>
 
                 <RadioButton Content="תנועות"
                              Height="50" 
