@@ -9,7 +9,7 @@ using WpfTestApp1.MVVM.Model;
 
 namespace WpfTestApp1.MVVM.ViewModel
 {
-    public class StatuseViewModel : ObservableObject
+    public class StatuseViewModel : ObservableObject, IRefreshAble
     {
         public string CurrentTitle
         {
@@ -63,6 +63,11 @@ namespace WpfTestApp1.MVVM.ViewModel
             gGroups.Add(total);
 
             Groups = gGroups;
+        }
+
+        public void Refresh()
+        {
+            LoadData();
         }
     }
 

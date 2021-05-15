@@ -16,9 +16,16 @@ namespace WpfTestApp1.MVVM.ViewModel
         public object CurrentView
         {
             get { return _currentView; }
-            set { _currentView = value;
+            set 
+            {
+                _currentView = value;
                 OnPropertyChanged();
             }
+        }
+        public RelayCommand RefreshMonthCommand { get; set; }
+        public string CurrentTitle
+        {
+            get { return GlobalsProviderBL.CurrentBudget.Title; }
         }
 
         public HomeViewModel HomeVM { get; set; }
@@ -45,6 +52,13 @@ namespace WpfTestApp1.MVVM.ViewModel
             BudgetTransactionsVM = new BudgetTRansactionsViewModel();
 
             CurrentView = StatusVM;
+
+            RefreshMonthCommand = new RelayCommand(o =>
+            {
+                int dir = Convert.ToInt32(o);
+                GlobalsProviderBL.ProgressMonth(dir);
+                ((IRefreshAble)CurrentView).Refresh();
+            });
 
             HomeViewCommand = new RelayCommand(o => 
             {
