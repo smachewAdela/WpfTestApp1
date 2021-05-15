@@ -4,7 +4,7 @@
     public class BudgetItem : BaseDbItem
     {
         [DbField()]
-        public string CategoryName { get; set; }
+        public string CategoryName { get; set; } 
 
         [DbField()]
         public int BudgetAmount { get; set; }
@@ -30,6 +30,16 @@
             get
             {
                 return BudgetAmount > 0;
+            }
+        }
+
+        public int Ratio
+        {
+            set { }
+            get
+            {
+                // 75/100
+                return (StatusAmount * 100) / BudgetAmount;
             }
         }
     }

@@ -26,12 +26,14 @@ namespace WpfTestApp1.MVVM.ViewModel
         public StatuseViewModel StatusVM { get; set; }
         public IncomeViewModel IncomeVM { get; set; }
         public BudgetViewModel BudgetVM { get; set; }
+        public BudgetTRansactionsViewModel BudgetTransactionsVM { get; set; }
 
         public RelayCommand HomeViewCommand { get; set; }
         public RelayCommand CategoriesViewCommand { get; set; }
         public RelayCommand StatusViewCommand { get; set; }
         public RelayCommand IncomeViewCommand { get; set; }
         public RelayCommand BudgetViewCommand { get; set; }
+        public RelayCommand BudgetTransactionsViewCommand { get; set; }
 
         public MaunViewModel()
         {
@@ -40,7 +42,7 @@ namespace WpfTestApp1.MVVM.ViewModel
             StatusVM = new StatuseViewModel();
             IncomeVM = new IncomeViewModel();
             BudgetVM = new BudgetViewModel();
-
+            BudgetTransactionsVM = new BudgetTRansactionsViewModel();
 
             CurrentView = StatusVM;
 
@@ -63,6 +65,10 @@ namespace WpfTestApp1.MVVM.ViewModel
             BudgetViewCommand = new RelayCommand(o =>
             {
                 CurrentView = BudgetVM;
+            });
+            BudgetTransactionsViewCommand = new RelayCommand(o =>
+            {
+                CurrentView = BudgetTransactionsVM;
             });
         }
     }

@@ -87,7 +87,7 @@
                              Foreground="WhiteSmoke" 
                              FontSize="14" 
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding CategoriesViewCommand}"></RadioButton>
+                             Command="{Binding BudgetTransactionsViewCommand}"></RadioButton>
 
                 <RadioButton Content="דוחות"
                              Height="50" 
