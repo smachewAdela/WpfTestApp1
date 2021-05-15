@@ -57,7 +57,7 @@
                             Background="Transparent" 
                             BorderBrush="Transparent">
                             <DockPanel>
-                                <Image Source="/Images/iconfinder_edit_2561427.png" 
+                                <Image Source="/Images/iconfinder_icon-136-document-edit_314724.png" 
                                Height="43" 
                                Width="31" />
                             </DockPanel>

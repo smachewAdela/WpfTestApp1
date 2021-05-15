@@ -167,5 +167,11 @@
   <ItemGroup>
     <Resource Include="Images\iconfinder_edit_2561427.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\iconfinder_EditDocument_728933.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\iconfinder_icon-136-document-edit_314724.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
