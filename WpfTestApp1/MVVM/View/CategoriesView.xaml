@@ -4,9 +4,74 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfTestApp1.MVVM.View"
+             xmlns:ViewModel="clr-namespace:WpfTestApp1.MVVM.ViewModel"
+            xmlns:Model="clr-namespace:WpfTestApp1.MVVM.Model"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="DarkRed">
-    <Grid>
-        <Button Name="btnEditCategory"  Content="Edit" Click="BtnEditCategory_Click"></Button>
-    </Grid>
+             FlowDirection="RightToLeft"
+             d:DesignHeight="450" d:DesignWidth="800" Background="Transparent">
+
+    <ScrollViewer >
+        
+        <ItemsControl ItemsSource="{Binding BudgetItems}" 
+                       x:Name="MyItems"
+                      Background="Transparent" 
+                      Padding="5">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal"  
+                                Background="#22202F"
+                                Height="50"
+                                Margin="4" 
+                                HorizontalAlignment="Stretch">
+
+                        <Label Content="{Binding CategoryName}" VerticalAlignment="Center"
+                               FontSize="16"  HorizontalAlignment="Stretch"
+                               Foreground="WhiteSmoke" HorizontalContentAlignment="Center"
+                                Width="450" />
+
+
+
+                        <CheckBox  Name="chkAll"
+                            VerticalAlignment="Center" 
+                                    Content="All" 
+                                    Foreground="WhiteSmoke" 
+                                    Width="60"/>
+
+                        <ComboBox  Name="cmbGroup"
+                            SelectedValue="{Binding Path=GroupId}"
+                                    DisplayMemberPath="Name"
+                                    SelectedValuePath="Id"
+                                    VerticalAlignment="Center"
+                                    Width="200"
+                                   HorizontalContentAlignment="Center"
+                                    Background="Transparent"
+                                    ItemsSource="{Binding RelativeSource={
+                                        RelativeSource AncestorType={x:Type ItemsControl}}, 
+                                        Path=DataContext.Groups}" />
+
+                        <Button 
+                            Command="{Binding ElementName=MyItems, Path=DataContext.UpdateCategoryCommand}"
+                            Margin="10"
+                            Width="80"
+                            VerticalAlignment="Stretch"
+                            Background="Transparent" 
+                            BorderBrush="Transparent">
+                            <DockPanel>
+                                <Image Source="/Images/iconfinder_edit_2561427.png" 
+                               Height="43" 
+                               Width="31" />
+                            </DockPanel>
+                            <Button.CommandParameter>
+                                <MultiBinding Converter="{Model:PConverter}" >
+                                    <Binding Path="SelectedValue" ElementName="cmbGroup"/>
+                                    <Binding Path="IsChecked" ElementName="chkAll"/>
+                                    <Binding />
+                                </MultiBinding>
+                            </Button.CommandParameter>
+                        </Button>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </ScrollViewer>
 </UserControl>

@@ -115,6 +115,7 @@
     <Compile Include="MVVM\Model\IDbItem.cs" />
     <Compile Include="MVVM\Model\ISettings.cs" />
     <Compile Include="MVVM\Model\ListItem.cs" />
+    <Compile Include="MVVM\Model\PConverter.cs" />
     <Compile Include="MVVM\Model\RatioConverter.cs" />
     <Compile Include="MVVM\Model\SearchParameters.cs" />
     <Compile Include="MVVM\ViewModel\CategoriesViewModel.cs" />
@@ -162,6 +163,9 @@
   <ItemGroup>
     <Resource Include="Images\iconfinder_arrow-left-01_186409.png" />
     <Resource Include="Images\iconfinder_arrow-right-01_186409.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\iconfinder_edit_2561427.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
