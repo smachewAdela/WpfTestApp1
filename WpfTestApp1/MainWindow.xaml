@@ -73,7 +73,7 @@
                              Foreground="WhiteSmoke" 
                              FontSize="14" 
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding CategoriesViewCommand}"></RadioButton>
+                             Command="{Binding IncomeViewCommand}"></RadioButton>
 
                 <RadioButton Content="תקציב"
                              Height="50" 

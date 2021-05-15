@@ -25,6 +25,10 @@
             <DataTemplate DataType="{x:Type ViewModel:StatuseViewModel}">
                 <View:StatuseView/>
             </DataTemplate>
+
+            <DataTemplate DataType="{x:Type ViewModel:IncomeViewModel}">
+                <View:IncomeView/>
+            </DataTemplate>
             
         </ResourceDictionary>
     </Application.Resources>

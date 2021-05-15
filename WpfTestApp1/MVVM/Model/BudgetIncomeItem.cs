@@ -11,5 +11,6 @@
 
         [DbField()]
         public int BudgetId { get; set; }
+        public bool IsTotal { get;  set; }
     }
 }

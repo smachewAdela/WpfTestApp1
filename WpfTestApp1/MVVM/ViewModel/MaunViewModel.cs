@@ -24,17 +24,20 @@ namespace WpfTestApp1.MVVM.ViewModel
         public HomeViewModel HomeVM { get; set; }
         public CategoriesViewModel CatsVm { get; set; }
         public StatuseViewModel StatusVM { get; set; }
-        
+        public IncomeViewModel IncomeVM { get; set; }
+
+
         public RelayCommand HomeViewCommand { get; set; }
         public RelayCommand CategoriesViewCommand { get; set; }
         public RelayCommand StatusViewCommand { get; set; }
-     
+        public RelayCommand IncomeViewCommand { get; set; }
 
         public MaunViewModel()
         {
             HomeVM = new HomeViewModel();
             CatsVm = new CategoriesViewModel();
             StatusVM = new StatuseViewModel();
+            IncomeVM = new IncomeViewModel();
 
             CurrentView = StatusVM;
 
@@ -49,6 +52,10 @@ namespace WpfTestApp1.MVVM.ViewModel
             StatusViewCommand = new RelayCommand(o =>
             {
                 CurrentView = StatusVM;
+            });
+            IncomeViewCommand = new RelayCommand(o =>
+            {
+                CurrentView = IncomeVM;
             });
         }
     }
