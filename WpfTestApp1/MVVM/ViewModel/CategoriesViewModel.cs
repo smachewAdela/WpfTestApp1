@@ -9,7 +9,7 @@ using WpfTestApp1.MVVM.Model;
 
 namespace WpfTestApp1.MVVM.ViewModel
 {
-    public class CategoriesViewModel : ObservableObject
+    public class CategoriesViewModel : ObservableObject, IRefreshAble
     {
         public RelayCommand UpdateCategoryCommand { get; set; }
         public CategoriesViewModel()
@@ -49,6 +49,10 @@ namespace WpfTestApp1.MVVM.ViewModel
             LoadItems();
         }
 
+        public void Refresh()
+        {
+            LoadItems();
+        }
 
         public List<BudgetGroup> Groups { get; set; }
 

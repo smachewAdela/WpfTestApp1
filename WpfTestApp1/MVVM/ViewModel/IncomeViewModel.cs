@@ -9,7 +9,7 @@ using WpfTestApp1.MVVM.Model;
 
 namespace WpfTestApp1.MVVM.ViewModel
 {
-    public class IncomeViewModel : ObservableObject
+    public class IncomeViewModel : ObservableObject, IRefreshAble
     {
         public IncomeViewModel()
         {
@@ -18,10 +18,10 @@ namespace WpfTestApp1.MVVM.ViewModel
             {
                 UpdateIncome(parameter);
             });
-            RefreshMonthCommand = new RelayCommand(o =>
-            {
-                RefreshView(o);
-            });
+        }
+        public void Refresh()
+        {
+            LoadItems();
         }
 
         private void UpdateIncome(object parameter)
@@ -32,20 +32,12 @@ namespace WpfTestApp1.MVVM.ViewModel
             LoadItems();
         }
 
-        private void RefreshView(object o)
-        {
-            int dir = Convert.ToInt32(o);
-            GlobalsProviderBL.ProgressMonth(dir);
-            LoadItems();
-        }
-
         private void LoadItems()
         {
             BudgetIncomes = GlobalsProviderBL.CurrentBudget.Incomes;
         }
 
         public RelayCommand UpdateIncomeCommand { get; set; }
-        public RelayCommand RefreshMonthCommand { get; set; }
 
         private List<BudgetIncomeItem> _g;
         public List<BudgetIncomeItem> BudgetIncomes

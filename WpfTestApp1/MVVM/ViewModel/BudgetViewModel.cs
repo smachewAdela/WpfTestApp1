@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfTestApp1.Core;
+using WpfTestApp1.MVVM.Model;
 
 namespace WpfTestApp1.MVVM.ViewModel
 {
-    public class BudgetViewModel : ObservableObject
+    public class BudgetViewModel : ObservableObject, IRefreshAble
     {
         public string CurrentTitle
         {
@@ -30,10 +31,6 @@ namespace WpfTestApp1.MVVM.ViewModel
 
         public BudgetViewModel()
         {
-            RefreshMonthCommand = new RelayCommand(o =>
-            {
-                RefreshView(o);
-            });
             UpdateBudgetCommand = new RelayCommand(parameter =>
             {
                 var values = (object[])parameter;
@@ -48,7 +45,6 @@ namespace WpfTestApp1.MVVM.ViewModel
             LoadData();
         }
 
-        public RelayCommand RefreshMonthCommand { get; set; }
         public RelayCommand UpdateBudgetCommand { get; set; }
         private void RefreshView(object o)
         {
@@ -68,5 +64,9 @@ namespace WpfTestApp1.MVVM.ViewModel
             Groups = gGroups;
         }
 
+        public void Refresh()
+        {
+            LoadData();
+        }
     }
 }

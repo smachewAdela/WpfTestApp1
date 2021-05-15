@@ -11,11 +11,6 @@ namespace WpfTestApp1.MVVM.ViewModel
 {
     public class StatuseViewModel : ObservableObject, IRefreshAble
     {
-        public string CurrentTitle
-        {
-            get { return GlobalsProviderBL.CurrentBudget.Title; }
-        }
-
         private List<BudgetGroup> _g;
 
         public List<BudgetGroup> Groups
@@ -29,21 +24,9 @@ namespace WpfTestApp1.MVVM.ViewModel
             }
         }
 
-        public RelayCommand RefreshMonthCommand { get; set; }
 
         public StatuseViewModel()
         {
-            RefreshMonthCommand = new RelayCommand(o =>
-            {
-                RefreshView(o);
-            });
-            LoadData();
-        }
-
-        private void RefreshView(object o)
-        {
-            int dir = Convert.ToInt32(o);
-            GlobalsProviderBL.ProgressMonth(dir);
             LoadData();
         }
 

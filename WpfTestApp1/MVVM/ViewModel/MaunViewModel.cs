@@ -20,6 +20,7 @@ namespace WpfTestApp1.MVVM.ViewModel
             {
                 _currentView = value;
                 OnPropertyChanged();
+                OnPropertyChanged("CurrentTitle");
             }
         }
         public RelayCommand RefreshMonthCommand { get; set; }
@@ -57,6 +58,7 @@ namespace WpfTestApp1.MVVM.ViewModel
             {
                 int dir = Convert.ToInt32(o);
                 GlobalsProviderBL.ProgressMonth(dir);
+                CurrentView = _currentView;
                 ((IRefreshAble)CurrentView).Refresh();
             });
 
