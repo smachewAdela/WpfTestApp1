@@ -177,6 +177,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Resource Include="Fonts\Poppins-Regular.ttf" />
+    <None Include="AppData\migrationData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -211,8 +214,6 @@
   <ItemGroup>
     <Resource Include="Images\iconfinder_89_Import_Down_Download_Save_1864210.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AppData\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

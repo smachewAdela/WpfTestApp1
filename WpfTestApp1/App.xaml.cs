@@ -32,7 +32,7 @@ namespace WpfTestApp1
                     incomes = db.GetData<BudgetIncomeItem>(),
                     months = db.GetData<Budget>()
                 };
-                var migrationFilePath = ConfigurationManager.AppSettings["migrationFilePath"]; // migrationData.json
+                var migrationFilePath = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["migrationFilePath"]); // migrationData.json
 
                 if (migrationMode == "tofile")
                 {
@@ -40,6 +40,7 @@ namespace WpfTestApp1
                     { }
 
                     var jsonStr = JsonConvert.SerializeObject(data);
+                    
                     File.WriteAllText(migrationFilePath, jsonStr);
                 }
                 else if (migrationMode == "fromfile")
