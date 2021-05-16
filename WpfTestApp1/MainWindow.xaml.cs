@@ -53,5 +53,11 @@ namespace WpfTestApp1
             //BindingOperations.GetBindingExpressionBase(txTitle, TextBlock.TextProperty).UpdateTarget();
             //BindingOperations.GetBindingExpressionBase(dContent, ContentControl.ContentProperty).UpdateSource();
         }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
+        }
     }
 }

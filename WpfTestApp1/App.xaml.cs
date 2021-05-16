@@ -33,6 +33,8 @@ namespace WpfTestApp1
                     incomes = db.GetData<BudgetIncomeItem>(),
                     months = db.GetData<Budget>()
                 };
+
+                
                 var migrationFilePath = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["migrationFilePath"]); // migrationData.json
 
                 if (migrationMode == "toFile")

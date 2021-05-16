@@ -37,6 +37,10 @@
             <DataTemplate DataType="{x:Type ViewModel:BudgetTRansactionsViewModel}">
                 <View:BudgetTRansactionsView/>
             </DataTemplate>
+
+            <DataTemplate DataType="{x:Type ViewModel:ReportViewModel}">
+                <View:ReportView/>
+            </DataTemplate>
             
         </ResourceDictionary>
     </Application.Resources>

@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="WpfTestApp1.MVVM.View.ReportView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfTestApp1.MVVM.View"
+             xmlns:Model="clr-namespace:WpfTestApp1.MVVM.Model"
+             xmlns:ViewModel="clr-namespace:WpfTestApp1.MVVM.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Name="ReportsUC">
+
+    <UserControl.DataContext>
+        <ViewModel:ReportViewModel></ViewModel:ReportViewModel>
+    </UserControl.DataContext>
+
+    <StackPanel Orientation="Vertical" Margin="5" >
+
+
+        <StackPanel Orientation="Horizontal"
+                    Margin="5" Background="#006080" >
+
+            <Label Content="בחר דוח : " VerticalAlignment="Center"
+                               FontSize="16"  HorizontalAlignment="Stretch"
+                               Foreground="WhiteSmoke" HorizontalContentAlignment="Center"
+                                Width="180" />
+
+            <ComboBox DisplayMemberPath="DisplayName"
+                      ItemsSource="{Model:EnumToItemsSource {x:Type Model:ReportTypeEnum}}"
+                      SelectedValue="{Binding Path=SelectedReportType}"
+                      SelectedValuePath="Value" FontSize="14"
+                      Width="200" Padding="6" Background="Transparent" VerticalContentAlignment="Center">
+                
+                </ComboBox>
+
+
+            <Button 
+                          Command="{Binding ShowReportCommand}"
+                            Width="80"
+                 Margin="300,0,0,0"
+                            VerticalAlignment="Stretch"
+                            Background="Transparent" 
+                            BorderBrush="Transparent">
+                <DockPanel>
+                    <Image Source="/Images/iconfinder_Graph-Magnifier_379472.png" 
+                               Height="43" 
+                               Width="31" />
+                </DockPanel>
+            </Button>
+        </StackPanel>
+
+        <DataGrid Name="gridReport" ItemsSource="{Binding ReportDS}" Margin="5"/>
+
+    </StackPanel>
+</UserControl>

@@ -15,6 +15,7 @@
         Background="Transparent"
         WindowStyle="None"
         ResizeMode="CanMinimize" 
+        MouseDown="Window_MouseDown"
         FontFamily="/Fonts/#Poppins">
 
 
@@ -94,7 +95,7 @@
                              Foreground="WhiteSmoke" 
                              FontSize="14" 
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding CategoriesViewCommand}"></RadioButton>
+                             Command="{Binding ReportViewCommand}"></RadioButton>
 
                 <!--<RadioButton Content="סטטוס"
                              Height="50" 

@@ -92,6 +92,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MVVM\View\ReportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVVM\View\StatuseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -120,6 +124,7 @@
     <Compile Include="MVVM\Model\DbEntityAttribute.cs" />
     <Compile Include="MVVM\Model\DbFieldAttribute.cs" />
     <Compile Include="MVVM\Model\DbParam.cs" />
+    <Compile Include="MVVM\Model\EnumToItemsSource.cs" />
     <Compile Include="MVVM\Model\Ext.cs" />
     <Compile Include="MVVM\Model\FinandaModels.cs" />
     <Compile Include="MVVM\Model\FinandaSyncLog.cs" />
@@ -133,6 +138,10 @@
     <Compile Include="MVVM\Model\ListItem.cs" />
     <Compile Include="MVVM\Model\PConverter.cs" />
     <Compile Include="MVVM\Model\RatioConverter.cs" />
+    <Compile Include="MVVM\Model\Report\BaseReportMaker.cs" />
+    <Compile Include="MVVM\Model\Report\IReportMaker.cs" />
+    <Compile Include="MVVM\Model\Report\ReportContent.cs" />
+    <Compile Include="MVVM\Model\Report\ReportManager.cs" />
     <Compile Include="MVVM\Model\SearchParameters.cs" />
     <Compile Include="MVVM\ViewModel\BudgetTRansactionsViewModel.cs" />
     <Compile Include="MVVM\ViewModel\BudgetViewModel.cs" />
@@ -140,6 +149,7 @@
     <Compile Include="MVVM\ViewModel\HomeViewModel.cs" />
     <Compile Include="MVVM\ViewModel\IncomeViewModel.cs" />
     <Compile Include="MVVM\ViewModel\MaunViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\ReportViewModel.cs" />
     <Compile Include="MVVM\ViewModel\StatuseViewModel.cs" />
     <Compile Include="MVVM\View\BudgetTRansactionsView.xaml.cs">
       <DependentUpon>BudgetTRansactionsView.xaml</DependentUpon>
@@ -155,6 +165,9 @@
     </Compile>
     <Compile Include="MVVM\View\IncomeView.xaml.cs">
       <DependentUpon>IncomeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\ReportView.xaml.cs">
+      <DependentUpon>ReportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVVM\View\StatuseView.xaml.cs">
       <DependentUpon>StatuseView.xaml</DependentUpon>
@@ -214,6 +227,11 @@
   <ItemGroup>
     <Resource Include="Images\iconfinder_89_Import_Down_Download_Save_1864210.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\iconfinder_Magnifier_728952.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\iconfinder_Graph-Magnifier_379472.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
