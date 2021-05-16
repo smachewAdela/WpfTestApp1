@@ -1,5 +1,7 @@
-﻿using System;
+﻿using QBalanceDesktop;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,8 +15,9 @@ namespace WpfTestApp1.MVVM.ViewModel
         public object SelectedReportType { get; set; }
         public RelayCommand ShowReportCommand { get; set; }
 
-        private List<object> _g;
-        public List<object> ReportDS
+        public ReportContent CurrentReportContent { get; set; }
+        private DataTable _g;
+        public DataTable ReportDS
         {
             get
             {
@@ -24,6 +27,15 @@ namespace WpfTestApp1.MVVM.ViewModel
             {
                 _g = value;
                 OnPropertyChanged();
+                OnPropertyChanged("CurrentReportTitle");
+            }
+        }
+
+        public string CurrentReportTitle
+        {
+            get
+            {
+                return CurrentReportContent?.Title;
             }
         }
 
@@ -40,7 +52,10 @@ namespace WpfTestApp1.MVVM.ViewModel
         {
             if (SelectedReportType != null)
             {
-
+                var currentReport = (ReportTypeEnum)Convert.ToInt32(SelectedReportType);
+                var manager = new ReportManager();
+                CurrentReportContent = manager.GenerateReport(currentReport);
+                ReportDS = CurrentReportContent.Table;
             }
         }
 

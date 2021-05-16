@@ -142,6 +142,7 @@
     <Compile Include="MVVM\Model\Report\IReportMaker.cs" />
     <Compile Include="MVVM\Model\Report\ReportContent.cs" />
     <Compile Include="MVVM\Model\Report\ReportManager.cs" />
+    <Compile Include="MVVM\Model\Report\ReportSourceData.cs" />
     <Compile Include="MVVM\Model\SearchParameters.cs" />
     <Compile Include="MVVM\ViewModel\BudgetTRansactionsViewModel.cs" />
     <Compile Include="MVVM\ViewModel\BudgetViewModel.cs" />

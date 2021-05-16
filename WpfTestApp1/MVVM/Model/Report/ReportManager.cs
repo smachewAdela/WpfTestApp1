@@ -39,12 +39,12 @@ namespace WpfTestApp1.MVVM.Model
             IReportMaker reportMaker = GetMaker(reportType);
             ReportContent content = new ReportContent(reportType);
 
-            var data = new
+            var data = new ReportSourceData
             {
-                groups = db.GetData<BudgetGroup>(),
-                categories = db.GetData<BudgetItem>(),
-                incomes = db.GetData<BudgetIncomeItem>(),
-                months = db.GetData<Budget>()
+                Groups = db.GetData<BudgetGroup>(),
+                Categories = db.GetData<BudgetItem>(),
+                Incomes = db.GetData<BudgetIncomeItem>(),
+                Months = db.GetData<Budget>()
             };
             reportMaker.FillData(content, db, data);
 
@@ -53,6 +53,7 @@ namespace WpfTestApp1.MVVM.Model
 
         private IReportMaker GetMaker(ReportTypeEnum reportType)
         {
+
             return new BaseReportMaker();
         }
     }
