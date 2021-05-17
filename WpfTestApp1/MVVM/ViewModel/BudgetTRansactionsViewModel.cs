@@ -62,18 +62,55 @@ namespace WpfTestApp1.MVVM.ViewModel
                     GlobalsProviderBL.Db.Update(cp);
 
             });
+            RollBackTransactiontCommand = new RelayCommand(parameter =>
+            {
+                var values = (object[])parameter;
+
+                RollBackLastTransaction((BudgetItem)values[0]);
+
+            });
             LoadData();
+        }
+
+        private void RollBackLastTransaction(BudgetItem budgetItem)
+        {
+            BudgetItemLog log = GlobalsProviderBL.Db.GetSingle<BudgetItemLog>(new SearchParameters { BudgetItemLogBudgetItemId = budgetItem.Id });
+            if (log != null && !log.RollBackExecuted)
+            {
+                budgetItem.StatusAmount -= log.Amount;
+                GlobalsProviderBL.Db.Update(budgetItem);
+
+                log.RollBackExecuted = true;
+                GlobalsProviderBL.Db.Update(log);
+
+                LoadData();
+            }
         }
 
         private void UpdateBudgetItem(BudgetItem o, int tran)
         {
             o.StatusAmount += tran;
             GlobalsProviderBL.Db.Update(o);
+            BudgetItemLog log = GlobalsProviderBL.Db.GetSingle<BudgetItemLog>(new SearchParameters { BudgetItemLogBudgetItemId = o.Id});
+            if (log == null)
+            {
+                log = new BudgetItemLog { BudgetItemId = o.Id, Amount = tran };
+                GlobalsProviderBL.Db.Insert(log);
+            }
+            else
+            {
+                log.Amount = tran;
+                log.RollBackExecuted = false;
+                GlobalsProviderBL.Db.Update(log);
+            }
+           
             LoadData();
         }
 
         public RelayCommand UpdateBudgetCommand { get; set; }
         public RelayCommand UpdateCheckPointsCommand { get; set; }
+        public RelayCommand RollBackTransactiontCommand { get; set; }
+
         private void LoadData()
         {
             var currentBudget = GlobalsProviderBL.CurrentBudget;

@@ -247,5 +247,8 @@
   <ItemGroup>
     <Resource Include="Images\iconfinder_currencysvg_1579795.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\iconfinder_Undo_1493283.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

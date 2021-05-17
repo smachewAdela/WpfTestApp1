@@ -43,4 +43,16 @@
             }
         }
     }
+
+    public class BudgetItemLog : BaseDbItem
+    {
+        [DbField()]
+        public int BudgetItemId { get; set; }
+
+        [DbField()]
+        public int Amount { get; set; }
+
+        [DbField()]
+        public bool RollBackExecuted { get; set; }
+    }
 }

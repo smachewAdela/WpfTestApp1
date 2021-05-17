@@ -54,6 +54,10 @@
                                                        Foreground="WhiteSmoke" HorizontalContentAlignment="Center"
                                                        Width="200" />
 
+                                                <Label Content="{Binding BudgetAmount , StringFormat={}{0:#,0.0}}" VerticalAlignment="Center"
+                                               FontSize="12" Foreground="WhiteSmoke" HorizontalAlignment="Stretch"
+                                                Width="40" />
+                                                
                                                 <Grid Margin="2" Width="120" Background="Transparent">
                                                     <ProgressBar Minimum="0" 
                                                          Maximum="100" 
@@ -65,21 +69,42 @@
                                                    VerticalAlignment="Center" Foreground="WhiteSmoke" />
                                                 </Grid>
 
-                                                <Label Content="{Binding StatusAmount}" VerticalAlignment="Center"
-                                               FontSize="14" Foreground="DarkOrange" HorizontalAlignment="Stretch"
+                                                <Label Content="{Binding StatusAmount, StringFormat={}{0:0}}" VerticalAlignment="Center"
+                                               FontSize="12" Foreground="DarkOrange" HorizontalAlignment="Stretch"
                                                 Width="100" />
 
-                                                <TextBox Text="{Binding Value, Mode=TwoWay, StringFormat={}{0:n0}}"
-                                                     Name="txAmount"
-                                                     Width="125" Height="25" Background="Transparent"  VerticalContentAlignment="Center" Margin="10,0,0,0"
-                                                     TextAlignment="Center" Foreground="WhiteSmoke">
-                                                </TextBox>
 
-                                                <Button  Command="{Binding ElementName=MyItems, Path=DataContext.UpdateBudgetCommand}"
+                                                <Button  Command="{Binding ElementName=MyItems, Path=DataContext.RollBackTransactiontCommand}"
                                                     HorizontalAlignment="Stretch"
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalAlignment="Stretch"
                                                      Margin="4"
+                                                     Background="Transparent"
+                                                    BorderBrush="Transparent">
+
+                                                    <DockPanel>
+                                                        <Image Source="/Images/iconfinder_Undo_1493283.png"   />
+                                                    </DockPanel>
+
+                                                    <Button.CommandParameter>
+                                                        <MultiBinding Converter="{Model:PConverter}" >
+                                                            <Binding />
+                                                            <Binding Path="Text" ElementName="txAmount" />
+                                                        </MultiBinding>
+                                                    </Button.CommandParameter>
+                                                </Button>
+                                                
+                                                <TextBox Text="{Binding Value, Mode=TwoWay, StringFormat={}{0:n0}}"
+                                                     Name="txAmount"
+                                                     Width="100" Height="25" Background="Transparent"  VerticalContentAlignment="Center" Margin="10,0,0,0"
+                                                     TextAlignment="Center" Foreground="WhiteSmoke">
+                                                </TextBox>
+
+                                                <Button  Command="{Binding ElementName=MyItems, Path=DataContext.UpdateBudgetCommand}"
+                                                    HorizontalAlignment="Stretch" 
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalAlignment="Stretch"
+                                                     Margin="4" 
                                                      Background="Transparent"
                                                     BorderBrush="Transparent">
 
@@ -94,6 +119,8 @@
                                                         </MultiBinding>
                                                     </Button.CommandParameter>
                                                 </Button>
+
+                                                
                                             </StackPanel>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>

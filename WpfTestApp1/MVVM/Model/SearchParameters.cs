@@ -16,5 +16,6 @@ namespace QBalanceDesktop
         public int? BudgetIncomeId { get; internal set; }
         public int? BudgetItemGroupId { get; internal set; }
         public int? TransactionCheckPointBudgetId { get; internal set; }
+        public int? BudgetItemLogBudgetItemId { get; internal set; }
     }
 }
