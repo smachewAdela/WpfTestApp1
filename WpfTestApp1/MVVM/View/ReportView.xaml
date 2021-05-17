@@ -22,41 +22,7 @@
             <Setter Property="Foreground" Value="#FFB3B3B3"/>
             <Setter Property="Height" Value="25"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-
-            <Style.Triggers>
-                <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="#FF262626"/>
-                </Trigger>
-
-                <Trigger Property="ItemsControl.AlternationIndex" Value="0">
-                    <Setter Property="Background" Value="#FF383838"/>
-                </Trigger>
-
-                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                    <Setter Property="Background" Value="#FF333333"/>
-                </Trigger>
-
-                <EventTrigger RoutedEvent="DataGrid.GotFocus">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background">
-                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{StaticResource GotFocusColor}" />
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-
-                <EventTrigger RoutedEvent="DataGrid.LostFocus">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background">
-                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{StaticResource LostFocusColor}" />
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Style.Triggers>
-        </Style>
+ </Style>
         
     </UserControl.Resources>
     <StackPanel Orientation="Vertical" Margin="5" >
@@ -94,8 +60,24 @@
             </Button>
         </StackPanel>
 
-        <DataGrid Name="gridReport" ItemsSource="{Binding ReportDS}" Margin="5"
-                  Background="Transparent" Padding="5"/>
+        <DataGrid Name="gridReport" ItemsSource="{Binding ReportDS}" Margin="5" ColumnWidth="*"  Background="Transparent" Padding="5">
+            <DataGrid.CellStyle>
+                <Style  TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                    <Setter Property="Background" Value="Black"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                    <Setter Property="TextBlock.Padding" Value="15" />
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="FontSize" Value="14" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Black"/>
+                            <Setter Property="Foreground" Value="DarkOrange"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
+        </DataGrid>
 
     </StackPanel>
 </UserControl>
