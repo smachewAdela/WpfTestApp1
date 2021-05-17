@@ -6,22 +6,22 @@
              xmlns:local="clr-namespace:WpfTestApp1.MVVM.View"
              xmlns:Model="clr-namespace:WpfTestApp1.MVVM.Model"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="920">
+    <StackPanel Orientation="Horizontal">
+        <ScrollViewer Width="700">
+            <StackPanel Orientation="Vertical">
 
-    <ScrollViewer>
-        <StackPanel Orientation="Vertical">
-
-            <ItemsControl ItemsSource="{Binding Groups}" x:Name="MyItems" Background="Transparent" VerticalAlignment="Stretch">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Vertical"  
+                <ItemsControl ItemsSource="{Binding Groups}" x:Name="MyItems" Background="Transparent" VerticalAlignment="Stretch">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical"  
                                     Background="#22202F"
                                     VerticalAlignment="Stretch"
                                     Margin="4" 
                                     HorizontalAlignment="Stretch">
 
-                            <!--Group Name-->
-                            <Label Content="{Binding Name}" 
+                                <!--Group Name-->
+                                <Label Content="{Binding Name}" 
                                        VerticalAlignment="Center"
                                        FontSize="16"  
                                        HorizontalAlignment="Left"
@@ -29,46 +29,46 @@
                                        Foreground="DarkOrange" 
                                        HorizontalContentAlignment="Left" />
 
-                            <ItemsControl ItemsSource="{Binding BudgetItems}" 
+                                <ItemsControl ItemsSource="{Binding BudgetItems}" 
                                               
                                               Background="Transparent" 
                                               Padding="2">
 
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal"  
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal"  
                                                         Background="Transparent"
                                                         Height="35"
                                                         Margin="4" 
                                                         HorizontalAlignment="Stretch">
 
-                                            <Label Content="{Binding CategoryName}" VerticalAlignment="Center"
+                                                <Label Content="{Binding CategoryName}" VerticalAlignment="Center"
                                                        FontSize="14"  HorizontalAlignment="Stretch"
                                                        Foreground="WhiteSmoke" HorizontalContentAlignment="Center"
                                                        Width="200" />
 
-                                            <Grid Margin="2" Width="150" Background="Transparent">
-                                                <ProgressBar Minimum="0" 
+                                                <Grid Margin="2" Width="150" Background="Transparent">
+                                                    <ProgressBar Minimum="0" 
                                                          Maximum="100" 
                                                          Value="{Binding Ratio}" 
                                                          Name="pbStatus" 
                                                          Background="Transparent" Foreground="#339966"/>
-                                                                <TextBlock Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}{0:0}%}" 
+                                                    <TextBlock Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}{0:0}%}" 
                                                    HorizontalAlignment="Center" 
                                                    VerticalAlignment="Center" Foreground="WhiteSmoke" />
-                                            </Grid>
-                                            
-                                            <Label Content="{Binding StatusAmount}" VerticalAlignment="Center"
+                                                </Grid>
+
+                                                <Label Content="{Binding StatusAmount}" VerticalAlignment="Center"
                                                FontSize="14" Foreground="DarkOrange" HorizontalAlignment="Stretch"
                                                 Width="100" />
 
-                                            <TextBox Text="{Binding Value, Mode=TwoWay, StringFormat={}{0:n0}}"
+                                                <TextBox Text="{Binding Value, Mode=TwoWay, StringFormat={}{0:n0}}"
                                                      Name="txAmount"
                                                      Width="125" Height="25" Background="Transparent"  VerticalContentAlignment="Center" Margin="10,0,0,0"
                                                      TextAlignment="Center" Foreground="WhiteSmoke">
-                                            </TextBox>
+                                                </TextBox>
 
-                                            <Button  Command="{Binding ElementName=MyItems, Path=DataContext.UpdateBudgetCommand}"
+                                                <Button  Command="{Binding ElementName=MyItems, Path=DataContext.UpdateBudgetCommand}"
                                                     HorizontalAlignment="Stretch"
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalAlignment="Stretch"
@@ -76,29 +76,62 @@
                                                      Background="Transparent"
                                                     BorderBrush="Transparent">
 
-                                                <DockPanel>
-                                                    <Image Source="/Images/iconfinder_89_Import_Down_Download_Save_1864210.png"   />
-                                                </DockPanel>
+                                                    <DockPanel>
+                                                        <Image Source="/Images/iconfinder_89_Import_Down_Download_Save_1864210.png"   />
+                                                    </DockPanel>
 
-                                                <Button.CommandParameter>
-                                                    <MultiBinding Converter="{Model:PConverter}" >
-                                                        <Binding />
-                                                        <Binding Path="Text" ElementName="txAmount" />
-                                                    </MultiBinding>
-                                                </Button.CommandParameter>
-                                            </Button>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                                                    <Button.CommandParameter>
+                                                        <MultiBinding Converter="{Model:PConverter}" >
+                                                            <Binding />
+                                                            <Binding Path="Text" ElementName="txAmount" />
+                                                        </MultiBinding>
+                                                    </Button.CommandParameter>
+                                                </Button>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
 
-                        </StackPanel>
+                            </StackPanel>
+
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Orientation="Vertical" Width="220" Background="#22202F">
+
+
+            <ItemsControl ItemsSource="{Binding CheckPoints}" Background="Transparent"  Padding="16" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+
+                        <Grid >
+                            <Label Content="{Binding Name}" Height="28" HorizontalAlignment="Left" Name="BaseLabel" VerticalAlignment="Top" Foreground="WhiteSmoke"/>
+                            <TextBox Height="23" Margin="0,26,0,0" Name="BaseTextBox" VerticalAlignment="Top" Background="Transparent" Foreground="WhiteSmoke" Text="{Binding Description}"/>
+                        </Grid>
 
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+            
+            <Button 
+                          Command="{Binding UpdateCheckPointsCommand}"
+                            Width="180"
+                Padding="10"
+                            VerticalAlignment="Stretch"
+                            Background="Transparent" 
+                            BorderBrush="Transparent">
+                <DockPanel>
+                    <Image Source="/Images/iconfinder_human-folder-email_25159.png" 
+                               Height="32" 
+                               Width="21" />
+                </DockPanel>
+            </Button>
+
 
         </StackPanel>
-    </ScrollViewer>
-
+    </StackPanel>
 </UserControl>

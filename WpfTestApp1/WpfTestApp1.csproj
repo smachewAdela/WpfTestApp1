@@ -144,6 +144,7 @@
     <Compile Include="MVVM\Model\Report\ReportManager.cs" />
     <Compile Include="MVVM\Model\Report\ReportSourceData.cs" />
     <Compile Include="MVVM\Model\SearchParameters.cs" />
+    <Compile Include="MVVM\Model\TransactionCheckPoint.cs" />
     <Compile Include="MVVM\ViewModel\BudgetTRansactionsViewModel.cs" />
     <Compile Include="MVVM\ViewModel\BudgetViewModel.cs" />
     <Compile Include="MVVM\ViewModel\CategoriesViewModel.cs" />
@@ -233,6 +234,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\iconfinder_Graph-Magnifier_379472.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\iconfinder_interface-90_4634476.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\iconfinder_stock_save-as_79524.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\iconfinder_human-folder-email_25159.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

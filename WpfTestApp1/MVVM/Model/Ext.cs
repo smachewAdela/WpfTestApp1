@@ -83,6 +83,11 @@ namespace QBalanceDesktop
             return lst != null && lst.Count > 0;
         }
 
+        public static bool IsEmptyOrNull(this IList lst)
+        {
+            return !lst.IsNotEmpty();
+        }
+
         public static String GetEnumDescription(this Enum obj)
         {
             try

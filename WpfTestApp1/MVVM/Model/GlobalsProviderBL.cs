@@ -39,6 +39,16 @@ namespace QBalanceDesktop
             }
         }
 
+        internal static List<TransactionCheckPoint> GenerateDefaultCheckPoints()
+        {
+            var t = new List<TransactionCheckPoint>();
+            var checkPontNames = ConfigurationManager.AppSettings["checkPontNames"].Split(',').ToList();
+            foreach (var checkPontName in checkPontNames)
+                t.Add(new TransactionCheckPoint { Name = checkPontName });
+
+            return t;
+        }
+
         internal static Budget GetLatestBudget()
         {
 

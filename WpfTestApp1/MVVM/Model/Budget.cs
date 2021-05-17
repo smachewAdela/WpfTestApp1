@@ -20,11 +20,13 @@ namespace QBalanceDesktop
 
         public List<BudgetIncomeItem> Incomes { get; set; }
 
+        public List<TransactionCheckPoint> TransactionCheckPoints { get; set; }
 
         public override void LoadExtraData()
         {
             Items = GlobalsProviderBL.Db.GetData<BudgetItem>(new SearchParameters { BudgetItemBudgetId = this.Id });
             Incomes = GlobalsProviderBL.Db.GetData<BudgetIncomeItem>(new SearchParameters { BudgetItemBudgetId = this.Id });
+            TransactionCheckPoints = GlobalsProviderBL.Db.GetData<TransactionCheckPoint>(new SearchParameters { TransactionCheckPointBudgetId = this.Id });
         }
 
         public int TotalIncomes

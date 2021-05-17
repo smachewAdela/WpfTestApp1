@@ -16,6 +16,24 @@ namespace WpfTestApp1.MVVM.ViewModel
             get { return GlobalsProviderBL.CurrentBudget.Title; }
         }
 
+        public List<TransactionCheckPoint> CheckPoints
+        {
+            get 
+            {
+                if (GlobalsProviderBL.CurrentBudget.TransactionCheckPoints.IsEmptyOrNull())
+                {
+                    var _t = GlobalsProviderBL.GenerateDefaultCheckPoints();
+                    foreach (var checkPoint in _t)
+                    {
+                        checkPoint.BudgetId = GlobalsProviderBL.CurrentBudget.Id;
+                        GlobalsProviderBL.Db.Insert(checkPoint);
+                    }
+                    GlobalsProviderBL.CurrentBudget.TransactionCheckPoints = GlobalsProviderBL.Db.GetData<TransactionCheckPoint>(new SearchParameters { TransactionCheckPointBudgetId = GlobalsProviderBL.CurrentBudget.Id });
+                }
+                return GlobalsProviderBL.CurrentBudget.TransactionCheckPoints; 
+            }
+        }
+
         private List<BudgetGroup> _g;
 
         public List<BudgetGroup> Groups
@@ -25,6 +43,7 @@ namespace WpfTestApp1.MVVM.ViewModel
             {
                 _g = value;
                 OnPropertyChanged();
+                OnPropertyChanged("CheckPoints");
             }
         }
 
@@ -37,6 +56,12 @@ namespace WpfTestApp1.MVVM.ViewModel
 
                 UpdateBudgetItem((BudgetItem)values[0], tran);
             });
+            UpdateCheckPointsCommand = new RelayCommand(parameter =>
+            {
+                foreach (var cp in CheckPoints)
+                    GlobalsProviderBL.Db.Update(cp);
+
+            });
             LoadData();
         }
 
@@ -48,7 +73,7 @@ namespace WpfTestApp1.MVVM.ViewModel
         }
 
         public RelayCommand UpdateBudgetCommand { get; set; }
-
+        public RelayCommand UpdateCheckPointsCommand { get; set; }
         private void LoadData()
         {
             var currentBudget = GlobalsProviderBL.CurrentBudget;
