@@ -16,7 +16,8 @@
         WindowStyle="None"
         ResizeMode="CanMinimize" 
         MouseDown="Window_MouseDown"
-        FontFamily="/Fonts/#Poppins">
+        FontFamily="/Fonts/#Poppins"
+        Icon="/Images/iconfinder_currencysvg_1579795.png">
 
 
     <Window.DataContext>
