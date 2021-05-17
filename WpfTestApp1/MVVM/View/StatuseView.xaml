@@ -34,13 +34,13 @@
                                FontSize="14" Foreground="GreenYellow" HorizontalAlignment="Stretch"
                               Width="100"  />
 
-                        <Grid Margin="2" Width="150" Background="Transparent">
+                        <Grid Margin="2" Width="130" Background="Transparent">
                             <ProgressBar Minimum="0" 
                                          Maximum="100" 
                                          Value="{Binding Ratio}" 
                                          Name="pbStatus" 
-                                         Background="Transparent" Foreground="#339966"/>
-                            <TextBlock Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}{0:0}%}" 
+                                         Background="Transparent" Foreground="#0059b3" BorderBrush="#0059b3"/>
+                            <TextBlock Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}%{0:0}}" 
                                    HorizontalAlignment="Center" 
                                    VerticalAlignment="Center" Foreground="WhiteSmoke" />
                         </Grid>

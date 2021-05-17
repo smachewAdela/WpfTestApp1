@@ -7,7 +7,14 @@
              xmlns:Model="clr-namespace:WpfTestApp1.MVVM.Model"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="920">
-    <StackPanel Orientation="Horizontal">
+
+    <UserControl.Resources>
+        <Style TargetType="ScrollBar">
+            <Setter Property="Background" Value="#22202F"/>
+        </Style>
+        
+    </UserControl.Resources>
+    <StackPanel Orientation="Horizontal" >
         <ScrollViewer Width="700">
             <StackPanel Orientation="Vertical">
 
@@ -47,13 +54,13 @@
                                                        Foreground="WhiteSmoke" HorizontalContentAlignment="Center"
                                                        Width="200" />
 
-                                                <Grid Margin="2" Width="150" Background="Transparent">
+                                                <Grid Margin="2" Width="120" Background="Transparent">
                                                     <ProgressBar Minimum="0" 
                                                          Maximum="100" 
-                                                         Value="{Binding Ratio}" 
+                                                         Value="{Binding Ratio}" BorderBrush="DarkOrange"
                                                          Name="pbStatus" 
-                                                         Background="Transparent" Foreground="#339966"/>
-                                                    <TextBlock Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}{0:0}%}" 
+                                                         Background="Transparent" Foreground="DarkOrange"/>
+                                                    <TextBlock Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}%{0:0}}" 
                                                    HorizontalAlignment="Center" 
                                                    VerticalAlignment="Center" Foreground="WhiteSmoke" />
                                                 </Grid>
