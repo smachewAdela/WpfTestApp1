@@ -25,11 +25,12 @@
 
             <Setter Property="Background" Value="Transparent"></Setter>
             <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="Height" Value="45"/>
         </Style.Setters>
 
         <Style.Triggers>
             <Trigger Property="IsChecked" Value="true">
-                <Setter Property="Background" Value="#22202f"></Setter>
+                <Setter Property="Background" Value="#0059B3"></Setter>
             </Trigger>
         </Style.Triggers>
 

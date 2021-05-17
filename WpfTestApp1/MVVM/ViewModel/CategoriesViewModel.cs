@@ -62,7 +62,7 @@ namespace WpfTestApp1.MVVM.ViewModel
         {
             get
             {
-                return _g;
+                return _g.OrderBy(x => x.CategoryName).ToList();
             }
             set
             {

@@ -56,7 +56,6 @@
 
             <StackPanel Grid.Row="1" Margin="4" >
                 <RadioButton Content="בית" 
-                             Height="50" 
                              Foreground="WhiteSmoke" 
                              FontSize="14" 
                              Style="{StaticResource MenuButtonTheme}"
@@ -64,35 +63,30 @@
                              Command="{Binding StatusViewCommand}"></RadioButton>
 
                 <RadioButton Content="קטגוריות"
-                             Height="50" 
                              Foreground="WhiteSmoke" 
                              FontSize="14" 
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding CategoriesViewCommand}"></RadioButton>
 
                 <RadioButton Content="הכנסות"
-                             Height="50" 
                              Foreground="WhiteSmoke" 
                              FontSize="14" 
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding IncomeViewCommand}"></RadioButton>
 
                 <RadioButton Content="תקציב"
-                             Height="50" 
                              Foreground="WhiteSmoke" 
                              FontSize="14" 
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding BudgetViewCommand}"></RadioButton>
 
                 <RadioButton Content="תנועות"
-                             Height="50" 
                              Foreground="WhiteSmoke" 
                              FontSize="14" 
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding BudgetTransactionsViewCommand}"></RadioButton>
 
                 <RadioButton Content="דוחות"
-                             Height="50" 
                              Foreground="WhiteSmoke" 
                              FontSize="14" 
                              Style="{StaticResource MenuButtonTheme}"
