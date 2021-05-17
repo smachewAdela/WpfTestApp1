@@ -15,15 +15,36 @@
     </UserControl.DataContext>
 
     <UserControl.Resources>
-        <SolidColorBrush x:Key="GotFocusColor" Color="Green" />
-        <SolidColorBrush x:Key="LostFocusColor" Color="Transparent" />
 
         <Style TargetType="{x:Type DataGridRow}">
             <Setter Property="Foreground" Value="#FFB3B3B3"/>
-            <Setter Property="Height" Value="25"/>
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
- </Style>
-        
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#006080"/>
+            <Setter Property="Padding" Value="6"/>
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Foreground" Value="DarkOrange"/>
+        </Style>
+        <Style  TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+            <Setter Property="Background" Value="#0099CC"/>
+            <Setter Property="Opacity" Value="0.9"/>
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="13" />
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="Black"/>
+                    <Setter Property="Foreground" Value="DarkOrange"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     <StackPanel Orientation="Vertical" Margin="5" >
 
@@ -60,23 +81,8 @@
             </Button>
         </StackPanel>
 
-        <DataGrid Name="gridReport" ItemsSource="{Binding ReportDS}" Margin="5" ColumnWidth="*"  Background="Transparent" Padding="5">
-            <DataGrid.CellStyle>
-                <Style  TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
-                    <Setter Property="Background" Value="Black"/>
-                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                    <Setter Property="TextBlock.TextAlignment" Value="Center" />
-                    <Setter Property="TextBlock.Padding" Value="15" />
-                    <Setter Property="BorderThickness" Value="0"/>
-                    <Setter Property="FontSize" Value="14" />
-                    <Style.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="Black"/>
-                            <Setter Property="Foreground" Value="DarkOrange"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.CellStyle>
+        <DataGrid Name="gridReport" ItemsSource="{Binding ReportDS}" Margin="5" ColumnWidth="*"  Background="Transparent" Padding="5" BorderThickness="0" GridLinesVisibility="None"
+                  VerticalScrollBarVisibility="Auto">
         </DataGrid>
 
     </StackPanel>
