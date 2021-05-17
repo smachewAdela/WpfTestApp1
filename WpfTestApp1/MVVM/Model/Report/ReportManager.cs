@@ -19,8 +19,8 @@ namespace WpfTestApp1.MVVM.Model
         CategoryDetails,
         [Description("הכנסות")]
         IncomeDetails,
-        [Description("יתרות")]
-        Balances,
+        //[Description("יתרות")]
+        //Balances,
         [Description("חריגות")]
         BudgetExceptions,
     }

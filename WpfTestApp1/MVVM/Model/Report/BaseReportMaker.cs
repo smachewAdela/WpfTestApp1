@@ -1,5 +1,6 @@
 ﻿using QBalanceDesktop;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace WpfTestApp1.MVVM.Model
@@ -30,8 +31,10 @@ namespace WpfTestApp1.MVVM.Model
             switch (content.ReportType)
             {
                 case ReportTypeEnum.IncomeVsBudget:
+                    FillIncomeVsBudget(months, tbl, currentMonth);
                     break;
                 case ReportTypeEnum.IncomeVsStatus:
+                    FillIncomeVsStatus(months, tbl, currentMonth);
                     break;
                 case ReportTypeEnum.GroupDetails:
                     FillGroupDetails(months, groups, tbl, currentMonth);
@@ -42,13 +45,63 @@ namespace WpfTestApp1.MVVM.Model
                 case ReportTypeEnum.IncomeDetails:
                     FillIncomeDetails(months, tbl, currentMonth);
                     break;
-                case ReportTypeEnum.Balances:
-                    break;
+                //case ReportTypeEnum.Balances:
+                //    break;
                 case ReportTypeEnum.BudgetExceptions:
+                    FillBudgetExceptions(months, tbl, currentMonth);
                     break;
                 default:
                     break;
             }
+        }
+
+        private void FillBudgetExceptions(List<Budget> months, System.Data.DataTable tbl, Budget currentMonth)
+        {
+            months.Remove(currentMonth);
+
+            var row = tbl.NewRow();
+            var overSpentAvg = ((int)months.Average(x => x.OverSpentNumber));
+            var overspentTotal = ((int)months.Sum(x => x.OverSpentNumber));
+
+            var overspentAvgAmount = ((int)months.Average(x => x.OverSpentAmount));
+            var overspentAmount = ((int)months.Sum(x => x.OverSpentAmount));
+
+            row[0] = months.Count.ToNumberFormat();
+            row[1] = overSpentAvg.ToNumberFormat();
+            row[2] = (overspentTotal).ToNumberFormat();
+            row[3] = overspentAvgAmount.ToNumberFormat();
+            row[4] = (overspentAmount).ToNumberFormat();
+            tbl.Rows.Add(row);
+        }
+
+        private void FillIncomeVsStatus(List<Budget> months, System.Data.DataTable tbl, Budget currentMonth)
+        {
+            months.Remove(currentMonth);
+
+            var row = tbl.NewRow();
+            var incomeAvg = ((int)months.Average(x => x.TotalIncomes));
+            var statusAvg = ((int)months.Average(x => x.TotalExpenses));
+            row[0] = incomeAvg.ToNumberFormat();
+            row[1] = statusAvg.ToNumberFormat();
+            row[2] = (incomeAvg - statusAvg).ToNumberFormat();
+            row[3] = months.Count.ToNumberFormat();
+            row[4] = ((incomeAvg - statusAvg) * months.Count).ToNumberFormat();
+            tbl.Rows.Add(row);
+        }
+
+        private void FillIncomeVsBudget(List<Budget> months, System.Data.DataTable tbl, Budget currentMonth)
+        {
+            months.Remove(currentMonth);
+
+            var row = tbl.NewRow();
+            var incomeAvg = ((int)months.Average(x => x.TotalIncomes));
+            var budget = ((int)months.First().TotalBudget);
+            row[0] = incomeAvg.ToNumberFormat();
+            row[1] = budget.ToNumberFormat();
+            row[2] = (incomeAvg - budget).ToNumberFormat();
+            row[3] = months.Count.ToNumberFormat();
+            row[4] = ((incomeAvg - budget) * months.Count).ToNumberFormat();
+            tbl.Rows.Add(row);
         }
 
         private static void FillIncomeDetails(System.Collections.Generic.List<Budget> months, System.Data.DataTable tbl, Budget currentMonth)
@@ -60,7 +113,8 @@ namespace WpfTestApp1.MVVM.Model
             row[1] = months.Count;
             row[2] = ((int)months.Average(x => x.TotalIncomes)).ToNumberFormat();
             row[3] = ((int)months.Average(x => x.TotalIncomes - x.TotalExpenses)).ToNumberFormat();
-            row[4] = ((int)months.Sum(x => x.TotalIncomes) - months.Sum(x => x.TotalExpenses)).ToNumberFormat();
+            row[4] = ((int)months.Sum(x => x.TotalIncomes)).ToNumberFormat();
+            row[5] = ((int)months.Sum(x => x.TotalIncomes) - months.Sum(x => x.TotalExpenses)).ToNumberFormat();
             tbl.Rows.Add(row);
         }
 
@@ -125,14 +179,37 @@ namespace WpfTestApp1.MVVM.Model
                     break;
 
                 case ReportTypeEnum.IncomeDetails:
-                    tbl.Columns.Add(" ");
+                    tbl.Columns.Add("נתוני הכנסות");
                     tbl.Columns.Add("חודשים");
                     tbl.Columns.Add("ממוצע");
                     tbl.Columns.Add("יתרה חודשית ממוצעת");
-                    //tbl.Columns.Add("מאזן");
+                    tbl.Columns.Add("הכנסה מצטברת");
                     tbl.Columns.Add("יתרה כוללת");
                     break;
 
+                case ReportTypeEnum.IncomeVsBudget:
+                    tbl.Columns.Add("הכנסה ממוצעת");
+                    tbl.Columns.Add("תקציב");
+                    tbl.Columns.Add("הפרש ממוצע");
+                    tbl.Columns.Add("חודשים");
+                    tbl.Columns.Add("הפרש מצטבר");
+                    break;
+
+                case ReportTypeEnum.IncomeVsStatus:
+                    tbl.Columns.Add("הכנסה ממוצעת");
+                    tbl.Columns.Add("ממוצע הוצאות");
+                    tbl.Columns.Add("הפרש ממוצע");
+                    tbl.Columns.Add("חודשים");
+                    tbl.Columns.Add("הפרש מצטבר");
+                    break;
+
+                case ReportTypeEnum.BudgetExceptions:
+                    tbl.Columns.Add("חודשים");
+                    tbl.Columns.Add("ממוצע חריגות לחודש");
+                    tbl.Columns.Add("סה\"כ חריגות");
+                    tbl.Columns.Add("סכום חריגות ממוצע לחודש");
+                    tbl.Columns.Add("סכום חריגות מצטבר");
+                    break;
                 default:
                     break;
             }

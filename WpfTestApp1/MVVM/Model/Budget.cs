@@ -49,6 +49,14 @@ namespace QBalanceDesktop
             }
         }
 
+        public int OverSpentAmount
+        {
+            get
+            {
+                return Items.IsNotEmpty() ? Items.Where(x => x.BudgetAmount < x.StatusAmount).Sum(x => x.StatusAmount - x.BudgetAmount) : 0; ;
+            }
+        }
+
         public Dictionary<int, int> GroupOverSpentData
         {
             get
