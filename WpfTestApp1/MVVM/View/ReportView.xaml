@@ -20,7 +20,6 @@
             <Setter Property="Foreground" Value="#FFB3B3B3"/>
             <Setter Property="Height" Value="35"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
         </Style>
         <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -34,7 +33,6 @@
             <Setter Property="Background" Value="#0099CC"/>
             <Setter Property="Opacity" Value="0.9"/>
             <Setter Property="Foreground" Value="WhiteSmoke"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="TextBlock.TextAlignment" Value="Center" />
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="FontSize" Value="13" />
@@ -81,8 +79,10 @@
             </Button>
         </StackPanel>
 
-        <DataGrid Name="gridReport" ItemsSource="{Binding ReportDS}" Margin="5" ColumnWidth="*"  Background="Transparent" Padding="5" BorderThickness="0" GridLinesVisibility="None"
-                  VerticalScrollBarVisibility="Auto">
+        
+        <DataGrid Name="gridReport" ItemsSource="{Binding ReportDS}" Margin="5" ColumnWidth="*" 
+                  Background="Transparent" Padding="5" BorderThickness="0" GridLinesVisibility="None"
+                  VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch"  Height="500">
         </DataGrid>
 
     </StackPanel>
