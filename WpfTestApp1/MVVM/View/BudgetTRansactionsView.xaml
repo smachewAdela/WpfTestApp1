@@ -144,7 +144,14 @@
 
                         <Grid >
                             <Label Content="{Binding Name}" Height="28" HorizontalAlignment="Left" Name="BaseLabel" VerticalAlignment="Top" Foreground="WhiteSmoke"/>
-                            <TextBox Height="23" Margin="0,26,0,0" Name="BaseTextBox" VerticalAlignment="Top" Background="Transparent" Foreground="WhiteSmoke" Text="{Binding Description}"/>
+                            <TextBox Height="23" 
+                                     Margin="0,26,0,0" 
+                                     Name="BaseTextBox" 
+                                     VerticalAlignment="Top" 
+                                     Background="Transparent" 
+                                     Foreground="WhiteSmoke" 
+                                     Text="{Binding Description}"
+                                     TextAlignment="Center"/>
                         </Grid>
 
                     </DataTemplate>
