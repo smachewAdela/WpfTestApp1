@@ -39,6 +39,9 @@ namespace WpfTestApp1.MVVM.Model
                 case ReportTypeEnum.GroupDetails:
                     FillGroupDetails(months, groups, tbl, currentMonth);
                     break;
+                case ReportTypeEnum.IncomeDetailsExpanded:
+                    FillIncomeDetailsExpanded(months, groups, tbl, currentMonth);
+                    break;
                 case ReportTypeEnum.CategoryDetails:
                     FillCategoryDetails(months, categories, tbl, currentMonth);
                     break;
@@ -52,6 +55,22 @@ namespace WpfTestApp1.MVVM.Model
                     break;
                 default:
                     break;
+            }
+        }
+
+        private void FillIncomeDetailsExpanded(List<Budget> months, List<BudgetGroup> groups, System.Data.DataTable tbl, Budget currentMonth)
+        {
+            months.Remove(currentMonth);
+
+            var allIncomes = GlobalsProviderBL.Db.GetData<BudgetIncomeItem>().GroupBy(x => x.Name).ToList();
+            foreach (var allIncome in allIncomes)
+            {
+                var row = tbl.NewRow();
+                row[0] = allIncome.Key;
+                row[1] = months.Count;
+                row[2] = ((int)allIncome.Average(x => x.Amount)).ToNumberFormat();
+                row[3] = ((int)allIncome.Sum(x => x.Amount)).ToNumberFormat();
+                tbl.Rows.Add(row);
             }
         }
 
@@ -186,7 +205,14 @@ namespace WpfTestApp1.MVVM.Model
                     tbl.Columns.Add("הכנסה מצטברת");
                     tbl.Columns.Add("יתרה כוללת");
                     break;
-
+                case ReportTypeEnum.IncomeDetailsExpanded:
+                    tbl.Columns.Add("נתוני הכנסות");
+                    tbl.Columns.Add("חודשים");
+                    tbl.Columns.Add("ממוצע");
+                    //tbl.Columns.Add("יתרה חודשית ממוצעת");
+                    tbl.Columns.Add("הכנסה מצטברת");
+                    //tbl.Columns.Add("יתרה כוללת");
+                    break;
                 case ReportTypeEnum.IncomeVsBudget:
                     tbl.Columns.Add("הכנסה ממוצעת");
                     tbl.Columns.Add("תקציב");

@@ -10,7 +10,7 @@
              FlowDirection="RightToLeft"
              d:DesignHeight="450" d:DesignWidth="800" Background="Transparent">
 
-    <ScrollViewer >
+    <ScrollViewer>
         
         <ItemsControl ItemsSource="{Binding BudgetItems}" 
                        x:Name="MyItems"

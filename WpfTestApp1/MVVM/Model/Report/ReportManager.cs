@@ -19,6 +19,8 @@ namespace WpfTestApp1.MVVM.Model
         CategoryDetails,
         [Description("הכנסות")]
         IncomeDetails,
+        [Description("הכנסות - מורחב")]
+        IncomeDetailsExpanded,
         //[Description("יתרות")]
         //Balances,
         [Description("חריגות")]
