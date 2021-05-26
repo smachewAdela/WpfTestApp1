@@ -74,6 +74,31 @@ namespace QBalanceDesktop
             }
         }
 
+        internal static void GenerateNextMonth()
+        {
+            var latestBudget = Db.GetData<Budget>().OrderByDescending(x => x.Month).First();
+            var nextMonthI = new Budget
+            {
+                Month = latestBudget.Month.AddMonths(1)
+            };
+
+            Db.Insert(nextMonthI);
+
+            foreach (var budgetItem in latestBudget.Items)
+            {
+                budgetItem.BudgetId = nextMonthI.Id;
+                budgetItem.StatusAmount = 0;
+                Db.Insert(budgetItem);
+            }
+
+            foreach (var income in latestBudget.Incomes)
+            {
+                income.BudgetId = nextMonthI.Id;
+                income.Amount = 0;
+                Db.Insert(income);
+            }
+        }
+
         static Budget b;
         public static Budget CurrentBudget
         {

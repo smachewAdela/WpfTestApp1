@@ -39,7 +39,6 @@ namespace WpfTestApp1
 
         private void BtnNext_Click(object sender, RoutedEventArgs e)
         {
-          
             RefreshView();
         }
 
@@ -58,6 +57,12 @@ namespace WpfTestApp1
         {
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
+        }
+
+        private void btnIncrement_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalsProviderBL.GenerateNextMonth();
+            RefreshView();
         }
     }
 }

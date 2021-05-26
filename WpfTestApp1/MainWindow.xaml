@@ -177,6 +177,18 @@
                 </DockPanel>
             </Button>
 
+            <Button Name="btnIncrement" 
+                    Click="btnIncrement_Click"
+                    Margin="10"
+                    Grid.Column="2"   
+                    Grid.Row="1" 
+                    VerticalAlignment="Top"
+                    Background="Transparent" 
+                    BorderBrush="Transparent">
+                <DockPanel>
+                    <Image Source="/Images/iconfinder_Plus__Orange_34237.png" Height="43" Width="31"/>
+                </DockPanel>
+            </Button>
         </Grid>
 
     </Border>

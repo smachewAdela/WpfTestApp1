@@ -67,7 +67,7 @@ namespace WpfTestApp1.MVVM.Model
             {
                 var row = tbl.NewRow();
                 row[0] = allIncome.Key;
-                row[1] = months.Count;
+                row[1] = allIncome.Count();
                 row[2] = ((int)allIncome.Average(x => x.Amount)).ToNumberFormat();
                 row[3] = ((int)allIncome.Sum(x => x.Amount)).ToNumberFormat();
                 tbl.Rows.Add(row);
