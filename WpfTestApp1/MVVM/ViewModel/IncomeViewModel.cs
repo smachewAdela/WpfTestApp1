@@ -48,13 +48,17 @@ namespace WpfTestApp1.MVVM.ViewModel
             }
             set
             {
-                var total = new BudgetIncomeItem
+                if (!value.Any(x => x.IsTotal))
                 {
-                    Name = GlobalsProviderBL.CurrentBudget.Title,
-                    Amount = value.Sum(x => x.Amount),
-                    IsTotal = true
-                };
-                value.Add(total);
+                    var total = new BudgetIncomeItem
+                    {
+                        Name = GlobalsProviderBL.CurrentBudget.Title,
+                        Amount = value.Sum(x => x.Amount),
+                        IsTotal = true
+                    };
+                    value.Add(total);
+                }
+
                 _g = value;
                 
                 OnPropertyChanged();

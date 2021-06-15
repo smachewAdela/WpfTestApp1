@@ -29,14 +29,6 @@ namespace WpfTestApp1.MVVM.ViewModel
             get { return GlobalsProviderBL.CurrentBudget.Title; }
         }
 
-        public HomeViewModel HomeVM { get; set; }
-        public CategoriesViewModel CatsVm { get; set; }
-        public StatuseViewModel StatusVM { get; set; }
-        public IncomeViewModel IncomeVM { get; set; }
-        public BudgetViewModel BudgetVM { get; set; }
-        public BudgetTRansactionsViewModel BudgetTransactionsVM { get; set; }
-        public ReportViewModel ReportVM { get; set; }
-
 
         public RelayCommand HomeViewCommand { get; set; }
         public RelayCommand CategoriesViewCommand { get; set; }
@@ -48,15 +40,9 @@ namespace WpfTestApp1.MVVM.ViewModel
 
         public MaunViewModel()
         {
-            HomeVM = new HomeViewModel();
-            CatsVm = new CategoriesViewModel();
-            StatusVM = new StatuseViewModel();
-            IncomeVM = new IncomeViewModel();
-            BudgetVM = new BudgetViewModel();
-            BudgetTransactionsVM = new BudgetTRansactionsViewModel();
-            ReportVM = new ReportViewModel();
 
-            CurrentView = StatusVM;
+            var statsVm = new StatuseViewModel();
+            CurrentView = statsVm;
 
             RefreshMonthCommand = new RelayCommand(o =>
             {
@@ -68,31 +54,31 @@ namespace WpfTestApp1.MVVM.ViewModel
 
             HomeViewCommand = new RelayCommand(o => 
             {
-                CurrentView = HomeVM;
+                CurrentView = new HomeViewModel();
             });
             CategoriesViewCommand = new RelayCommand(o =>
             {
-                CurrentView = CatsVm;
+                CurrentView = new CategoriesViewModel();
             });
             StatusViewCommand = new RelayCommand(o =>
             {
-                CurrentView = StatusVM;
+                CurrentView = statsVm;
             });
             IncomeViewCommand = new RelayCommand(o =>
             {
-                CurrentView = IncomeVM;
+                CurrentView = new IncomeViewModel();
             });
             BudgetViewCommand = new RelayCommand(o =>
             {
-                CurrentView = BudgetVM;
+                CurrentView = new BudgetViewModel();
             });
             BudgetTransactionsViewCommand = new RelayCommand(o =>
             {
-                CurrentView = BudgetTransactionsVM;
+                CurrentView = new BudgetTRansactionsViewModel();
             });
             ReportViewCommand = new RelayCommand(o =>
             {
-                CurrentView = ReportVM;
+                CurrentView = new ReportViewModel();
             });
         }
     }
