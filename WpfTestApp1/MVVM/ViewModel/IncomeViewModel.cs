@@ -50,6 +50,7 @@ namespace WpfTestApp1.MVVM.ViewModel
             {
                 var total = new BudgetIncomeItem
                 {
+                    Name = GlobalsProviderBL.CurrentBudget.Title,
                     Amount = value.Sum(x => x.Amount),
                     IsTotal = true
                 };
