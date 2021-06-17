@@ -11,6 +11,17 @@ namespace QBalanceDesktop
     {
         [DbField()]
         public string Name { get; set; }
+
+        public string NameForBudget
+        {
+            get
+            {
+                if (BudgetItems.IsEmptyOrNull())
+                    return Name;
+                return $"{Name}  {BudgetItems.Sum(x => x.BudgetAmount).ToNumberFormat()}";
+            }
+        }
+
         [JsonIgnore]
         public List<BudgetItem> BudgetItems { get; set; }
 
