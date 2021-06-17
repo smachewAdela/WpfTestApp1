@@ -54,7 +54,8 @@ namespace QBalanceDesktop
             get
             {
                 // 75/100
-                return (Status * 100) / (Budget == 0 ? 100 : Budget);
+                var res = (Status * 100) / (Budget == 0 ? 100 : Budget);
+                return res;
             }
         }
     }

@@ -40,7 +40,7 @@
                                          Value="{Binding Ratio}" 
                                          Name="pbStatus" 
                                          Background="Transparent" Foreground="#0059b3" BorderBrush="#0059b3"/>
-                            <TextBlock Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}%{0:0}}" 
+                            <TextBlock Text="{Binding Ratio, StringFormat={}%{0:0}}" 
                                    HorizontalAlignment="Center" 
                                    VerticalAlignment="Center" Foreground="WhiteSmoke" />
                         </Grid>

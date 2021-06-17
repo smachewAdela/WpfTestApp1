@@ -12,7 +12,7 @@
         <Style TargetType="ScrollBar">
             <Setter Property="Background" Value="#22202F"/>
         </Style>
-        
+
     </UserControl.Resources>
     <StackPanel Orientation="Horizontal" >
         <ScrollViewer Width="700">
@@ -38,8 +38,8 @@
 
                                 <ItemsControl ItemsSource="{Binding BudgetItems}" 
                                               
-                                              Background="Transparent" 
-                                              Padding="2">
+                                              Background="Black" 
+                                              Padding="2" Margin="4">
 
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
@@ -64,7 +64,7 @@
                                                          Value="{Binding Ratio}" BorderBrush="DarkOrange"
                                                          Name="pbStatus" 
                                                          Background="Transparent" Foreground="DarkOrange"/>
-                                                    <TextBlock Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}%{0:0}}" 
+                                                    <TextBlock Text="{Binding Ratio, StringFormat={}%{0:0}}" 
                                                    HorizontalAlignment="Center" 
                                                    VerticalAlignment="Center" Foreground="WhiteSmoke" />
                                                 </Grid>
