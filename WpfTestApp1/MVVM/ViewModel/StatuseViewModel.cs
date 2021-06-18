@@ -41,7 +41,8 @@ namespace WpfTestApp1.MVVM.ViewModel
             BudgetGroup total = new BudgetGroup
             {
                 Name = "",
-                BudgetItems = currentBudget.Items
+                BudgetItems = currentBudget.Items,
+                IsTotal = true
             };
             gGroups.Add(total);
 

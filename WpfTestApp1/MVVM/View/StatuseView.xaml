@@ -21,28 +21,85 @@
 
                         <Label Content="{Binding Name}" VerticalAlignment="Center"
                                FontSize="16"  HorizontalAlignment="Stretch"
-                               Foreground="WhiteSmoke" HorizontalContentAlignment="Center"
-                                Width="450" />
+                               HorizontalContentAlignment="Center"
+                                Width="450">
+                            <Label.Style>
+                            <Style TargetType="{x:Type Label}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsOverSpent}" Value="True">
+                                        <Setter Property="Foreground" Value="#FF2525"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsOverSpent}" Value="False">
+                                            <Setter Property="Foreground" Value="WhiteSmoke"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                            </Label.Style>
+                        </Label> 
 
-                      
-                        
+
+
                         <Label Content="{Binding BudgetStr}" VerticalAlignment="Center"
-                               FontSize="14" Foreground="WhiteSmoke" HorizontalAlignment="Stretch"
-                                Width="100" />
+                               FontSize="14"  HorizontalAlignment="Stretch"
+                                Width="100" >
+
+                            <Label.Style>
+                                <Style TargetType="{x:Type Label}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsOverSpent}" Value="True">
+                                            <Setter Property="Foreground" Value="#FF2525"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsOverSpent}" Value="False">
+                                            <Setter Property="Foreground" Value="WhiteSmoke"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
 
                         <Label Content="{Binding StatusStr}" VerticalAlignment="Center"
-                               FontSize="14" Foreground="GreenYellow" HorizontalAlignment="Stretch"
-                              Width="100"  />
-
+                               FontSize="14"  HorizontalAlignment="Stretch"
+                              Width="100"  >
+                            <Label.Style>
+                                <Style TargetType="{x:Type Label}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsOverSpent}" Value="True">
+                                            <Setter Property="Foreground" Value="#FF2525"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsOverSpent}" Value="False">
+                                            <Setter Property="Foreground" Value="GreenYellow"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                        
                         <Grid Margin="2" Width="130" Background="Transparent">
                             <ProgressBar Minimum="0" 
                                          Maximum="100" 
                                          Value="{Binding Ratio}" 
                                          Name="pbStatus" 
-                                         Background="Transparent" Foreground="#0059b3" BorderBrush="#0059b3"/>
+                                         Background="#22202F" Foreground="#0059B3" BorderBrush="#0059B3">
+                                
+
+                            </ProgressBar>
                             <TextBlock Text="{Binding Ratio, StringFormat={}%{0:0}}" 
                                    HorizontalAlignment="Center" 
-                                   VerticalAlignment="Center" Foreground="WhiteSmoke" />
+                                   VerticalAlignment="Center" >
+
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOverSpent}" Value="True">
+                                                <Setter Property="Foreground" Value="#FF2525"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsOverSpent}" Value="False">
+                                                <Setter Property="Foreground" Value="WhiteSmoke"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
                         </Grid>
                     </StackPanel>
                 </DataTemplate>
