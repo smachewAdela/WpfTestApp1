@@ -22,6 +22,14 @@ namespace QBalanceDesktop
             }
         }
 
+        public bool IsOverSpent
+        {
+            get
+            {
+                return Ratio > 100;
+            }
+        }
+
         [JsonIgnore]
         public List<BudgetItem> BudgetItems { get; set; }
 
@@ -58,5 +66,7 @@ namespace QBalanceDesktop
                 return res;
             }
         }
+
+        public bool IsTotal { get; set; }
     }
 }
