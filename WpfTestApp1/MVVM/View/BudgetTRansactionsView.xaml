@@ -54,7 +54,7 @@
                                                        Foreground="WhiteSmoke" HorizontalContentAlignment="Center"
                                                        Width="200" />
 
-                                                <Label Content="{Binding BudgetAmount , StringFormat={}{0:#,0.0}}" VerticalAlignment="Center"
+                                                <TextBox  Text="{Binding BudgetAmount , StringFormat=N0}" VerticalAlignment="Center" Background="Transparent" BorderThickness="0"
                                                FontSize="12" Foreground="WhiteSmoke" HorizontalAlignment="Stretch"
                                                 Width="40" />
                                                 
@@ -69,8 +69,8 @@
                                                    VerticalAlignment="Center" Foreground="WhiteSmoke" />
                                                 </Grid>
 
-                                                <Label Content="{Binding StatusAmount, StringFormat={}{0:0}}" VerticalAlignment="Center"
-                                               FontSize="12" Foreground="DarkOrange" HorizontalAlignment="Stretch"
+                                                <TextBox Text="{Binding StatusAmount, StringFormat=N0}" VerticalAlignment="Center"
+                                               FontSize="12" Foreground="DarkOrange" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0"
                                                 Width="100" />
 
 
