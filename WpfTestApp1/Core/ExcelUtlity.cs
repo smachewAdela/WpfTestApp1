@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.OleDb;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -125,7 +126,31 @@ namespace WpfTestApp1
             }
         }
 
-    
+        const string oleDbConnStringFormat = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties='Excel 12.0;HDR=YES;IMEX=1;';";
+        const string aceDbConnStringFormat = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties='Excel 12.0;HDR=YES;IMEX=1;';";
+        public static DataTable ConvertExcelToDataTable(string FileName)
+        {
+            DataTable dtResult = null;
+            try
+            {
+                System.Data.OleDb.OleDbConnection MyConnection;
+                System.Data.DataSet DtSet;
+                System.Data.OleDb.OleDbDataAdapter MyCommand;
+                MyConnection = new System.Data.OleDb.OleDbConnection(string.Format("provider=Microsoft.Jet.OLEDB.4.0;Data Source='{0}';Extended Properties=Excel 8.0;", FileName));
+                MyCommand = new System.Data.OleDb.OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
+                MyCommand.TableMappings.Add("Table", "TestTable");
+                DtSet = new System.Data.DataSet();
+                MyCommand.Fill(DtSet);
+                dtResult = DtSet.Tables[0];
+                MyConnection.Close();
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.ToString());
+                throw ex;
+            }
+            return dtResult;
+        }
     }
 
     public class ExcelParameters

@@ -113,13 +113,16 @@ namespace WpfTestApp1.MVVM.Model
             months.Remove(currentMonth);
 
             var row = tbl.NewRow();
-            var incomeAvg = ((int)months.Average(x => x.TotalIncomes));
-            var budget = ((int)months.First().TotalBudget);
-            row[0] = incomeAvg.ToNumberFormat();
-            row[1] = budget.ToNumberFormat();
-            row[2] = (incomeAvg - budget).ToNumberFormat();
-            row[3] = months.Count.ToNumberFormat();
-            row[4] = ((incomeAvg - budget) * months.Count).ToNumberFormat();
+            if (months.IsNotEmpty())
+            {
+                var incomeAvg = ((int)months.Average(x => x.TotalIncomes));
+                var budget = ((int)months.First().TotalBudget);
+                row[0] = incomeAvg.ToNumberFormat();
+                row[1] = budget.ToNumberFormat();
+                row[2] = (incomeAvg - budget).ToNumberFormat();
+                row[3] = months.Count.ToNumberFormat();
+                row[4] = ((incomeAvg - budget) * months.Count).ToNumberFormat();
+            }
             tbl.Rows.Add(row);
         }
 
