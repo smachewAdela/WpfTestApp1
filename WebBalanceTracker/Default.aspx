@@ -5,10 +5,10 @@
     <div class="table-responsive">
         <table class="table table-shopping border-0" dir="rtl">
                 <tr class="text-lg-center text-info h3 bg-dark">
-                    <th>קבוצה</th>
+                    <th></th>
                     <th>תקציב</th>
                     <th>מצב</th>
-                    <th>השלמה</th>
+                    <th></th>
                 </tr>
             <tbody>
                 <% foreach (System.Data.DataRow BudgetGroup in BudgetGroups.Rows)
