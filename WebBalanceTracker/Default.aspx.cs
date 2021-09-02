@@ -64,7 +64,7 @@ namespace WebBalanceTracker
         [WebMethod]
         public static string updateSelection(string userdata)
         {
-            dynamic req = JObject.Parse(userdata);
+            dynamic req = userdata.ToDynamicJObject();
             int dir = 1;
             if (req.direction == "prev")
                 dir = -1;

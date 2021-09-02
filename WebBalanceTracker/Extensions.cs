@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -17,6 +18,11 @@ namespace WebBalanceTracker
                 else
                     tbl.Columns.Add(cols[i]);
             }
+        }
+
+        public static dynamic ToDynamicJObject(this string str)
+        {
+            return JObject.Parse(str);
         }
     }
 }
