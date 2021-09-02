@@ -24,11 +24,7 @@ namespace WebBalanceTracker
             get
             {
                 var tbl = new DataTable();
-                tbl.Columns.Add();
-                tbl.Columns.Add();
-                tbl.Columns.Add();
-                tbl.Columns.Add();
-                tbl.Columns.Add();
+                tbl.AddColumns(5);
 
                 var currentBudget = Global.CurrentBudget;
                 var gGroups = Db.GetData<BudgetGroup>(new SearchParameters { });
