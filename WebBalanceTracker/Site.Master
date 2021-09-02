@@ -31,8 +31,8 @@
     </style>
 
 </head>
-<body class="   bg-fade">
-    <form runat="server">
+<body class="bg-fade py-3">
+    <form runat="server" >
         <asp:ScriptManager runat="server">
             <Scripts>
                 <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
@@ -108,50 +108,21 @@
                 </div>
             </div>
             <div class="main-panel">
-                <!-- Navbar -->
-                <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
-                    <div class="container-fluid">
-                        <div class="navbar-wrapper">
-                            <%--<a class="navbar-brand" href="javascript:void(0)"><%= Title %></a>--%>
-                        </div>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="navbar-toggler-icon icon-bar"></span>
-                            <span class="navbar-toggler-icon icon-bar"></span>
-                            <span class="navbar-toggler-icon icon-bar"></span>
-                        </button>
-                        <div class="collapse navbar-collapse justify-content-end">
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="javascript:void(0)">
-                                        <i class="material-icons">notifications</i>
-                                        <p class="d-lg-none d-md-block">
-                                            Notifications
-                 
-                                        </p>
-                                    </a>
-                                </li>
-                                <!-- your navbar here -->
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-                <!-- End Navbar -->
-
-                <div class="content mt-0">
+              
+                <div class="">
 
                     <div class="container-fluid">
                         <div class="row px-5 py-2">
                             <div class="w-25">
-                                <button id="btnclk" onclick="updates('prev'); return false;" class="btn bg-transparent w-100">
-                                    <i class="fa fa-arrow-circle-left"></i></button>
+                                <button id="btnclk" onclick="updates('prev'); return false;" class="h-100 border-0 text-danger bg-transparent w-100">
+                                    <i class="fa fa-2x fa-arrow-left"></i></button>
                             </div>
                             <div class="w-50 text-center">
-                              <div class="h2 text-capitalize text-primary  font-weight-bold">  <%= global_asax.CurrentTitle %></div>
+                              <div class="h2 text-capitalize text-white  font-weight-bold">  <%= global_asax.CurrentTitle %></div>
                             </div>
                             <div class="w-25">
-                                <button class="btn bg-transparent btn-lg w-100 border-0"  onclick="updates('next'); return false;">
-                                    <i class="fa fa-arrow-circle-right"></i>
+                                <button class="h-100 border-0 text-danger bg-transparent  w-100 border-0"  onclick="updates('next'); return false;">
+                                    <i class="fa  fa-2x fa-arrow-right"></i>
                                 </button>
                             </div>
                         </div>

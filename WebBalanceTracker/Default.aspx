@@ -15,7 +15,7 @@
             <tbody>
                 <% foreach (System.Data.DataRow BudgetGroup in BudgetGroups.Rows)
                     { %>
-                <tr class="  text-center bg-darker <% =BudgetGroup[4]=="0" ? "text-warning" : "text-secondary" %>">
+                <tr class="  text-center  bg-darker <% =BudgetGroup[4]=="0" ? "text-white" : "text-info" %>">
 
                     <td>
                         <% =BudgetGroup[0] %>
