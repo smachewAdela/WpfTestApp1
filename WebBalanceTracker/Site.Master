@@ -12,21 +12,26 @@
         <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>
 
-    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <webopt:BundleReference runat="server" Path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-       <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- Material Kit CSS -->
     <link href="assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
     <link href="assets/css/DButtons.css" rel="stylesheet" />
     <style type="text/css">
-        .bg-darker{
-            background-color:black;
+        .bg-darker {
+            background-color: black;
+        }
+
+        .bg-fade {
+background: rgb(0,0,0);
+background: linear-gradient(90deg, rgba(0,0,0,1) 37%, rgba(96,96,110,1) 80%, rgba(19,186,224,1) 100%);
         }
     </style>
 
 </head>
-<body>
+<body class="   bg-fade">
     <form runat="server">
         <asp:ScriptManager runat="server">
             <Scripts>
@@ -48,8 +53,8 @@
             </Scripts>
         </asp:ScriptManager>
 
-       
-         <div class="wrapper ">
+
+        <div class="wrapper">
             <div class="sidebar" data-color="azure" data-background-color="black" data-image="./assets/img/sidebar-2.jpg">
                 <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
@@ -86,13 +91,13 @@
                                 <p>תנועות</p>
                             </a>
                         </li>
-                         <li class="nav-item qpage" id="Li1" runat="server">
+                        <li class="nav-item qpage" id="Li1" runat="server">
                             <a class="nav-link" href="Budget.aspx">
                                 <i class="material-icons">settings</i>
                                 <p>תקציב</p>
                             </a>
                         </li>
-                         <li class="nav-item qpage" id="Li2" runat="server">
+                        <li class="nav-item qpage" id="Li2" runat="server">
                             <a class="nav-link" href="Reports.aspx">
                                 <i class="material-icons">report</i>
                                 <p>דוחות</p>
@@ -134,10 +139,10 @@
                 <!-- End Navbar -->
 
                 <div class="content mt-4">
-                 
+
                     <div class="container-fluid">
-                           <div class="row px-5 active  bg-info">
-                 <%--       <% if (CurrentQPage.SelectedServer != null) %>
+                        <div class="row px-5 active  bg-info">
+                            <%--       <% if (CurrentQPage.SelectedServer != null) %>
                         <% { %>
                         <a class="nav-link text-dark" href="<%= CurrentQPageUrl %>sid=<%= CurrentQPage.selectedServerId.Value %>">
                             <%= CurrentQPage.SelectedServer.DisplayName %> <i class="material-icons text-white">label_important</i>
@@ -150,7 +155,7 @@
                             <%= CurrentQPage.SelectedDataBase.Name %> <i class="material-icons text-warning">label_important</i>
                         </a>
                         <% } %>--%>
-                    </div>
+                        </div>
                         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                         </asp:ContentPlaceHolder>
                     </div>
