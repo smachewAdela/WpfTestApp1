@@ -1,9 +1,11 @@
-﻿using QBalanceDesktop;
+﻿using Newtonsoft.Json.Linq;
+using QBalanceDesktop;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using WpfTestApp1;
@@ -61,6 +63,19 @@ namespace WebBalanceTracker
 
                 return tbl;
             }
+        }
+
+        [WebMethod]
+        public static string updateSelection(string userdata)
+        {
+            dynamic req = JObject.Parse(userdata);
+            int dir = 1;
+            if (req.direction == "prev")
+                dir = -1;
+
+            Global.ProgressMonth(dir);
+            //HttpContext.Current.Response.Redirect(req.source.ToString());
+            return "Posted";
         }
     }
 }

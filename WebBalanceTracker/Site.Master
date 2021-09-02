@@ -25,8 +25,8 @@
         }
 
         .bg-fade {
-background: rgb(0,0,0);
-background: linear-gradient(90deg, rgba(0,0,0,1) 37%, rgba(96,96,110,1) 80%, rgba(19,186,224,1) 100%);
+            background: rgb(0,0,0);
+            background: linear-gradient(90deg, rgba(0,0,0,1) 37%, rgba(96,96,110,1) 80%, rgba(19,186,224,1) 100%);
         }
     </style>
 
@@ -54,7 +54,7 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 37%, rgba(96,96,110,1) 80%, rgb
         </asp:ScriptManager>
 
 
-        <div class="wrapper">
+        <div class="wrapper mt-0">
             <div class="sidebar" data-color="azure" data-background-color="black" data-image="./assets/img/sidebar-2.jpg">
                 <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
@@ -138,32 +138,31 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 37%, rgba(96,96,110,1) 80%, rgb
                 </nav>
                 <!-- End Navbar -->
 
-                <div class="content mt-4">
+                <div class="content mt-0">
 
                     <div class="container-fluid">
-                        <div class="row px-5 active  bg-info">
-                            <%--       <% if (CurrentQPage.SelectedServer != null) %>
-                        <% { %>
-                        <a class="nav-link text-dark" href="<%= CurrentQPageUrl %>sid=<%= CurrentQPage.selectedServerId.Value %>">
-                            <%= CurrentQPage.SelectedServer.DisplayName %> <i class="material-icons text-white">label_important</i>
-                        </a>
-                        <% } %>
-
-                        <% if (CurrentQPage.SelectedDataBase != null) %>
-                        <% { %>
-                        <a class="nav-link text-secondary" href="<%= CurrentQPageUrl %>sid=<%= CurrentQPage.selectedServerId.Value %>&did=<%= CurrentQPage.selectedDatabaseId.Value %>">
-                            <%= CurrentQPage.SelectedDataBase.Name %> <i class="material-icons text-warning">label_important</i>
-                        </a>
-                        <% } %>--%>
+                        <div class="row px-5 py-2">
+                            <div class="w-25">
+                                <button id="btnclk" onclick="updates('prev'); return false;" class="btn bg-transparent w-100">
+                                    <i class="fa fa-arrow-circle-left"></i></button>
+                            </div>
+                            <div class="w-50 text-center">
+                              <div class="h2 text-capitalize text-primary  font-weight-bold">  <%= global_asax.CurrentTitle %></div>
+                            </div>
+                            <div class="w-25">
+                                <button class="btn bg-transparent btn-lg w-100 border-0"  onclick="updates('next'); return false;">
+                                    <i class="fa fa-arrow-circle-right"></i>
+                                </button>
+                            </div>
                         </div>
-                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-                        </asp:ContentPlaceHolder>
                     </div>
-                    <div id="div1">
-                    </div>
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
                 </div>
-
+                <div id="div1">
+                </div>
             </div>
+
         </div>
     </form>
 
@@ -347,6 +346,33 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 37%, rgba(96,96,110,1) 80%, rgb
 
             });
         });
+    </script>
+
+    <script>
+        function updates(dir) {
+            var mobj = {
+                direction: dir,
+                source : window.location.href
+            };
+            var DTO = { 'userdata': JSON.stringify(mobj) };
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "Default.aspx/updateSelection",
+                data: JSON.stringify(DTO),
+                datatype: "json",
+                success: function (result) {
+                    //do something
+                    //alert("SUCCESS = " + result.d);
+                    console.log(result);
+                    window.location.href =  window.location.href;
+                },
+                error: function (xmlhttprequest, textstatus, errorthrown) {
+                    //alert(" conection to the server failed ");
+                    alert("error: " + errorthrown);
+                }
+            });//end of $.ajax()
+        }
     </script>
 
 </body>

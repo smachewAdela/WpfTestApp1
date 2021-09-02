@@ -135,5 +135,13 @@ namespace WebBalanceTracker
             }
         }
 
+
+        public static string CurrentTitle
+        {
+            get
+            {
+                return CurrentBudget.Title;
+            }
+        }
     }
 }
