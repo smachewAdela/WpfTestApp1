@@ -16,19 +16,23 @@ namespace WebBalanceTracker
         protected void Page_Load(object sender, EventArgs e)
         {
             this.Title = "קטגוריות";
+            Groups = Db.GetData<BudgetGroup>(new SearchParameters { }).ToDictionary(x => x.Id, x => x.Name);
+            foreach (var item in Groups)
+            {
+                cmbGroups.Items.Add(new System.Web.UI.WebControls.ListItem { Text = item.Value, Value = item.Key.ToString() });
+            }
         }
-
+        public Dictionary<int,string> Groups { get; set; }
 
         public DataTable BudgetCategories
         {
             get
             {
                 var tbl = new DataTable();
-                tbl.AddColumns(3);
+                tbl.AddColumns(4);
 
                 var currentBudget = Global.CurrentBudget;
                 var cats = currentBudget.Items;
-                var Groups = Db.GetData<BudgetGroup>(new SearchParameters { }).ToDictionary(x => x.Id, x => x.Name);
 
                 foreach (var g in cats)
                 {
@@ -37,6 +41,7 @@ namespace WebBalanceTracker
                     rw[0] = g.CategoryName;
                     rw[1] = Groups[g.GroupId];
                     rw[2] = g.Id;
+                    rw[3] = g.GroupId;
                     tbl.Rows.Add(rw);
                 }
 
