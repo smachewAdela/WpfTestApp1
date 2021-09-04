@@ -4,7 +4,7 @@
 
     <div class="row px-1">
         <div class="col-1">
-            <button class="bg-transparent text-warning border-0 w-100" onclick="showInsertCategory(); return false;">
+            <button class="bg-transparent text-warning border-0 w-100" onclick="showIncomeModal(); return false;">
                 <i class="material-icons fa-2x">add</i>
             </button>
         </div>
@@ -50,7 +50,29 @@
         </div>
         <div class="col-1"></div>
         <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" dir="rtl">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title py-2 text-warning" id="myModalLabel">Modal title</h3>
+                    </div>
+                    <div class="modal-body">
 
+                        <div class="row">
+
+                            <div class="col-4 text-lg-center h3 h-100">שם : </div>
+                            <div class="col-8">
+                                <input type="text" class="form-control w-100 h-100" placeholder="" id="edtName">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">ביטול</button>
+                            <button type="button" class="btn btn-success" onclick="addNewIncome(); return false;">שמור</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -60,7 +82,7 @@
             var ctrlName = 'edtIncome' + id;
             var amounytToAdd = $('#' + ctrlName).val();
 
-              var mobj = {
+            var mobj = {
                 amountToAdd: amounytToAdd,
                 incomeName: name,
                 incomeId: id
@@ -74,9 +96,9 @@
                 datatype: "json",
                 success: function (result) {
                     //do something
-                    //alert("SUCCESS = " + result.d);
+                    $('#' + ctrlName).val('')
                     console.log(result);
-                 location.reload();
+                    location.reload();
 
                 },
                 error: function (xmlhttprequest, textstatus, errorthrown) {
@@ -87,6 +109,39 @@
 
         }
 
+        function showIncomeModal() {
+
+            $('#myModalLabel').text('צור הכנסה');
+            $('#edtName').val('').change();
+            $('#myModal').modal('show')
+        }
+
+        function addNewIncome() {
+
+            var incomeName = $('#edtName').val();
+            var mobj = {
+                incomeName: incomeName
+            };
+            var DTO = { 'userdata': JSON.stringify(mobj) };
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "Incomes.aspx/addIncome",
+                data: JSON.stringify(DTO),
+                datatype: "json",
+                success: function (result) {
+                    //do something
+                    //alert("SUCCESS = " + result.d);
+                    console.log(result);
+                    location.reload();
+
+                },
+                error: function (xmlhttprequest, textstatus, errorthrown) {
+                    //alert(" conection to the server failed ");
+                    alert("error: " + errorthrown);
+                }
+            });//end of $.ajax()
+        }
     </script>
 
 

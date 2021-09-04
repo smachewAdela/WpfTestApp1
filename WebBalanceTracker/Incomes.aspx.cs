@@ -50,7 +50,7 @@ namespace WebBalanceTracker
                 return tbl;
             }
         }
-
+        
         [WebMethod]
         public static string appendIncome(string userdata)
         {
@@ -64,6 +64,25 @@ namespace WebBalanceTracker
             Global.Db.Update(iIncome);
 
             Global.RefreshBudget();
+            return "Posted";
+        }
+
+        [WebMethod]
+        public static string addIncome(string userdata)
+        {
+            dynamic req = userdata.ToDynamicJObject();
+            var lBudget = Global.GetLatestBudget();
+
+            var incomeName = req.incomeName;
+
+            BudgetIncomeItem bi = new BudgetIncomeItem
+            {
+                Amount = 0,
+                Name = incomeName,
+                BudgetId = lBudget.Id
+            };
+            Global.Db.Insert(bi);
+
             return "Posted";
         }
     }
