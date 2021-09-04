@@ -76,6 +76,11 @@ namespace WebBalanceTracker
             return b;
         }
 
+        internal static void RefreshBudget()
+        {
+            b = GetLatestBudget();
+        }
+
         internal static void ProgressMonth(int dir)
         {
             var nextDate = CurrentBudget.Month.AddMonths(dir);

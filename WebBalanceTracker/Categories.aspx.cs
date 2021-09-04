@@ -29,7 +29,7 @@ namespace WebBalanceTracker
             get
             {
                 var tbl = new DataTable();
-                tbl.AddColumns(4);
+                tbl.AddColumns(5);
 
                 var currentBudget = Global.CurrentBudget;
                 var cats = currentBudget.Items;
@@ -42,6 +42,7 @@ namespace WebBalanceTracker
                     rw[1] = Groups[g.GroupId];
                     rw[2] = g.Id;
                     rw[3] = g.GroupId;
+                    rw[4] = g.BudgetAmount;
                     tbl.Rows.Add(rw);
                 }
 
@@ -51,27 +52,25 @@ namespace WebBalanceTracker
 
 
         [WebMethod]
-        public static string updateSelection(string userdata)
+        public static string upsertCategory(string userdata)
         {
             dynamic req = userdata.ToDynamicJObject();
+            var lBudget = Global.GetLatestBudget();
+            var upsertC = new BudgetItem
+            {
+                CategoryName = req.catName,
+                GroupId = req.groupId,
+                BudgetAmount = req.budget,
+                StatusAmount = 0,
+                BudgetId = lBudget.Id,
+                Id = req.editedId
+            };
+            if(req.editedId == 0)
+                Global.Db.Insert(upsertC);
+            else
+                Global.Db.Update(upsertC);
 
-            //var values = (object[])parameter;
-            //var newGroupId = (int)values[0];
-            //var chAll = (bool)values[1];
-            //var cItem = (BudgetItem)values[2];
-
-            //if (chAll)
-            //{
-            //    var allBudgetItems = GlobalsProviderBL.Db.GetData<BudgetItem>().Where(x => x.CategoryName == cItem.CategoryName).ToList();
-            //    foreach (var allBudgetItem in allBudgetItems)
-            //    {
-            //        allBudgetItem.GroupId = newGroupId;
-            //        GlobalsProviderBL.Db.Update(allBudgetItem);
-            //    }
-            //}
-            //else
-            //    GlobalsProviderBL.Db.Update(cItem);
-
+            Global.RefreshBudget();
             return "Posted";
         }
     }
