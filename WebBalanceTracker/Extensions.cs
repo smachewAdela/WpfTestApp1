@@ -24,5 +24,10 @@ namespace WebBalanceTracker
         {
             return JObject.Parse(str);
         }
+
+        public static int ToInteger(this object str)
+        {
+            return Convert.ToInt32(str);
+        }
     }
 }

@@ -1,0 +1,93 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Incomes.aspx.cs" Inherits="WebBalanceTracker.Incomes" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+    <div class="row px-1">
+        <div class="col-1">
+            <button class="bg-transparent text-warning border-0 w-100" onclick="showInsertCategory(); return false;">
+                <i class="material-icons fa-2x">add</i>
+            </button>
+        </div>
+        <div class="col-10">
+            <div class="table-responsive">
+                <table class="table table-shopping border-0" dir="rtl">
+                    <tr class="text-lg-center text-info h3 bg-dark">
+                        <th>הכנסה</th>
+                        <th>סכום</th>
+                        <th></th>
+                    </tr>
+                    <tbody>
+                        <% foreach (System.Data.DataRow BudgetGroup in BudgetIncomes.Rows)
+                            { %>
+                        <tr class="text-center  bg-darker  <% =BudgetGroup[4]=="0" ? "text-white" : "text-info" %> border-bottom">
+
+                            <td>
+                                <% =BudgetGroup[2] %>
+                            </td>
+                            <td>
+                                <% =BudgetGroup[3] %>
+                            </td>
+                            <td class="px-2">
+                                <% if (BudgetGroup[4] == "0")
+                                    { %>
+                                <input type="text" class="form-control w-50 h-100 align-bottom text-center" placeholder="" id="edtIncome<% =BudgetGroup[0] %>">
+                                <%}%>
+
+                                <% if (BudgetGroup[4] == "0")
+                                    { %>
+                                <button id="btnclk" onclick="updateIncome('<% =BudgetGroup[0] %>','<% =BudgetGroup[1] %>','<% =BudgetGroup[2] %>','<% =BudgetGroup[3] %>'); return false;"
+                                    class="h-100 border-0 text-info bg-transparent">
+                                    <i class="material-icons">add</i>
+                                </button>
+                                <%} %>
+                            </td>
+                        </tr>
+
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-1"></div>
+        <!-- Modal -->
+
+    </div>
+
+    <script>
+
+        function updateIncome(id, budgetId, name, amount) {
+
+            var ctrlName = 'edtIncome' + id;
+            var amounytToAdd = $('#' + ctrlName).val();
+
+              var mobj = {
+                amountToAdd: amounytToAdd,
+                incomeName: name,
+                incomeId: id
+            };
+            var DTO = { 'userdata': JSON.stringify(mobj) };
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "Incomes.aspx/appendIncome",
+                data: JSON.stringify(DTO),
+                datatype: "json",
+                success: function (result) {
+                    //do something
+                    //alert("SUCCESS = " + result.d);
+                    console.log(result);
+                 location.reload();
+
+                },
+                error: function (xmlhttprequest, textstatus, errorthrown) {
+                    //alert(" conection to the server failed ");
+                    alert("error: " + errorthrown);
+                }
+            });//end of $.ajax()
+
+        }
+
+    </script>
+
+
+</asp:Content>
