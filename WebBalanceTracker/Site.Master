@@ -92,7 +92,7 @@
                             </a>
                         </li>
                         <li class="nav-item qpage" id="Li1" runat="server">
-                            <a class="nav-link" href="Budget.aspx">
+                            <a class="nav-link" href="BudgetPage.aspx">
                                 <i class="material-icons">settings</i>
                                 <p>תקציב</p>
                             </a>

@@ -106,6 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="BudgetPage.aspx" />
     <Content Include="Categories.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -173,6 +174,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="BaseForm.cs">
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BudgetPage.aspx.cs">
+      <DependentUpon>BudgetPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BudgetPage.aspx.designer.cs">
+      <DependentUpon>BudgetPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Categories.aspx.cs">
       <DependentUpon>Categories.aspx</DependentUpon>
