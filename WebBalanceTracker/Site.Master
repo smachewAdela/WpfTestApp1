@@ -62,7 +62,7 @@
       Tip 2: you can also add an image using data-image tag
   -->
                 <div class="logo">
-                    <a href="#" class="simple-text logo-normal">מעקב תקציב
+                    <a href="Default.aspx" class="simple-text logo-normal">מעקב תקציב
                     </a>
                 </div>
                 <div class="sidebar-wrapper">
@@ -73,21 +73,27 @@
                                 <p>ראשי</p>
                             </a>
                         </li>
+                          <li class="nav-item  qpage" id="Li3" runat="server">
+                            <a class="nav-link" href="StatusPage.aspx">
+                                <i class="material-icons">timeline</i>
+                                <p>מעקב</p>
+                            </a>
+                        </li>
                         <li class="nav-item qpage" id="nvview" runat="server">
                             <a class="nav-link" href="Categories.aspx">
-                                <i class="material-icons">list</i>
+                                <i class="material-icons">rule</i>
                                 <p>קטגוריות</p>
                             </a>
                         </li>
                         <li class="nav-item qpage" id="nvutil" runat="server">
                             <a class="nav-link" href="Incomes.aspx">
-                                <i class="material-icons">money</i>
+                                <i class="material-icons">payments</i>
                                 <p>הכנסות</p>
                             </a>
                         </li>
                         <li class="nav-item qpage" id="nvcons" runat="server">
                             <a class="nav-link" href="Transactions.aspx">
-                                <i class="material-icons">shopping_cart</i>
+                                <i class="material-icons">segment</i>
                                 <p>תנועות</p>
                             </a>
                         </li>
@@ -99,7 +105,7 @@
                         </li>
                         <li class="nav-item qpage" id="Li2" runat="server">
                             <a class="nav-link" href="Reports.aspx">
-                                <i class="material-icons">report</i>
+                                <i class="material-icons">summarize</i>
                                 <p>דוחות</p>
                             </a>
                         </li>
@@ -115,14 +121,16 @@
                         <div class="row px-5 py-2">
                             <div class="w-25">
                                 <button id="btnclk" onclick="updates('prev'); return false;" class="h-100 border-0 text-danger bg-transparent w-100">
-                                    <i class="fa fa-2x fa-arrow-left"></i></button>
+                                         <i class="material-icons">skip_previous</i>
+
+                                </button>
                             </div>
                             <div class="w-50 text-center">
                               <div class="h2 text-capitalize text-white  font-weight-bold">  <%= global_asax.CurrentTitle %></div>
                             </div>
                             <div class="w-25">
                                 <button class="h-100 border-0 text-danger bg-transparent  w-100 border-0"  onclick="updates('next'); return false;">
-                                    <i class="fa  fa-2x fa-arrow-right"></i>
+                                    <i class="material-icons">skip_next</i>
                                 </button>
                             </div>
                         </div>
@@ -330,7 +338,7 @@
             $.ajax({
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
-                url: "Default.aspx/updateSelection",
+                url: "StatusPage.aspx/updateSelection",
                 data: JSON.stringify(DTO),
                 datatype: "json",
                 success: function (result) {
