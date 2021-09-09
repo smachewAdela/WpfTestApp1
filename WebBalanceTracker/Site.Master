@@ -28,11 +28,15 @@
             background: rgb(0,0,0);
             background: linear-gradient(90deg, rgba(0,0,0,1) 37%, rgba(96,96,110,1) 80%, rgba(19,186,224,1) 100%);
         }
+
+        .custom-text {
+            font-size: 28px !important;
+        }
     </style>
 
 </head>
 <body class="bg-fade py-3">
-    <form runat="server" >
+    <form runat="server">
         <asp:ScriptManager runat="server">
             <Scripts>
                 <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
@@ -73,7 +77,7 @@
                                 <p>ראשי</p>
                             </a>
                         </li>
-                          <li class="nav-item  qpage" id="Li3" runat="server">
+                        <li class="nav-item  qpage" id="Li3" runat="server">
                             <a class="nav-link" href="StatusPage.aspx">
                                 <i class="material-icons">timeline</i>
                                 <p>מעקב</p>
@@ -114,27 +118,30 @@
                 </div>
             </div>
             <div class="main-panel">
-              
+
                 <div class="">
 
+                    <% if (!hideBudgetNavigator)
+                        {  %>
                     <div class="container-fluid">
                         <div class="row px-5 py-2">
                             <div class="w-25">
                                 <button id="btnclk" onclick="updates('prev'); return false;" class="h-100 border-0 text-danger bg-transparent w-100">
-                                         <i class="material-icons">skip_previous</i>
+                                    <i class="material-icons">skip_previous</i>
 
                                 </button>
                             </div>
                             <div class="w-50 text-center">
-                              <div class="h2 text-capitalize text-white  font-weight-bold">  <%= global_asax.CurrentTitle %></div>
+                                <div class="h2 text-capitalize text-white  font-weight-bold"><%= global_asax.CurrentTitle %></div>
                             </div>
                             <div class="w-25">
-                                <button class="h-100 border-0 text-danger bg-transparent  w-100 border-0"  onclick="updates('next'); return false;">
+                                <button class="h-100 border-0 text-danger bg-transparent  w-100 border-0" onclick="updates('next'); return false;">
                                     <i class="material-icons">skip_next</i>
                                 </button>
                             </div>
                         </div>
                     </div>
+                    <% } %>
                     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                     </asp:ContentPlaceHolder>
                 </div>
@@ -325,6 +332,9 @@
 
 
             });
+
+            // Javascript method's body can be found in assets/js/demos.js
+            md.initDashboardPageCharts();
         });
     </script>
 
@@ -332,7 +342,7 @@
         function updates(dir) {
             var mobj = {
                 direction: dir,
-                source : window.location.href
+                source: window.location.href
             };
             var DTO = { 'userdata': JSON.stringify(mobj) };
             $.ajax({
@@ -345,7 +355,7 @@
                     //do something
                     //alert("SUCCESS = " + result.d);
                     console.log(result);
-                    window.location.href =  window.location.href;
+                    window.location.href = window.location.href;
                 },
                 error: function (xmlhttprequest, textstatus, errorthrown) {
                     //alert(" conection to the server failed ");

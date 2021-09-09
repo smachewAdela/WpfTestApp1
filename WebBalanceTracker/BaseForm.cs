@@ -33,5 +33,18 @@ namespace WebBalanceTracker
 #endif
         }
 
+        bool hideBudgetNavigator;
+        public virtual bool HideBudgetNavigator
+        {
+            get
+            {
+                return hideBudgetNavigator;
+            }
+            set
+            {
+                hideBudgetNavigator = value;
+                (this.Master as SiteMaster) .hideBudgetNavigator = value;
+            }
+        }
     }
 }

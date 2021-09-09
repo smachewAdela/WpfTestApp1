@@ -13,5 +13,7 @@ namespace WebBalanceTracker
         {
 
         }
+
+        public bool hideBudgetNavigator { get; set; }
     }
 }

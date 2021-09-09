@@ -23,7 +23,7 @@
         <div class="col-12">
             <table class="text-center table bg-secondary my-2" id="tbl" dir="rtl">
                 <thead>
-                    <tr class="h4 text-gray bg-dark">
+                    <tr class=" text-gray bg-dark custom-text">
                         <th>קטגוריה</th>
                         <th>תקציב</th>
                         <th>אחוז השלמה</th>
