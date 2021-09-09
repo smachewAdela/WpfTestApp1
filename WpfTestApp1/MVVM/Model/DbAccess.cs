@@ -96,6 +96,11 @@ namespace QBalanceDesktop
                 param.Add("Id=@Id");
                 innerParams.Add(new DbParam("@Id", parameters.BudgetIncomeId.Value));
             }
+            if (parameters.BudgetItemId.HasValue)
+            {
+                param.Add("Id=@Id");
+                innerParams.Add(new DbParam("@Id", parameters.BudgetItemId.Value));
+            }
             if (parameters.BudgetItemGroupId.HasValue)
             {
                 param.Add("GroupId=@GroupId");

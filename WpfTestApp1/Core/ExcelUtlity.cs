@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace WpfTestApp1
 {
@@ -36,6 +37,42 @@ namespace WpfTestApp1
                 }
             }
         }
+
+        public static void DownLoadAsExcel(HttpResponse _Response, ExcelParameters parameters)
+        {
+            _Response.Clear();
+            _Response.ClearContent();
+            _Response.ClearHeaders();
+            //_Response.Buffer = false;
+            _Response.ContentType = "application/ms-excel";
+            //_Response.Write(@"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.0 Transitional//EN"">");
+            _Response.AddHeader("Content-Disposition", "attachment;filename=" + parameters.FileName);
+
+            //CreateExcelDocument(parameters, _Response.OutputStream);
+            using (var sWriter = new StreamWriter(_Response.OutputStream))
+            {
+                //sets font
+                WriteMainHeaders(parameters, sWriter);
+                foreach (var p in parameters.TablesParameters)
+                {
+                    DataTable table = p.table;
+
+                    WriteTopTitles(sWriter, p);
+                    WriteTableColumnsHeaders(sWriter, table);
+                    WriteTableValues(sWriter, p, table);
+                    WriteBottomTitles(sWriter, p);
+
+                    sWriter.Write("<TR><td></td></TR>");
+                    sWriter.Write("<TR><td></td></TR>");
+                    sWriter.Write("</Table></font>");
+                }
+            }
+
+            _Response.Flush();
+            _Response.Close();
+            _Response.End();
+        }
+
 
         private static void WriteFileHeaders(StreamWriter sWriter)
         {
