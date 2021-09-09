@@ -15,6 +15,7 @@
                         <th>הכנסה</th>
                         <th>סכום</th>
                         <th></th>
+                        <th></th>
                     </tr>
                     <tbody>
                         <% foreach (System.Data.DataRow BudgetGroup in BudgetIncomes.Rows)
@@ -27,13 +28,17 @@
                             <td>
                                 <% =BudgetGroup[3] %>
                             </td>
-                            <td class="px-2">
+                            <td class="w-25">
                                 <% if (BudgetGroup[4] == "0")
                                     { %>
                                 <input type="text" class="form-control w-50 h-100 align-bottom text-center" placeholder="" id="edtIncome<% =BudgetGroup[0] %>">
                                 <%}%>
 
-                                <% if (BudgetGroup[4] == "0")
+                             
+                            </td>
+
+                            <td>
+                                   <% if (BudgetGroup[4] == "0")
                                     { %>
                                 <button id="btnclk" onclick="updateIncome('<% =BudgetGroup[0] %>','<% =BudgetGroup[1] %>','<% =BudgetGroup[2] %>','<% =BudgetGroup[3] %>'); return false;"
                                     class="h-100 border-0 text-info bg-transparent">
