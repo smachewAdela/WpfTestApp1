@@ -20,5 +20,50 @@ namespace WebBalanceTracker
             this.HideBudgetNavigator = true;
         }
 
+        public string BudgetDataName
+        {
+            get
+            {
+                return Global.CurrentBudget.Title;
+            }
+        }
+
+        public string TotalExpenses
+        {
+            get
+            {
+                return Global.CurrentBudget.Items.Sum(x => x.StatusAmount).ToNumberFormat();
+            }
+        }
+
+
+        public string Totalincomes
+        {
+            get
+            {
+                return Global.CurrentBudget.Incomes.Sum(x => x.Amount).ToNumberFormat();
+            }
+        }
+
+        public string LefttoUse
+        {
+            get
+            {
+                return (Global.CurrentBudget.Items.Sum(x => x.BudgetAmount) - Global.CurrentBudget.Items.Sum(x => x.StatusAmount)).ToNumberFormat();
+            }
+        }
+
+        public int Ratio
+        {
+            set { }
+            get
+            {
+                // 75/100
+                var status = Global.CurrentBudget.Items.Sum(x => x.StatusAmount);
+                var budget = Global.CurrentBudget.Items.Sum(x => x.BudgetAmount);
+                var res = (status * 100) / (budget == 0 ? 100 : budget);
+                return res;
+            }
+        }
     }
 }
