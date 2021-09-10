@@ -101,6 +101,11 @@ namespace QBalanceDesktop
                 param.Add("Id=@Id");
                 innerParams.Add(new DbParam("@Id", parameters.BudgetItemId.Value));
             }
+            if (parameters.TransactionCheckPointId.HasValue)
+            {
+                param.Add("Id=@Id");
+                innerParams.Add(new DbParam("@Id", parameters.TransactionCheckPointId.Value));
+            }
             if (parameters.BudgetItemGroupId.HasValue)
             {
                 param.Add("GroupId=@GroupId");

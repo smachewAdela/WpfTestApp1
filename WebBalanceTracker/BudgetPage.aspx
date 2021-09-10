@@ -38,7 +38,7 @@
                         <td><% =string.Format("{0:n0}",catData.CategoryName) %></td>
                         <td class="text-info"><% =catData.Ratio %>%</td>
                         <td class="w-25">
-                            <input type="text" class="form-control w-50 h-100 align-bottom text-center" placeholder="" id="edtTran<% =catData.Id %>" value="<% =catData.BudgetAmount %>"></td>
+                            <input type="text" class="form-control w-50 h-100 align-bottom text-center text-white" placeholder="" id="edtTran<% =catData.Id %>" value="<% =catData.BudgetAmount %>"></td>
                         <td>
                             <button id="btnclk" onclick="updateBudget('<% =catData.Id %>','edtTran<% =catData.Id %>'); return false;"
                                 class="h-100 border-0 text-info bg-transparent">

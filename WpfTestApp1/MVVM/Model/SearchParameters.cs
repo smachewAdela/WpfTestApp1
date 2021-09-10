@@ -18,5 +18,6 @@ namespace QBalanceDesktop
         public int? TransactionCheckPointBudgetId { get;  set; }
         public int? BudgetItemLogBudgetItemId { get;  set; }
         public int? BudgetItemId { get; set; }
+        public int? TransactionCheckPointId { get; set; }
     }
 }

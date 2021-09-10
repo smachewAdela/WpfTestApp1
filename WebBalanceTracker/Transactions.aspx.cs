@@ -53,33 +53,37 @@ namespace WebBalanceTracker
             return "Posted";
         }
 
-        protected void btnDownloadFile_Click(object sender, EventArgs e)
-        {
-            var lpKeys = new ExcelParameters();
-            lpKeys.FileName = "trans.xls";
-            var tbData = lpKeys.GetNewtableParameter();
-            var cats = Global.CurrentBudget.CategoryStatusData;
-            tbData.table = new System.Data.DataTable();
-            tbData.table.Columns.Add("קטגוריה");
-            tbData.table.Columns.Add("תקציב");
-            tbData.table.Columns.Add("מצב");
-            tbData.table.Columns.Add("תוספת");
 
-            foreach (var item in Global.CurrentBudget.Items)
-            {
-                var row = tbData.table.NewRow();
-                row[0] = item.CategoryName;
-                row[1] = item.BudgetAmount.ToNumberFormat();
-                row[2] = Global.CurrentBudget.CategoryStatusData[item.Id].ToNumberFormat();
-                row[3] = string.Empty;
-                tbData.table.Rows.Add(row);
-            }
-            ExcelUtlity.DownLoadAsExcel(HttpContext.Current.Response, lpKeys);
+        [WebMethod]
+        public static string saveCheckpoint(string userdata)
+        {
+            dynamic req = userdata.ToDynamicJObject();
+
+            var transactionCheckPoint = Db.GetSingle<TransactionCheckPoint>(new SearchParameters { TransactionCheckPointId = (int)req.checkPointId });
+            transactionCheckPoint.Description = (string)req.checkPointDescription;
+            Global.Db.Update(transactionCheckPoint);
+
+            Global.RefreshBudget();
+            return "Posted";
         }
 
-        protected void btnUploadFile_Click(object sender, EventArgs e)
-        {
 
+        public List<CheckPointData> CheckPoints
+        {
+            get
+            {
+                if (Global.CurrentBudget.TransactionCheckPoints.IsEmptyOrNull())
+                {
+                    var _t = Global.GenerateDefaultCheckPoints();
+                    foreach (var checkPoint in _t)
+                    {
+                        checkPoint.BudgetId = Global.CurrentBudget.Id;
+                        Global.Db.Insert(checkPoint);
+                    }
+                    Global.CurrentBudget.TransactionCheckPoints = Global.Db.GetData<TransactionCheckPoint>(new SearchParameters { TransactionCheckPointBudgetId = Global.CurrentBudget.Id });
+                }
+                return Global.CurrentBudget.TransactionCheckPoints.Select(x => new CheckPointData(x)).ToList();
+            }
         }
     }
 
@@ -132,5 +136,19 @@ namespace WebBalanceTracker
             this.StatusAmount = x.StatusAmount;
             this.Id = x.Id;
         }
+    }
+
+    public class CheckPointData
+    {
+        public CheckPointData(TransactionCheckPoint x)
+        {
+            this.Id = x.Id;
+            this.Name = x.Name;
+            this.Description = x.Description;
+        }
+
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 }
