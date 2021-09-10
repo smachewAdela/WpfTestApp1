@@ -1,9 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using QBalanceDesktop;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using WpfTestApp1.MVVM.Model;
 
 namespace WebBalanceTracker
 {
@@ -13,5 +18,35 @@ namespace WebBalanceTracker
         {
             XTitle = "דוחות";
         }
+
+        public Dictionary<string, string> ReeportNames
+        {
+            get
+            {
+                return Enum.GetValues(typeof(ReportTypeEnum)).OfType< ReportTypeEnum>().ToDictionary(x => x.ToString(), x => x.GetEnumDescription());
+            }
+        }
+
+        [WebMethod]
+        public static string generateReport(string userdata)
+        {
+            try
+            {
+                dynamic req = userdata.ToDynamicJObject();
+                var tbl = new DataTable();
+
+                var manager = new ReportManager();
+                ReportTypeEnum currentReport = (ReportTypeEnum)Enum.Parse(typeof(ReportTypeEnum), (string)req.reportType);
+                var CurrentReportContent = manager.GenerateReport(currentReport);
+
+                return JsonConvert.SerializeObject(CurrentReportContent.Table);
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+            }
+            return string.Empty;
+        }
+
     }
 }
