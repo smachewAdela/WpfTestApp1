@@ -65,5 +65,15 @@ namespace WebBalanceTracker
                 return res;
             }
         }
+
+
+        [WebMethod]
+        public static string getChartDataSource(string userdata)
+        {
+            dynamic req = userdata.ToDynamicJObject();
+            var chartDdatasourceType = (string)req.datasourceType;
+            dynamic cDs = ReportHandler.GenerateChartData(chartDdatasourceType);
+            return cDs.ToString();
+        }
     }
 }

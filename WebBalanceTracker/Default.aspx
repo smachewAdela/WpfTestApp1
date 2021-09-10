@@ -8,12 +8,11 @@
         <div class="col-6">
             <div class="card card-chart">
                 <div class="card-header card-header-success">
-                    <div class="ct-chart" id="dailySalesChart"></div>
+                    <div class="ct-chart xchart" id="crt1" xChartSource="6MonthsDiff"></div>
                 </div>
                 <div class="card-body">
-                    <h4 class="card-title">Daily Sales</h4>
+                    <h4 class="card-title">מאזן בסוף חודש</h4>
                     <p class="card-category">
-                        <span class="text-success"><i class="fa fa-long-arrow-up"></i>55% </span>increase in today sales.
                     </p>
                 </div>
                 <div class="card-footer">
@@ -58,5 +57,8 @@
             </div>
         </div>
     </div>
+
+<%--    <div class="xchart"  xChartSource="smach" id="crt1"> </div>
+    <div class="xchart"  xChartSource="noa" id="crt2"> </div>--%>
 
 </asp:Content>

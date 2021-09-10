@@ -348,33 +348,74 @@
     <script>
         document.addEventListener("DOMContentLoaded", function (event) {
 
+            $(".xchart").each(function () {
+                var xcD = $(this).attr('xChartSource');
+                var chartId = $(this).attr('id');
+                var chartIdentifier = '#' + chartId;
 
 
-            if ($('#dailySalesChart').length != 0) {
-                /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
+                setChart(chartIdentifier, xcD);
+            });
 
-                dataDailySalesChart = {
-                    labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-                    series: [
-                        [12, 17, 7, 17, 23, 18, 38]
-                    ]
+            function setChart(containerName, datasourceType) {
+
+                //alert('datasourceType = ' + datasourceType);
+                var respo = undefined;
+                var mobj = {
+                    datasourceType: datasourceType
                 };
-
-                optionsDailySalesChart = {
-                    lineSmooth: Chartist.Interpolation.cardinal({
-                        tension: 0
-                    }),
-                    low: 0,
-                    high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-                    chartPadding: {
-                        top: 0,
-                        right: 0,
-                        bottom: 0,
-                        left: 0
+                var DTO = { 'userdata': JSON.stringify(mobj) };
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: "Default.aspx/getChartDataSource",
+                    data: JSON.stringify(DTO),
+                    datatype: "json",
+                    success: function (result) {
+                        //do something
+                        //alert("SUCCESS = " + result.d);
+                        //console.log(result);
+                        //window.location.href = window.location.href;
+                        respo = JSON.parse(result.d);
+                        fillChart(containerName, respo);
                     },
-                }
+                    error: function (xmlhttprequest, textstatus, errorthrown) {
+                        //alert(" conection to the server failed ");
+                        alert("error: " + errorthrown);
+                    }
+                });
+                //end of $.ajax()
+                return respo;
+            }
 
-                var dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
+            function fillChart(chartIdentifier, chartDataSourceSrv) {
+
+                //alert($(chartIdentifier).length);
+                if ($(chartIdentifier).length != 0) {
+
+                    dataDailySalesChart = {
+                        labels: chartDataSourceSrv.labels ,
+                        series: [
+                            chartDataSourceSrv.series
+                        ]
+                    };
+                    chartOption = {
+                        lineSmooth: Chartist.Interpolation.cardinal({
+                            tension: 0
+                        }),
+                        low: chartDataSourceSrv.minVal,
+                        high: chartDataSourceSrv.maxVal, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+                        chartPadding: {
+                            top: 0,
+                            right: 0,
+                            bottom: 0,
+                            left: 0
+                        },
+                    }
+
+                    console.log(dataDailySalesChart);
+                    var dailySalesChart = new Chartist.Line(chartIdentifier, dataDailySalesChart, chartOption);
+                }
             }
         })
     </script>
