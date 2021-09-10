@@ -15,7 +15,7 @@ namespace WebBalanceTracker
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.Title = "קטגוריות";
+            this.XTitle = "קטגוריות";
             Groups = Db.GetData<BudgetGroup>(new SearchParameters { }).ToDictionary(x => x.Id, x => x.Name);
             foreach (var item in Groups)
             {

@@ -46,5 +46,19 @@ namespace WebBalanceTracker
                 (this.Master as SiteMaster) .hideBudgetNavigator = value;
             }
         }
+
+        string xt;
+        public virtual string XTitle
+        {
+            get
+            {
+                return xt;
+            }
+            set
+            {
+                xt = value;
+                (this.Master as SiteMaster).xTitle = value;
+            }
+        }
     }
 }

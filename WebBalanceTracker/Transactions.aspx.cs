@@ -15,7 +15,7 @@ namespace WebBalanceTracker
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Title = "תנועות אחרונות";
+            XTitle = "תנועות אחרונות";
         }
         
 

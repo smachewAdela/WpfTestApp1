@@ -11,7 +11,7 @@ namespace WebBalanceTracker
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.Title = "הגדרת תקציב";
+            this.XTitle = "הגדרת תקציב";
         }
     }
 }

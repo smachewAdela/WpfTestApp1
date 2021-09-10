@@ -16,7 +16,7 @@ namespace WebBalanceTracker
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.Title = "דף הבית";
+            this.XTitle = "דף הבית";
             this.HideBudgetNavigator = true;
         }
 

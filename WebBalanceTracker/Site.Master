@@ -6,7 +6,7 @@
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - מעקב תקציב אדלה</title>
+    <title><%= xTitle %></title>
 
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
@@ -168,6 +168,7 @@
     <script src="./assets/js/plugins/bootstrap-notify.js"></script>
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="./assets/js/material-dashboard.js?v=2.1.0"></script>
+
 
     <script>
         $(document).ready(function () {
@@ -334,8 +335,48 @@
             });
 
             // Javascript method's body can be found in assets/js/demos.js
-            md.initDashboardPageCharts();
+            //console.log('this is pre md.initDashboardPageCharts');
+            //console.log(md);
+
+            //md.initDashboardPageCharts();
+
+
         });
+    </script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+
+
+
+            if ($('#dailySalesChart').length != 0) {
+                /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
+
+                dataDailySalesChart = {
+                    labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+                    series: [
+                        [12, 17, 7, 17, 23, 18, 38]
+                    ]
+                };
+
+                optionsDailySalesChart = {
+                    lineSmooth: Chartist.Interpolation.cardinal({
+                        tension: 0
+                    }),
+                    low: 0,
+                    high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+                    chartPadding: {
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: 0
+                    },
+                }
+
+                var dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
+            }
+        })
     </script>
 
     <script>

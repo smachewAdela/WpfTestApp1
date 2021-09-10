@@ -14,7 +14,7 @@ namespace WebBalanceTracker
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.Title = "דוח מצב";
+            this.XTitle = "דוח מצב";
         }
 
         public DataTable BudgetGroups
