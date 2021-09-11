@@ -5,7 +5,7 @@
     <div class="row px-3 py-3">
 
 
-        <div class="col-6">
+        <div class="col-sm-6 col-lg-12">
             <div class="card card-chart">
                 <div class="card-header card-header-success">
                     <div class="ct-chart xchart" id="crt1" xChartSource="6MonthsDiff"></div>
@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <div class="col-6 rtl">
+        <div class="col-sm-6 col-lg-12 rtl">
             <div class="card">
                 <div class="card-header card-header-icon card-header-rose">
                     <div class="card-icon">
