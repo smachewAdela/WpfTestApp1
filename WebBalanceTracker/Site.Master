@@ -19,6 +19,8 @@
 
     <!-- Material Kit CSS -->
     <link href="assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
+
+    <link href="assets/demo/demo.css" rel="stylesheet" />
     <style type="text/css">
         .bg-darker {
             background-color: black;
@@ -35,7 +37,7 @@
     </style>
 
 </head>
-    <%--<body class="dark-edition">--%>
+<%--<body class="dark-edition">--%>
 <body class="bg-fade py-3">
     <form runat="server">
         <asp:ScriptManager runat="server">
@@ -124,7 +126,6 @@
                 <nav class="navbar navbar-expand-lg navbar-transparent nav-link navbar-absolute fixed-top">
                     <div class="container-fluid ml-0">
                         <div class="navbar-wrapper">
-                           
                         </div>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="sr-only">Toggle navigation</span>
@@ -150,7 +151,7 @@
                                 </button>
                             </div>
                             <div class="w-50 text-center">
-                                <div class="h2 text-capitalize text-white  font-weight-bold"> <%= string.Format(" {0} - {1}", global_asax.CurrentTitle, xTitle) %></div>
+                                <div class="h2 text-capitalize text-white  font-weight-bold"><%= string.Format(" {0} - {1}", global_asax.CurrentTitle, xTitle) %></div>
                             </div>
                             <div class="w-25">
                                 <button class="h-100 border-0 text-danger bg-transparent  w-100 border-0" onclick="updates('next'); return false;">
@@ -366,6 +367,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function (event) {
 
+            
             $(".xchart").each(function () {
                 var xcD = $(this).attr('xChartSource');
                 var chartId = $(this).attr('id');
@@ -412,7 +414,7 @@
                 if ($(chartIdentifier).length != 0) {
 
                     dataDailySalesChart = {
-                        labels: chartDataSourceSrv.labels ,
+                        labels: chartDataSourceSrv.labels,
                         series: [
                             chartDataSourceSrv.series
                         ]
@@ -435,6 +437,8 @@
                     var dailySalesChart = new Chartist.Line(chartIdentifier, dataDailySalesChart, chartOption);
                 }
             }
+
+
         })
     </script>
 
@@ -465,5 +469,30 @@
         }
     </script>
 
+    <script>
+        function showNotification(message, type) {
+
+            //'bottom', 'center'
+            //type = ['', 'info', 'danger', 'success', 'warning', 'primary'];
+            var iconsDic = {};
+            iconsDic['info'] = 'info';
+            iconsDic['danger'] = 'error';
+            iconsDic['success'] = 'check';
+            iconsDic['warning'] = 'warning';
+
+            $.notify({
+                icon: iconsDic[type],
+                message: message
+
+            }, {
+                type: type,
+                timer: 200,
+                placement: {
+                    from: 'bottom',
+                    align: 'center'
+                }
+            });
+        }
+    </script>
 </body>
 </html>

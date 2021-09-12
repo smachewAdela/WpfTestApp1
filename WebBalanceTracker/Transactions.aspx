@@ -69,9 +69,11 @@
                             <td><% =string.Format("{0:n0}",catData.CategoryName) %></td>
                             <td><% =string.Format("{0:n0}",catData.BudgetAmount) %></td>
                             <td class="text-info"><% =catData.Ratio %>%</td>
-                            <td><% =string.Format("{0:n0}",catData.StatusAmount) %></td>
+                            <td id="dspStat<% =catData.Id %>">
+                                <% =string.Format("{0:n0}",catData.StatusAmount) %>
+                            </td>
                             <td class="w-25">
-                                <input type="text" class="form-control w-50 h-100 align-bottom text-center" placeholder="" id="edtTran<% =catData.Id %>"></td>
+                                <input type="text" class="form-control w-50 h-100 align-bottom text-center text-white" placeholder="" id="edtTran<% =catData.Id %>"></td>
                             <td>
                                 <button id="btnclk" onclick="addTransaction('<% =catData.Id %>','edtTran<% =catData.Id %>'); return false;"
                                     class="h-100 border-0 text-info bg-transparent">
@@ -96,8 +98,12 @@
 
             var amountToAdd = $('#' + ctrlName).val();
             //alert(catId);
-            //alert(amounytToAdd);
+            //alert(amountToAdd);
+            var statusFieldSelector = '#dspStat' + catId;
 
+            var currentStatus = $(statusFieldSelector).text();
+            var newStatusAmount = Number(currentStatus) + Number(amountToAdd);
+            alert(newStatusAmount);
             var mobj = {
                 amountToAdd: amountToAdd,
                 budgetItemId: catId
@@ -112,8 +118,9 @@
                 success: function (result) {
                     //do something
                     $('#' + ctrlName).val('')
+                    $(statusFieldSelector).text(newStatusAmount);
                     console.log(result);
-                    location.reload();
+                    showNotification('פעולה בוצעה בהצלחה !', 'success')
                 },
                 error: function (xmlhttprequest, textstatus, errorthrown) {
                     //alert(" conection to the server failed ");
@@ -126,7 +133,7 @@
             var checkPointDescription = $('#' + ctrlName).val();
             //alert(newcp);
 
-               var mobj = {
+            var mobj = {
                 checkPointDescription: checkPointDescription,
                 checkPointId: checkPointId
             };
@@ -139,9 +146,9 @@
                 datatype: "json",
                 success: function (result) {
                     //do something
-                    $('#' + ctrlName).val('')
+
                     console.log(result);
-                    location.reload();
+                    showNotification('פעולה בוצעה בהצלחה !', 'success')
                 },
                 error: function (xmlhttprequest, textstatus, errorthrown) {
                     //alert(" conection to the server failed ");

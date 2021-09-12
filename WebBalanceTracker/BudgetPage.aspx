@@ -77,7 +77,7 @@
                     //do something
                     //$('#' + ctrlName).val('')
                     console.log(result);
-                    location.reload();
+                  showNotification('פעולה בוצעה בהצלחה !', 'success')
                 },
                 error: function (xmlhttprequest, textstatus, errorthrown) {
                     //alert(" conection to the server failed ");

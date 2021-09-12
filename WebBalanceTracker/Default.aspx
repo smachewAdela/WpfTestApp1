@@ -8,7 +8,7 @@
         <div class="col-sm-6 col-lg-12">
             <div class="card card-chart">
                 <div class="card-header card-header-success">
-                    <div class="ct-chart xchart" id="crt1" xChartSource="6MonthsDiff"></div>
+                    <div class="ct-chart xchart" id="crt1" xchartsource="6MonthsDiff"></div>
                 </div>
                 <div class="card-body">
                     <h4 class="card-title">מאזן בסוף חודש</h4>
@@ -58,7 +58,10 @@
         </div>
     </div>
 
-<%--    <div class="xchart"  xChartSource="smach" id="crt1"> </div>
-    <div class="xchart"  xChartSource="noa" id="crt2"> </div>--%>
 
+    <div class="col-md-4">
+        <button class="btn btn-primary btn-block" onclick="md.showNotification('bottom','center') ">Bottom Center</button>
+    </div>
+    <%--    <div class="xchart"  xChartSource="smach" id="crt1"> </div>
+    <div class="xchart"  xChartSource="noa" id="crt2"> </div>--%>
 </asp:Content>

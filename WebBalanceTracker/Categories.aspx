@@ -142,7 +142,8 @@
                     //do something
                     //alert("SUCCESS = " + result.d);
                     console.log(result);
-                    window.location.href =  window.location.href;
+                    $('#myModal').modal('hide');
+                   showNotification('פעולה בוצעה בהצלחה !', 'success')
                 },
                 error: function (xmlhttprequest, textstatus, errorthrown) {
                     //alert(" conection to the server failed ");
