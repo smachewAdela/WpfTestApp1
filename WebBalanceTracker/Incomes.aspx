@@ -25,7 +25,7 @@
                             <td>
                                 <% =BudgetGroup[2] %>
                             </td>
-                            <td>
+                            <td id="dspStat<% =BudgetGroup[0] %>">
                                 <% =BudgetGroup[3] %>
                             </td>
                             <td class="w-25">
@@ -38,7 +38,7 @@
                             </td>
 
                             <td>
-                                   <% if (BudgetGroup[4] == "0")
+                                <% if (BudgetGroup[4] == "0")
                                     { %>
                                 <button id="btnclk" onclick="updateIncome('<% =BudgetGroup[0] %>','<% =BudgetGroup[1] %>','<% =BudgetGroup[2] %>','<% =BudgetGroup[3] %>'); return false;"
                                     class="h-100 border-0 text-info bg-transparent">
@@ -86,6 +86,9 @@
 
             var ctrlName = 'edtIncome' + id;
             var amounytToAdd = $('#' + ctrlName).val();
+            var statusFieldSelector = '#dspStat' + id;
+            var currentStatus = $(statusFieldSelector).text();
+            var newStatusAmount = Number(currentStatus) + Number(amounytToAdd);
 
             var mobj = {
                 amountToAdd: amounytToAdd,
@@ -103,7 +106,8 @@
                     //do something
                     $('#' + ctrlName).val('')
                     console.log(result);
-                        showNotification('פעולה בוצעה בהצלחה !', 'success')
+                    $(statusFieldSelector).text(newStatusAmount);
+                    showNotification('פעולה בוצעה בהצלחה !', 'success')
                 },
                 error: function (xmlhttprequest, textstatus, errorthrown) {
                     //alert(" conection to the server failed ");
