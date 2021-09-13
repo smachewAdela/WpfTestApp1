@@ -23,6 +23,8 @@
                     <tbody>
                         <% foreach (WebBalanceTracker.CheckPointData cPoint in CheckPoints)
                             { %>
+
+
                         <tr class="text-white h4">
                             <td class="w-25"><% =string.Format("{0:n0}",cPoint.Name) %></td>
                             <td class="w-50">
@@ -34,8 +36,10 @@
                                     <i class="material-icons">update</i>
                                 </button>
                             </td>
-                            <% } %>
+
                         </tr>
+
+                        <% } %>
                     </tbody>
                 </table>
             </div>
