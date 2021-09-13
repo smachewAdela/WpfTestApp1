@@ -1,56 +1,67 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="BudgetPage.aspx.cs" Inherits="WebBalanceTracker.BudgetPage" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    
+
+
     <div class="row px-3">
-        <%-- <div class="col-4">
-            <asp:Button ID="btnDownloadFile" runat="server" CssClass="btn w-100 h-100" Text="הורד קובץ" OnClick="btnDownloadFile_Click" />
+        <div class="col-1"></div>
+        <div class="col-10">
+            <span class="material-icons-outlined"><i class="material-icons text-info">arrow_drop_down</i>
+            </span>
+            <select id="groupSelector" class="w-100 h3 py-1 bg-transparent text-center border-0 text-white">
+                <option value="">בחר קבוצה...</option>
+                <% foreach (WebBalanceTracker.GroupData budgetGroup in BudgetGroups)
+                    { %>
+                <option value="<% =budgetGroup.Id %>" class="bg-transparent text-center text-white w-100"><% =budgetGroup.GroupName %></option>
+                <% } %>
+            </select>
         </div>
+        <div class="col-1"></div>
 
-        <div class="col-4">
-        </div>
 
-        <div class="col-4">
-            <asp:Button ID="btnUploadFile" runat="server" CssClass="btn w-100 h-100" Text="טען קובץ" OnClick="btnUploadFile_Click" />
-        </div>--%>
 
         <% foreach (WebBalanceTracker.GroupData budgetGroup in BudgetGroups)
             { %>
-        <div class="col-12 text-center text-info py-2 h3 bg-darker">
-            <% =budgetGroup.GroupName %>
+
+        <div class="col-12 groupData" groupdata="<% =budgetGroup.Id %>">
+            <div class="text-center text-info py-2 h3 bg-darker">
+                <% =budgetGroup.GroupName %>
+            </div>
+
+            <div class="col-12">
+                <table class="text-center table bg-secondary my-2" id="tbl" dir="rtl">
+                    <thead>
+                        <tr class=" text-gray bg-dark custom-text">
+                            <th>קטגוריה</th>
+                            <th>אחוז השלמה</th>
+                            <th>תקציב</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <% foreach (WebBalanceTracker.BudgetData catData in budgetGroup.BudgetGroups)
+                            { %>
+                        <tr class="text-white h4">
+                            <td><% =string.Format("{0:n0}",catData.CategoryName) %></td>
+                            <td class="text-info"><% =catData.Ratio %>%</td>
+                            <td class="w-25">
+                                <input type="text" class="form-control w-50 h-100 align-bottom text-center text-white" placeholder="" id="edtTran<% =catData.Id %>" value="<% =catData.BudgetAmount %>"></td>
+                            <td>
+                                <button id="btnclk" onclick="updateBudget('<% =catData.Id %>','edtTran<% =catData.Id %>'); return false;"
+                                    class="h-100 border-0 text-info bg-transparent">
+                                    <i class="material-icons">add</i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <div class="col-12">
-            <table class="text-center table bg-secondary my-2" id="tbl" dir="rtl">
-                <thead>
-                    <tr class=" text-gray bg-dark custom-text">
-                        <th>קטגוריה</th>
-                        <th>תקציב</th>
-                        <th>אחוז השלמה</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <% foreach (WebBalanceTracker.BudgetData catData in budgetGroup.BudgetGroups)
-                        { %>
-                    <tr class="text-white h4">
-                        <td><% =string.Format("{0:n0}",catData.CategoryName) %></td>
-                        <td class="text-info"><% =catData.Ratio %>%</td>
-                        <td class="w-25">
-                            <input type="text" class="form-control w-50 h-100 align-bottom text-center text-white" placeholder="" id="edtTran<% =catData.Id %>" value="<% =catData.BudgetAmount %>"></td>
-                        <td>
-                            <button id="btnclk" onclick="updateBudget('<% =catData.Id %>','edtTran<% =catData.Id %>'); return false;"
-                                class="h-100 border-0 text-info bg-transparent">
-                                <i class="material-icons">add</i>
-                            </button>
-                        </td>
-                    </tr>
-
-                    <% } %>
-                </tbody>
-            </table>
-        </div>
         <% } %>
     </div>
 
@@ -62,7 +73,7 @@
             //alert(catId);
             //alert(newBudgetAmount);
 
-              var mobj = {
+            var mobj = {
                 newBudgetAmount: newBudgetAmount,
                 budgetItemId: catId
             };
@@ -77,7 +88,7 @@
                     //do something
                     //$('#' + ctrlName).val('')
                     console.log(result);
-                  showNotification('פעולה בוצעה בהצלחה !', 'success')
+                    showNotification('פעולה בוצעה בהצלחה !', 'success')
                 },
                 error: function (xmlhttprequest, textstatus, errorthrown) {
                     //alert(" conection to the server failed ");
@@ -87,5 +98,21 @@
         }
     </script>
 
+    <script>
+        $("#groupSelector").change(function () {
+            var selectedGroupId = this.value;
+            $(".groupData").each(function () {
+                var gid = $(this).attr('groupData');
+                var visible = gid == selectedGroupId;
+                if (visible) {
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+
+            });
+        });
+    </script>
 
 </asp:Content>
