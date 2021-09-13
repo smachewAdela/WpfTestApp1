@@ -92,9 +92,11 @@ namespace WebBalanceTracker
         public GroupData(BudgetGroup g)
         {
             this.GroupName = g.Name;
+            this.Id = g.Id;
             BudgetGroups = g.BudgetItems.Where(x => x.Active).Select(x => new BudgetData(x)).ToList();
         }
 
+        public int Id { get; set; }
         public string GroupName { get; set; }
         public List<BudgetData> BudgetGroups { get; set; }
     }
