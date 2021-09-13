@@ -85,10 +85,17 @@
         function updateIncome(id, budgetId, name, amount) {
 
             var ctrlName = 'edtIncome' + id;
-            var amounytToAdd = $('#' + ctrlName).val();
+            var amounytToAdd = $('#' + ctrlName).val().replace(',', '');;
             var statusFieldSelector = '#dspStat' + id;
             var currentStatus = $(statusFieldSelector).text();
             var newStatusAmount = Number(currentStatus) + Number(amounytToAdd);
+
+
+            var totalStatusSelector = '#dspStat0';
+            var currentTotalStatus = $(totalStatusSelector).text().replace(',', '');
+            var newTotalStatusAmount = Number(currentTotalStatus) + Number(amounytToAdd);
+
+            
 
             var mobj = {
                 amountToAdd: amounytToAdd,
@@ -106,7 +113,9 @@
                     //do something
                     $('#' + ctrlName).val('')
                     console.log(result);
-                    $(statusFieldSelector).text(newStatusAmount);
+                    $(statusFieldSelector).text(newStatusAmount.toLocaleString());
+
+                    $(totalStatusSelector).text(newTotalStatusAmount.toLocaleString());
                     showNotification('פעולה בוצעה בהצלחה !', 'success')
                 },
                 error: function (xmlhttprequest, textstatus, errorthrown) {

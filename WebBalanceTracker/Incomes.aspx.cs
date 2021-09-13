@@ -40,7 +40,7 @@ namespace WebBalanceTracker
                 }
 
                 var totalRow = tbl.NewRow();
-                totalRow[0] = null;
+                totalRow[0] = "0";
                 totalRow[1] = currentBudget.Id;
                 totalRow[2] = currentBudget.Title;
                 totalRow[3] = items.Sum(x => x.Amount).ToNumberFormat();
