@@ -116,6 +116,19 @@
                                 <p>דוחות</p>
                             </a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:;" role="button" aria-haspopup="true" aria-expanded="false">
+                                  <i class="material-icons">tune</i>
+                                <p>מערכת</p>
+                            </a>
+                            <div class="dropdown-menu bg-darker" style="opacity:0.99">
+                                <a class="dropdown-item" href="Abstract Categories.aspx">קטגוריות ברירת מחדל</a>
+                                <a class="dropdown-item" href="AutoTransactions.aspx">תנועות קבועות </a>
+                                <a class="dropdown-item" href="BudgetGroups.aspx">קבוצות</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="LogPage.aspx">יומן מערכת</a>
+                            </div>
+                        </li>
                         <!-- your sidebar here -->
                     </ul>
                 </div>
@@ -367,7 +380,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function (event) {
 
-            
+
             $(".xchart").each(function () {
                 var xcD = $(this).attr('xChartSource');
                 var chartId = $(this).attr('id');
