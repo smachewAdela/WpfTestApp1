@@ -151,7 +151,7 @@
                                 </button>
                             </div>
                             <div class="w-50 text-center">
-                                <div class="h2 text-capitalize text-white  font-weight-bold"><%= string.Format(" {0} - {1}", global_asax.CurrentTitle, xTitle) %></div>
+                                <div class="h2 text-capitalize text-white  font-weight-bold"><%= string.Format(" {0} - {1}", global_asax.CurrentTitle, MyXTitle) %></div>
                             </div>
                             <div class="w-25">
                                 <button class="h-100 border-0 text-danger bg-transparent  w-100 border-0" onclick="updates('next'); return false;">

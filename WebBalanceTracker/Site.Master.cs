@@ -16,5 +16,18 @@ namespace WebBalanceTracker
 
         public bool hideBudgetNavigator { get; set; }
         public string xTitle { get; set; }
+
+        public string MyXTitle
+        {
+            get
+            {
+                var res = xTitle;
+#if DEBUG
+                res = " [TEST TEST TEST] " + res;
+#endif
+                return res;
+                ;
+            }
+        }
     }
 }
