@@ -47,7 +47,7 @@ namespace WpfTestApp1.MVVM.ViewModel
             RefreshMonthCommand = new RelayCommand(o =>
             {
                 int dir = Convert.ToInt32(o);
-                GlobalsProviderBL.ProgressMonth(dir);
+                GlobalsProviderBL.ProgressMonthSelection(dir);
                 CurrentView = _currentView;
                 ((IRefreshAble)CurrentView).Refresh();
             });

@@ -120,6 +120,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MVVM\Model\AbstractAutoTransaction.cs" />
+    <Compile Include="MVVM\Model\AbstractCategory.cs" />
+    <Compile Include="MVVM\Model\Automation\AutomationHelper.cs" />
     <Compile Include="MVVM\Model\BaseDbItem.cs" />
     <Compile Include="MVVM\Model\Budget.cs" />
     <Compile Include="MVVM\Model\BudgetGroup.cs" />

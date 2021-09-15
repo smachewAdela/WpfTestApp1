@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfTestApp1.MVVM.Model.Automation;
 
 namespace WpfTestApp1
 {
@@ -85,7 +86,8 @@ namespace WpfTestApp1
 
         private void btnIncrement_Click(object sender, RoutedEventArgs e)
         {
-            GlobalsProviderBL.GenerateNextMonth();
+            var latestBudget = GlobalsProviderBL.Db.GetData<Budget>().OrderByDescending(x => x.Month).First();
+            AutomationHelper.GenerateBudget(GlobalsProviderBL.Db, latestBudget);
             RefreshView();
         }
     }

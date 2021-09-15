@@ -49,7 +49,7 @@ namespace WpfTestApp1.MVVM.ViewModel
         private void RefreshView(object o)
         {
             int dir = Convert.ToInt32(o);
-            GlobalsProviderBL.ProgressMonth(dir);
+            GlobalsProviderBL.ProgressMonthSelection(dir);
             LoadData();
         }
 

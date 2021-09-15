@@ -67,7 +67,7 @@ namespace WebBalanceTracker
             if (req.direction == "prev")
                 dir = -1;
 
-            Global.ProgressMonth(dir);
+            Global.ProgressMonthSelection(dir);
             //HttpContext.Current.Response.Redirect(req.source.ToString());
             return "Posted";
         }
