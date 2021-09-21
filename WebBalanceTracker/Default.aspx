@@ -59,9 +59,7 @@
     </div>
 
 
-    <div class="col-md-4">
-        <button class="btn btn-primary btn-block" onclick="md.showNotification('bottom','center') ">Bottom Center</button>
-    </div>
+    
     <%--    <div class="xchart"  xChartSource="smach" id="crt1"> </div>
     <div class="xchart"  xChartSource="noa" id="crt2"> </div>--%>
 </asp:Content>

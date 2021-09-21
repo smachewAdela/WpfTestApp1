@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfTestApp1.MVVM.Model
+namespace QBalanceDesktop
 {
     /// <summary>
     /// template for category 
@@ -24,5 +24,8 @@ namespace WpfTestApp1.MVVM.Model
 
         [DbField()]
         public int DayInMonth { get; set; }
+
+        [DbField()]
+        public bool Active { get; set; }
     }
 }
