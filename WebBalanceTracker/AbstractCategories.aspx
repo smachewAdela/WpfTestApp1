@@ -144,7 +144,8 @@
                     //alert("SUCCESS = " + result.d);
                     console.log(result);
                     $('#myModal').modal('hide');
-                   showNotification('פעולה בוצעה בהצלחה !', 'success')
+                    showNotification('פעולה בוצעה בהצלחה !', 'success');
+                       window.location.reload();
                 },
                 error: function (xmlhttprequest, textstatus, errorthrown) {
                     //alert(" conection to the server failed ");

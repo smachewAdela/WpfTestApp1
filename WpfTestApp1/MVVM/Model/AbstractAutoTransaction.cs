@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace WpfTestApp1.MVVM.Model
 {
     [DbEntity("AbstractAutoTransactions")]
-    public class AbstractAutoTransaction
+    public class AbstractAutoTransaction : BaseDbItem
     {
         [DbField()]
         public string Name { get; set; }
@@ -21,5 +21,14 @@ namespace WpfTestApp1.MVVM.Model
 
         [DbField()]
         public int BudgetId { get; set; }
+
+        [DbField()]
+        public int DayOfTheMonth { get; set; }
+
+        [DbField()]
+        public string  LastPaymentDate { get; set; }
+
+        [DbField()]
+        public bool Active { get; set; }
     }
 }
