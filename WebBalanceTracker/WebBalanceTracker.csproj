@@ -108,6 +108,7 @@
     <Content Include="About.aspx" />
     <Content Include="AbstractCategories.aspx" />
     <Content Include="AutoTransactions.aspx" />
+    <Content Include="BudgetGroups.aspx" />
     <Content Include="BudgetPage.aspx" />
     <Content Include="Categories.aspx" />
     <Content Include="Contact.aspx" />
@@ -194,6 +195,13 @@
     </Compile>
     <Compile Include="BaseForm.cs">
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BudgetGroups.aspx.cs">
+      <DependentUpon>BudgetGroups.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BudgetGroups.aspx.designer.cs">
+      <DependentUpon>BudgetGroups.aspx</DependentUpon>
     </Compile>
     <Compile Include="BudgetPage.aspx.cs">
       <DependentUpon>BudgetPage.aspx</DependentUpon>
