@@ -53,6 +53,12 @@ namespace WpfTestApp1.MVVM.Model.Automation
                 db.Insert(nBudgetItem);
             }
 
+            IMessage message = IMessage.Genertae(IMessageTypeEnum.Info);
+            message.Title = "Budget Progressed";
+            message.Message = progressFrom.Title;
+            message.ExtraData = nextBudget.Title;
+            db.Insert(message);
+
             return db.GetSingle<Budget>(new SearchParameters { BudgetDate = nextBudget.Month }); ;
         }
 
@@ -73,6 +79,12 @@ namespace WpfTestApp1.MVVM.Model.Automation
                         autoTran.BudgetId = budgetToHandle.Id;
                         autoTran.LastPaymentDate = budgetToHandle.Title;
                         db.Update(autoTran);
+
+                        IMessage message = IMessage.Genertae( IMessageTypeEnum.Info);
+                        message.Title = "Auto Transaction Applied";
+                        message.Message = autoTran.Name;
+                        message.ExtraData = autoTran.DefaultAmount.ToNumberFormat();
+                        db.Insert(message);
                     }
                 }
             }

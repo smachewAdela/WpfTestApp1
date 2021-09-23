@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace WpfTestApp1.MVVM.Model
 {
     [DbEntity("AbstractAutoTransactions")]
-    public class AbstractAutoTransaction : BaseDbItem
+    public class AbstractAutoTransaction : BaseDbItem 
     {
         [DbField()]
         public string Name { get; set; }

@@ -243,6 +243,7 @@
     <Compile Include="Incomes.aspx.designer.cs">
       <DependentUpon>Incomes.aspx</DependentUpon>
     </Compile>
+    <Compile Include="MessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportHandler.cs" />
     <Compile Include="Reports.aspx.cs">

@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Threading;
 using System.Web;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
+using WpfTestApp1.MVVM.Model;
 using WpfTestApp1.MVVM.Model.Automation;
 
 namespace WebBalanceTracker
@@ -23,15 +25,23 @@ namespace WebBalanceTracker
 
 #if DEBUG
 #else
-            var subject = "WebBalanceTracker Started !";
-            EmailHelper.SendMail(subject, string.Empty);
-# endif
+            WpfTestApp1.MVVM.Model.IMessage message = WpfTestApp1.MVVM.Model.IMessage.Genertae(IMessageTypeEnum.Info);
+            message.Title = "WebBalanceTracker Started !";
+            message.SendMail = true;
+            Db.Insert(message);
+#endif
         }
 
         protected void Session_Start(object sender, EventArgs e)
         {
             // Code that runs when a new session is started
 
+            Thread automationThread = new Thread(HandleAutomaticjobs);
+            automationThread.Start();
+        }
+
+        private void HandleAutomaticjobs()
+        {
             // budgets
             var newestBudget = Db.GetData<Budget>().OrderByDescending(x => x.Month).First();
             var targetDate = DateTime.Now.FirstDayOfMonth();
