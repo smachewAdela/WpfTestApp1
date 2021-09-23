@@ -36,7 +36,7 @@ namespace WebBalanceTracker
                     rw[1] = g.BudgetStr;
                     rw[2] = g.StatusStr;
                     rw[3] = $"{g.Ratio}%";
-                    rw[4] = "0";
+                    rw[4] = g.IsOverSpent ? "1" : "0";
                     tbl.Rows.Add(rw);
                 }
                 var totalRow = tbl.NewRow();
@@ -47,13 +47,12 @@ namespace WebBalanceTracker
                     IsTotal = true
                 };
 
-                totalRow[0] = total.Name;
-                totalRow[1] = total.BudgetStr;
-                totalRow[2] = total.StatusStr;
-                totalRow[3] = $"{total.Ratio}%";
-                totalRow[4] = "1";
-                tbl.Rows.Add(totalRow);
-                //gGroups.Add(total);
+                //totalRow[0] = total.Name;
+                //totalRow[1] = total.BudgetStr;
+                //totalRow[2] = total.StatusStr;
+                //totalRow[3] = $"{total.Ratio}%";
+                //totalRow[4] = "1";
+                //tbl.Rows.Add(totalRow);
 
                 return tbl;
             }

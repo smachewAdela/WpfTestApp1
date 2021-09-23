@@ -12,13 +12,13 @@
                     <div class="card-icon">
                         <i class="material-icons">payments</i>
                     </div>
-                    <p class="card-category"> <% =BudgetGroup[0] %></p>
+                    <p class="card-category "> <% =BudgetGroup[0] %></p>
                     <h3 class="card-title text-info"> <% =BudgetGroup[2] %>/ <% =BudgetGroup[1] %>
                     </h3>
                 </div>
-                <div class="card-footer">
-                    <div class="stats">
-                        <i class="material-icons text-warning">timeline</i>
+                <div class="card-footer ">
+                    <div class="stats <% =BudgetGroup[4] == "1" ? "text-danger" : "text-info" %>">
+                        <i class="material-icons ">timeline</i>
                          <% =BudgetGroup[3] %>
                     </div>
                 </div>
