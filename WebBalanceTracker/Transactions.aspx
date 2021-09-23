@@ -12,7 +12,7 @@
                 <option value="">בחר קבוצה...</option>
                 <% foreach (WebBalanceTracker.GroupData budgetGroup in BudgetGroups)
                     { %>
-                <option value="<% =budgetGroup.Id %>" class="bg-transparent text-center text-white w-100"><% =budgetGroup.GroupName %></option>
+                <option value="<% =budgetGroup.Id %>" class="bg-dark text-center text-white w-100"><% =budgetGroup.GroupName %></option>
                 <% } %>
             </select>
         </div>
