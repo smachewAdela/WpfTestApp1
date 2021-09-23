@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Web;
 
@@ -14,6 +15,14 @@ namespace WebBalanceTracker
             get
             {
                 return ConfigurationManager.AppSettings["mailFrom"];
+            }
+        }
+
+        private static string MailFromPass
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["mailFromPassword"];
             }
         }
 
@@ -33,20 +42,22 @@ namespace WebBalanceTracker
             }
         }
 
-        public static void SendMail(string subject, string body)
+        public static bool SendMail(string subject, string body)
         {
             try
             {
                 using (SmtpClient smtpClient = new SmtpClient())
                 using (MailMessage message = new MailMessage())
                 {
-                    //NetworkCredential basicCredential = new NetworkCredential(Username, Password, domain);
                     MailAddress fromAddress = new MailAddress(MailFrom);
 
                     // setup up the host, increase the timeout to 5 minutes
                     smtpClient.Host = SmtpServer;
-                    smtpClient.UseDefaultCredentials = true;
-                    //smtpClient.Credentials = basicCredential;
+                    smtpClient.Port = 587;
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.EnableSsl = true;
+                    smtpClient.Credentials = new NetworkCredential(MailFrom,MailFromPass);
+                    
                     smtpClient.Timeout = 300000;
 
                     message.From = fromAddress;
@@ -62,12 +73,15 @@ namespace WebBalanceTracker
                         }
                     }
                     smtpClient.Send(message);
+                    return true;
                 }
             }
             catch (Exception e)
             {
-
+                var m = e.Message;
             }
+
+            return false;
         }
     }
 

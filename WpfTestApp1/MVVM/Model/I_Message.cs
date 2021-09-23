@@ -15,7 +15,7 @@ namespace WpfTestApp1.MVVM.Model
     }
 
     [DbEntity("SystemMessages")]
-    public class IMessage : BaseDbItem
+    public class I_Message : BaseDbItem
     {
         [DbField()]
         public string Title { get; set; }
@@ -43,9 +43,9 @@ namespace WpfTestApp1.MVVM.Model
         [DbField()]
         public bool SendMail { get;  set; }
 
-        public static IMessage Genertae(IMessageTypeEnum messageType)
+        public static I_Message Genertae(IMessageTypeEnum messageType)
         {
-            return new IMessage
+            return new I_Message
             {
                 MessageType = messageType,
                 Date = DateTime.Now

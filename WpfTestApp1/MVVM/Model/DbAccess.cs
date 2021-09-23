@@ -46,32 +46,13 @@ namespace QBalanceDesktop
         {
             List<string> param = new List<string>();
 
-            //if (parameters.CategoryGroupId.HasValue)
-            //{
-            //    param.Add("Id=@Id");
-            //    innerParams.Add(new DbParam("@Id", parameters.CategoryGroupId.Value));
-            //}
+            
             AddIdentityFilter(param, innerParams, parameters.CategoryGroupId);
-            if (!string.IsNullOrEmpty(parameters.TransID))
-            {
-                param.Add("TransID=@TransID");
-                innerParams.Add(new DbParam("@TransID", parameters.TransID));
-            }
-            if (!string.IsNullOrEmpty(parameters.CategoryCode))
-            {
-                param.Add("Code=@Code");
-                innerParams.Add(new DbParam("@Code", parameters.CategoryCode));
-            }
-            if (!string.IsNullOrEmpty(parameters.CategoryGroupName))
-            {
-                param.Add("Name=@Name");
-                innerParams.Add(new DbParam("@Name", parameters.CategoryGroupName));
-            }
-            if (parameters.BudgetCategoryMonthId.HasValue)
-            {
-                param.Add("MonthId=@MonthId");
-                innerParams.Add(new DbParam("@MonthId", parameters.BudgetCategoryMonthId.Value));
-            }
+            AddFilter(param, innerParams, parameters.TransID, "TransID");
+            AddFilter(param, innerParams, parameters.CategoryCode, "Code");
+            AddFilter(param, innerParams, parameters.CategoryGroupName, "Name");
+            AddFilter(param, innerParams, parameters.BudgetCategoryMonthId, "MonthId");
+
             if (parameters.TranFromDate.HasValue)
             {
                 param.Add("CreateDate>=@CreateDate");
@@ -82,71 +63,58 @@ namespace QBalanceDesktop
                 param.Add("CreateDate<@ToCreateDate");
                 innerParams.Add(new DbParam("@ToCreateDate", parameters.TranToDate.Value));
             }
-            if (parameters.BudgetDate.HasValue)
-            {
-                param.Add("Month=@Month");
-                innerParams.Add(new DbParam("@Month", parameters.BudgetDate.Value));
-            }
-            if (parameters.BudgetItemBudgetId.HasValue)
-            {
-                param.Add("BudgetId=@BudgetId");
-                innerParams.Add(new DbParam("@BudgetId", parameters.BudgetItemBudgetId.Value));
-            }
-            //if (parameters.BudgetIncomeId.HasValue)
-            //{
-            //    param.Add("Id=@Id");
-            //    innerParams.Add(new DbParam("@Id", parameters.BudgetIncomeId.Value));
-            //}
+           
+
+            AddFilter(param, innerParams, parameters.BudgetDate, "Month");
+            AddFilter(param, innerParams, parameters.BudgetItemBudgetId, "BudgetId");
             AddIdentityFilter(param, innerParams, parameters.BudgetIncomeId);
-            //if (parameters.BudgetItemId.HasValue)
-            //{
-            //    param.Add("Id=@Id");
-            //    innerParams.Add(new DbParam("@Id", parameters.BudgetItemId.Value));
-            //}
             AddIdentityFilter(param, innerParams, parameters.BudgetItemId);
-
-            //if (parameters.TransactionCheckPointId.HasValue)
-            //{
-            //    param.Add("Id=@Id");
-            //    innerParams.Add(new DbParam("@Id", parameters.TransactionCheckPointId.Value));
-            //}
             AddIdentityFilter(param, innerParams, parameters.TransactionCheckPointId);
-
-            //if (parameters.BudgetGroupId.HasValue)
-            //{
-            //    param.Add("Id=@Id");
-            //    innerParams.Add(new DbParam("@Id", parameters.BudgetGroupId.Value));
-            //}
             AddIdentityFilter(param, innerParams, parameters.BudgetGroupId);
-
-            //if (parameters.AbstractAutoTransactionId.HasValue)
-            //{
-            //    param.Add("Id=@Id");
-            //    innerParams.Add(new DbParam("@Id", parameters.AbstractAutoTransactionId.Value));
-            //}
             AddIdentityFilter(param, innerParams, parameters.AbstractAutoTransactionId);
+            AddFilter(param, innerParams, parameters.BudgetItemGroupId, "GroupId");
+            AddFilter(param, innerParams, parameters.TransactionCheckPointBudgetId, "BudgetId");
+            AddFilter(param, innerParams, parameters.BudgetItemLogBudgetItemId, "BudgetItemId");
+            AddFilter(param, innerParams, parameters.BudgetItemAbstractCategoryId, "AbstractCategoryId");
+            AddFilter(param, innerParams, parameters.IMessageSendMail, "SendMail");
 
-            if (parameters.BudgetItemGroupId.HasValue)
-            {
-                param.Add("GroupId=@GroupId");
-                innerParams.Add(new DbParam("@GroupId", parameters.BudgetItemGroupId.Value));
-            }
-            if (parameters.TransactionCheckPointBudgetId.HasValue)
-            {
-                param.Add("BudgetId=@BudgetId");
-                innerParams.Add(new DbParam("@BudgetId", parameters.TransactionCheckPointBudgetId.Value));
-            }
-            if (parameters.BudgetItemLogBudgetItemId.HasValue)
-            {
-                param.Add("BudgetItemId=@BudgetItemId");
-                innerParams.Add(new DbParam("@BudgetItemId", parameters.BudgetItemLogBudgetItemId.Value));
-            }
-            if (parameters.BudgetItemAbstractCategoryId.HasValue)
-            {
-                param.Add("AbstractCategoryId=@AbstractCategoryId");
-                innerParams.Add(new DbParam("@AbstractCategoryId", parameters.BudgetItemAbstractCategoryId.Value));
-            }
             return param;
+        }
+
+        private void AddFilter(List<string> param, List<DbParam> innerParams, DateTime? parameter, string field)
+        {
+            if (parameter.HasValue)
+            {
+                param.Add($"{field}=@{field}");
+                innerParams.Add(new DbParam($"@{field}", parameter.Value));
+            }
+        }
+
+        private void AddFilter(List<string> param, List<DbParam> innerParams, string parameter, string field)
+        {
+            if (!string.IsNullOrEmpty(parameter))
+            {
+                param.Add($"{field}=@{field}");
+                innerParams.Add(new DbParam($"@{field}", parameter));
+            }
+        }
+
+        private void AddFilter(List<string> param, List<DbParam> innerParams, int? parameter, string field)
+        {
+            if (parameter.HasValue)
+            {
+                param.Add($"{field}=@{field}");
+                innerParams.Add(new DbParam($"@{field}", parameter.Value));
+            }
+        }
+
+        private void AddFilter(List<string> param, List<DbParam> innerParams, bool? parameter, string field)
+        {
+            if (parameter.HasValue)
+            {
+                param.Add($"{field}=@{field}");
+                innerParams.Add(new DbParam($"@{field}", parameter.Value ? 1 : 0));
+            }
         }
 
         private void AddIdentityFilter(List<string> param, List<DbParam> innerParams, int? parameter)

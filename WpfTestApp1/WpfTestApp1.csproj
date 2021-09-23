@@ -142,7 +142,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="MVVM\Model\IDbItem.cs" />
-    <Compile Include="MVVM\Model\IMessage.cs" />
+    <Compile Include="MVVM\Model\I_Message.cs" />
     <Compile Include="MVVM\Model\IRefreshAble.cs" />
     <Compile Include="MVVM\Model\ISettings.cs" />
     <Compile Include="MVVM\Model\ListItem.cs" />

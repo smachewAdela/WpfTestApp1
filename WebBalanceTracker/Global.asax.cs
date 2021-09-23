@@ -23,6 +23,10 @@ namespace WebBalanceTracker
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            var backgroundWorker = new BackgroundWorkerDispatcher();
+            backgroundWorker.Workers.Add(new MessagesWorker());
+            backgroundWorker.Start();
+
 #if DEBUG
 #else
             WpfTestApp1.MVVM.Model.IMessage message = WpfTestApp1.MVVM.Model.IMessage.Genertae(IMessageTypeEnum.Info);
