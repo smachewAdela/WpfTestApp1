@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -18,6 +19,21 @@ namespace WebBalanceTracker
             // Code that runs on application startup
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            var subject = "WebBalanceTracker error !";
+            EmailHelper.SendMail(subject, string.Empty);
+        }
+
+        protected void Application_Error(Object sender, EventArgs e)
+        {
+            Exception ex = Server.GetLastError();
+            if(ex is ThreadAbortException)
+                return;
+
+            var subject = "WebBalanceTracker error !";
+            var body = ex.Message;
+
+            EmailHelper.SendMail(subject, body);
         }
 
         static DbAccess budgetDb;
