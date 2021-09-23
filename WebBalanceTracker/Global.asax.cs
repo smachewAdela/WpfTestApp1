@@ -9,6 +9,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
+using WpfTestApp1.MVVM.Model.Automation;
 
 namespace WebBalanceTracker
 {
@@ -25,6 +26,32 @@ namespace WebBalanceTracker
             var subject = "WebBalanceTracker Started !";
             EmailHelper.SendMail(subject, string.Empty);
 # endif
+        }
+
+        protected void Session_Start(object sender, EventArgs e)
+        {
+            // Code that runs when a new session is started
+
+            // budgets
+            var newestBudget = Db.GetData<Budget>().OrderByDescending(x => x.Month).First();
+            var targetDate = DateTime.Now.FirstDayOfMonth();
+            var dateToProcess = newestBudget.Month.AddMonths(1);
+            while (dateToProcess.Month < targetDate.Month)
+            {
+                newestBudget = AutomationHelper.GenerateBudget(Db, newestBudget);
+                dateToProcess = newestBudget.Month.AddMonths(1);
+            }
+
+
+            // AutoTransactions
+            var date = DateTime.Now.FirstDayOfMonth();
+            var latestBudget = Db.GetSingle<Budget>(new SearchParameters { BudgetDate = date });
+            while (latestBudget == null)
+            {
+                date = date.AddMonths(-1);
+                latestBudget = Db.GetSingle<Budget>(new SearchParameters { BudgetDate = date });
+            }
+            AutomationHelper.HandleAutoTransactions(Db, latestBudget);
         }
 
         protected void Application_Error(Object sender, EventArgs e)

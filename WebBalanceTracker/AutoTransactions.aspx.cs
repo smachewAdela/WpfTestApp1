@@ -44,7 +44,7 @@ namespace WebBalanceTracker
                     rw[2] = g.DefaultAmount;
                     rw[3] = g.Active ? "פעיל" : "לא פעיל";
                     rw[4] = g.DayOfTheMonth;
-                    rw[5] = string.IsNullOrEmpty( g.LastPaymentDate) ? string.Empty : g.LastPaymentDate;
+                    rw[5] = string.IsNullOrEmpty(g.LastPaymentDate) ? string.Empty : g.LastPaymentDate;
                     rw[6] = g.Id;
                     rw[7] = g.AbstractCategoryId;
                     tbl.Rows.Add(rw);
@@ -59,15 +59,20 @@ namespace WebBalanceTracker
         {
             dynamic req = userdata.ToDynamicJObject();
             var lBudget = Global.GetLatestBudget();
-            var upsertC = new AbstractAutoTransaction
-            {
-                Name = req.name,
-                AbstractCategoryId = req.abstractCategoryId,
-                DefaultAmount = req.defaultAmount,
-                DayOfTheMonth = req.dayOfTheMonth,
-                Active = bool.Parse( req.active.ToString()),
-                Id = req.editedId
-            };
+
+            var upsertC = Db.GetSingle<AbstractAutoTransaction>(new SearchParameters { AbstractAutoTransactionId = req.editedId });
+
+            if (upsertC == null)
+                upsertC = new AbstractAutoTransaction
+                {
+                    Name = req.name,
+                    AbstractCategoryId = req.abstractCategoryId,
+                    DefaultAmount = req.defaultAmount,
+                    DayOfTheMonth = req.dayOfTheMonth,
+                    Active = bool.Parse(req.active.ToString()),
+                    Id = req.editedId
+                };
+
             if (req.editedId == 0)
                 Global.Db.Insert(upsertC);
             else

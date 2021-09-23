@@ -46,11 +46,12 @@ namespace QBalanceDesktop
         {
             List<string> param = new List<string>();
 
-            if (parameters.CategoryGroupId.HasValue)
-            {
-                param.Add("Id=@Id");
-                innerParams.Add(new DbParam("@Id", parameters.CategoryGroupId.Value));
-            }
+            //if (parameters.CategoryGroupId.HasValue)
+            //{
+            //    param.Add("Id=@Id");
+            //    innerParams.Add(new DbParam("@Id", parameters.CategoryGroupId.Value));
+            //}
+            AddIdentityFilter(param, innerParams, parameters.CategoryGroupId);
             if (!string.IsNullOrEmpty(parameters.TransID))
             {
                 param.Add("TransID=@TransID");
@@ -91,26 +92,40 @@ namespace QBalanceDesktop
                 param.Add("BudgetId=@BudgetId");
                 innerParams.Add(new DbParam("@BudgetId", parameters.BudgetItemBudgetId.Value));
             }
-            if (parameters.BudgetIncomeId.HasValue)
-            {
-                param.Add("Id=@Id");
-                innerParams.Add(new DbParam("@Id", parameters.BudgetIncomeId.Value));
-            }
-            if (parameters.BudgetItemId.HasValue)
-            {
-                param.Add("Id=@Id");
-                innerParams.Add(new DbParam("@Id", parameters.BudgetItemId.Value));
-            }
-            if (parameters.TransactionCheckPointId.HasValue)
-            {
-                param.Add("Id=@Id");
-                innerParams.Add(new DbParam("@Id", parameters.TransactionCheckPointId.Value));
-            }
-            if (parameters.BudgetGroupId.HasValue)
-            {
-                param.Add("Id=@Id");
-                innerParams.Add(new DbParam("@Id", parameters.BudgetGroupId.Value));
-            }
+            //if (parameters.BudgetIncomeId.HasValue)
+            //{
+            //    param.Add("Id=@Id");
+            //    innerParams.Add(new DbParam("@Id", parameters.BudgetIncomeId.Value));
+            //}
+            AddIdentityFilter(param, innerParams, parameters.BudgetIncomeId);
+            //if (parameters.BudgetItemId.HasValue)
+            //{
+            //    param.Add("Id=@Id");
+            //    innerParams.Add(new DbParam("@Id", parameters.BudgetItemId.Value));
+            //}
+            AddIdentityFilter(param, innerParams, parameters.BudgetItemId);
+
+            //if (parameters.TransactionCheckPointId.HasValue)
+            //{
+            //    param.Add("Id=@Id");
+            //    innerParams.Add(new DbParam("@Id", parameters.TransactionCheckPointId.Value));
+            //}
+            AddIdentityFilter(param, innerParams, parameters.TransactionCheckPointId);
+
+            //if (parameters.BudgetGroupId.HasValue)
+            //{
+            //    param.Add("Id=@Id");
+            //    innerParams.Add(new DbParam("@Id", parameters.BudgetGroupId.Value));
+            //}
+            AddIdentityFilter(param, innerParams, parameters.BudgetGroupId);
+
+            //if (parameters.AbstractAutoTransactionId.HasValue)
+            //{
+            //    param.Add("Id=@Id");
+            //    innerParams.Add(new DbParam("@Id", parameters.AbstractAutoTransactionId.Value));
+            //}
+            AddIdentityFilter(param, innerParams, parameters.AbstractAutoTransactionId);
+
             if (parameters.BudgetItemGroupId.HasValue)
             {
                 param.Add("GroupId=@GroupId");
@@ -126,7 +141,21 @@ namespace QBalanceDesktop
                 param.Add("BudgetItemId=@BudgetItemId");
                 innerParams.Add(new DbParam("@BudgetItemId", parameters.BudgetItemLogBudgetItemId.Value));
             }
+            if (parameters.BudgetItemAbstractCategoryId.HasValue)
+            {
+                param.Add("AbstractCategoryId=@AbstractCategoryId");
+                innerParams.Add(new DbParam("@AbstractCategoryId", parameters.BudgetItemAbstractCategoryId.Value));
+            }
             return param;
+        }
+
+        private void AddIdentityFilter(List<string> param, List<DbParam> innerParams, int? parameter)
+        {
+            if (parameter.HasValue)
+            {
+                param.Add("Id=@Id");
+                innerParams.Add(new DbParam("@Id", parameter.Value));
+            }
         }
     }
 

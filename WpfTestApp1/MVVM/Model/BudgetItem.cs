@@ -17,6 +17,11 @@
 
         [DbField()]
         public int BudgetId { get; set; }
+
+
+        [DbField()]
+        public int AbstractCategoryId { get; set; }
+
         public int OverSpent
         {
             get
