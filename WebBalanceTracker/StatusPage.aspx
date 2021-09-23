@@ -1,47 +1,32 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="StatusPage.aspx.cs" Inherits="WebBalanceTracker.StatusPage" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-     <div class="row px-1">
-        <div class="col-1">
-        </div>
-        <div class="col-10">
-
-            <div class="table-responsive">
-                <table class="table table-shopping border-0" dir="rtl">
-                    <tr class="text-lg-center text-info h3 bg-dark">
-                        <th></th>
-                        <th>תקציב</th>
-                        <th>מצב</th>
-                        <th></th>
-                    </tr>
-                    <tbody>
-                        <% foreach (System.Data.DataRow BudgetGroup in BudgetGroups.Rows)
-                            { %>
-                        <tr class="  text-center  bg-darker <% =BudgetGroup[4]=="0" ? "text-white" : "text-info" %>">
-
-                            <td>
-                                <% =BudgetGroup[0] %>
-                            </td>
-                            <td>
-                                <% =BudgetGroup[1] %>
-                            </td>
-                            <td>
-                                <% =BudgetGroup[2] %>
-                            </td>
-                            <td>
-                                <% =BudgetGroup[3] %> 
-                            </td>
-                        </tr>
-
-                        <% } %>
-                    </tbody>
-                </table>
+   
+    <div class="row">
+        <% foreach (System.Data.DataRow BudgetGroup in BudgetGroups.Rows)
+            { %>
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+            <div class="card card-stats bg-darker">
+                <div class="card-header card-header-info card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">payments</i>
+                    </div>
+                    <p class="card-category"> <% =BudgetGroup[0] %></p>
+                    <h3 class="card-title text-info"> <% =BudgetGroup[2] %>/ <% =BudgetGroup[1] %>
+                    </h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons text-warning">timeline</i>
+                         <% =BudgetGroup[3] %>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-1">
-        </div>
+
+
+        <% } %>
     </div>
-
-
 
 </asp:Content>

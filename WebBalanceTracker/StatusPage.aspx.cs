@@ -53,7 +53,7 @@ namespace WebBalanceTracker
                 totalRow[3] = $"{total.Ratio}%";
                 totalRow[4] = "1";
                 tbl.Rows.Add(totalRow);
-                gGroups.Add(total);
+                //gGroups.Add(total);
 
                 return tbl;
             }
