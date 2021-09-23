@@ -20,8 +20,11 @@ namespace WebBalanceTracker
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            var subject = "WebBalanceTracker error !";
+#if DEBUG
+#else
+            var subject = "WebBalanceTracker Started !";
             EmailHelper.SendMail(subject, string.Empty);
+# endif
         }
 
         protected void Application_Error(Object sender, EventArgs e)
