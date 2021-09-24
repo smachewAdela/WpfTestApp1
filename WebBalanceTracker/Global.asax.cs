@@ -29,7 +29,7 @@ namespace WebBalanceTracker
 
 #if DEBUG
 #else
-            WpfTestApp1.MVVM.Model.IMessage message = WpfTestApp1.MVVM.Model.IMessage.Genertae(IMessageTypeEnum.Info);
+            I_Message message = I_Message.Genertae(IMessageTypeEnum.Info);
             message.Title = "WebBalanceTracker Started !";
             message.SendMail = true;
             Db.Insert(message);
@@ -77,7 +77,12 @@ namespace WebBalanceTracker
             var subject = "WebBalanceTracker error !";
             var body = ex.Message;
 
-            EmailHelper.SendMail(subject, body);
+            I_Message message = I_Message.Genertae(IMessageTypeEnum.Error);
+            message.Title = subject;
+            message.Message = body;
+            message.ExtraData = ex.StackTrace;
+            message.SendMail = true;
+            Db.Insert(message);
         }
 
         static DbAccess budgetDb;

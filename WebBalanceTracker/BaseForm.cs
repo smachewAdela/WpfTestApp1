@@ -26,11 +26,7 @@ namespace WebBalanceTracker
 
         public static string GetConnectionString()
         {
-#if DEBUG
             return ConfigurationManager.AppSettings["connectionString"];
-#else
-            return ConfigurationManager.AppSettings["prodconnectionString"];
-#endif
         }
 
         bool hideBudgetNavigator;
