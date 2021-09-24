@@ -22,7 +22,8 @@ namespace WebBalanceTracker
         {
             get
             {
-                return ConfigurationManager.AppSettings["mailFromPassword"];
+                var base64EncodedBytes = System.Convert.FromBase64String(ConfigurationManager.AppSettings["mailFromPassword"]);
+                return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
             }
         }
 

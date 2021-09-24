@@ -22,7 +22,7 @@ namespace WebBalanceTracker
             // Code that runs on application startup
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
+            
             var backgroundWorker = new BackgroundWorkerDispatcher();
             backgroundWorker.Workers.Add(new MessagesWorker());
             backgroundWorker.Start();
@@ -96,11 +96,7 @@ namespace WebBalanceTracker
 
         public static string GetConnectionString()
         {
-#if DEBUG
             return ConfigurationManager.AppSettings["connectionString"];
-#else
-            return ConfigurationManager.AppSettings["prodconnectionString"];
-#endif
         }
 
         public static ISettings Settings
