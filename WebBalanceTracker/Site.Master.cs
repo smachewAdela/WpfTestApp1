@@ -12,12 +12,17 @@ namespace WebBalanceTracker
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //GenerateAbstractCategories();
+            //lock (obj)
+            //{
+            //    //GenerateAbstractCategories();
+            //}
         }
+
+        private static object obj = new object();
 
         private void GenerateAbstractCategories()
         {
-            var latestBudget = Global.Db.GetSingle<Budget>(new SearchParameters { BudgetDate = new DateTime(2021,08,01) });
+            var latestBudget = Global.Db.GetSingle<Budget>(new SearchParameters { BudgetDate = new DateTime(2021,09,01) });
             var ttl = latestBudget.Title;
 
             foreach (var req in latestBudget.Items)
