@@ -16,17 +16,55 @@ namespace QBalanceDesktop
             get { return $"{Month.ToString("MMMM")}-{Month.Year.ToString()}"; }
         }
 
-        public List<BudgetItem> Items { get; set; }
+        List<BudgetItem> items;
+        public List<BudgetItem> Items
+        {
+            get
+            {
+                if(items == null)
+                    items = GlobalsProviderBL.Db.GetData<BudgetItem>(new SearchParameters { BudgetItemBudgetId = this.Id });
+                return items;
+            }
+            set
+            {
+                items = value;
+            }
+        }
 
-        public List<BudgetIncomeItem> Incomes { get; set; }
 
-        public List<TransactionCheckPoint> TransactionCheckPoints { get; set; }
+        List<BudgetIncomeItem> incomes;
+        public List<BudgetIncomeItem> Incomes
+        {
+            get
+            {
+                if (incomes == null)
+                    incomes = GlobalsProviderBL.Db.GetData<BudgetIncomeItem>(new SearchParameters { BudgetItemBudgetId = this.Id });
+                return incomes;
+            }
+            set
+            {
+                incomes = value;
+            }
+        }
+
+        List<TransactionCheckPoint> checkPoints;
+        public List<TransactionCheckPoint> TransactionCheckPoints
+        {
+            get
+            {
+                if (checkPoints == null)
+                    checkPoints = GlobalsProviderBL.Db.GetData<TransactionCheckPoint>(new SearchParameters { TransactionCheckPointBudgetId = this.Id });
+                return checkPoints;
+            }
+            set
+            {
+                checkPoints = value;
+            }
+        }
 
         public override void LoadExtraData()
         {
-            Items = GlobalsProviderBL.Db.GetData<BudgetItem>(new SearchParameters { BudgetItemBudgetId = this.Id });
-            Incomes = GlobalsProviderBL.Db.GetData<BudgetIncomeItem>(new SearchParameters { BudgetItemBudgetId = this.Id });
-            TransactionCheckPoints = GlobalsProviderBL.Db.GetData<TransactionCheckPoint>(new SearchParameters { TransactionCheckPointBudgetId = this.Id });
+            
         }
 
         public int TotalIncomes

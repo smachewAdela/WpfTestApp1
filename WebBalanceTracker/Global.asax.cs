@@ -43,29 +43,33 @@ namespace WebBalanceTracker
             Thread automationThread = new Thread(HandleAutomaticjobs);
             automationThread.Start();
         }
+        private static object obj = new object();
 
         private void HandleAutomaticjobs()
         {
-            // budgets
-            var newestBudget = Db.GetData<Budget>().OrderByDescending(x => x.Month).First();
-            var targetDate = DateTime.Now.FirstDayOfMonth();
-            var dateToProcess = newestBudget.Month.AddMonths(1);
-            while (dateToProcess.Month < targetDate.Month)
+            lock (obj)
             {
-                newestBudget = AutomationHelper.GenerateBudget(Db, newestBudget);
-                dateToProcess = newestBudget.Month.AddMonths(1);
-            }
+                // budgets
+                var newestBudget = Db.GetData<Budget>().OrderByDescending(x => x.Month).First();
+                var targetDate = DateTime.Now.FirstDayOfMonth();
+                var dateToProcess = newestBudget.Month.AddMonths(1);
+                while (dateToProcess.Month <= targetDate.Month)
+                {
+                    newestBudget = AutomationHelper.GenerateBudget(Db, newestBudget);
+                    dateToProcess = newestBudget.Month.AddMonths(1);
+                }
 
 
-            // AutoTransactions
-            var date = DateTime.Now.FirstDayOfMonth();
-            var latestBudget = Db.GetSingle<Budget>(new SearchParameters { BudgetDate = date });
-            while (latestBudget == null)
-            {
-                date = date.AddMonths(-1);
-                latestBudget = Db.GetSingle<Budget>(new SearchParameters { BudgetDate = date });
+                // AutoTransactions
+                var date = DateTime.Now.FirstDayOfMonth();
+                var latestBudget = Db.GetSingle<Budget>(new SearchParameters { BudgetDate = date });
+                while (latestBudget == null)
+                {
+                    date = date.AddMonths(-1);
+                    latestBudget = Db.GetSingle<Budget>(new SearchParameters { BudgetDate = date });
+                }
+                AutomationHelper.HandleAutoTransactions(Db, latestBudget);
             }
-            AutomationHelper.HandleAutoTransactions(Db, latestBudget);
         }
 
         protected void Application_Error(Object sender, EventArgs e)

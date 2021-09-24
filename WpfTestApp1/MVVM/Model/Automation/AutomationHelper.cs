@@ -9,7 +9,7 @@ namespace WpfTestApp1.MVVM.Model.Automation
 {
     public class AutomationHelper
     {
-        public static Budget GenerateBudget(DbAccess db, Budget progressFrom)
+        public static Budget GenerateBudget(DbAccess db, Budget progressFrom) 
         {
             var nextBudgetDate = progressFrom.Month.AddMonths(1);
             var existingBudget = db.GetData<Budget>(new SearchParameters { BudgetDate = nextBudgetDate }).FirstOrDefault();
