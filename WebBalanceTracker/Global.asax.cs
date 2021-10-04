@@ -50,14 +50,14 @@ namespace WebBalanceTracker
             lock (obj)
             {
                 // budgets
-                var newestBudget = Db.GetData<Budget>().OrderByDescending(x => x.Month).First();
-                var targetDate = DateTime.Now.FirstDayOfMonth();
-                var dateToProcess = newestBudget.Month.AddMonths(1);
-                while (dateToProcess.Month <= targetDate.Month)
-                {
-                    newestBudget = AutomationHelper.GenerateBudget(Db, newestBudget);
-                    dateToProcess = newestBudget.Month.AddMonths(1);
-                }
+                //var newestBudget = Db.GetData<Budget>().OrderByDescending(x => x.Month).First();
+                //var targetDate = DateTime.Now.FirstDayOfMonth();
+                //var dateToProcess = newestBudget.Month.AddMonths(1);
+                //while (dateToProcess.Month <= targetDate.Month)
+                //{
+                //    newestBudget = AutomationHelper.GenerateBudget(Db, newestBudget);
+                //    dateToProcess = newestBudget.Month.AddMonths(1);
+                //}
 
 
                 // AutoTransactions

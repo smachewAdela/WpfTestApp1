@@ -5,9 +5,9 @@
 
 
     <div class="row px-3">
-        <div class="col-1"></div>
-        <div class="col-10">
-            <span class="material-icons-outlined"><i class="material-icons text-info">arrow_drop_down</i>
+        
+        <div class="col-4 pull-left">
+            <span class="material-icons-outlined h-100"><i class="material-icons text-info">arrow_drop_down</i>
             </span>
             <select id="groupSelector" class="w-100 h3 py-1 bg-transparent text-center border-0 text-white">
                 <option value="">בחר קבוצה...</option>
@@ -17,8 +17,15 @@
                 <% } %>
             </select>
         </div>
-        <div class="col-1"></div>
-
+        <div class="col-5"></div>
+        <div class="col-2 pull-right text-warning h4">
+            הפק תקציב מחודש זה
+        </div>
+        <div class="col-1">
+             <button class="bg-transparent text-warning border-0 w-100" onclick="generateBudget(); return false;">
+                <i class="material-icons fa-2x">add</i>
+            </button>
+        </div>
 
 
         <% foreach (WebBalanceTracker.GroupData budgetGroup in BudgetGroups)
@@ -95,6 +102,10 @@
                     alert("error: " + errorthrown);
                 }
             });//end of $.ajax()
+        }
+
+        function generateBudget() {
+            alert('generateBudget');
         }
     </script>
 

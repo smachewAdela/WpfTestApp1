@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 
 namespace WebBalanceTracker
 {
-    public partial class BudgetPage : BaseForm
+    public partial class BudgetPage : BaseForm 
     {
         protected void Page_Load(object sender, EventArgs e)
         {
