@@ -86,8 +86,8 @@ namespace WpfTestApp1
 
         private void btnIncrement_Click(object sender, RoutedEventArgs e)
         {
-            var latestBudget = GlobalsProviderBL.Db.GetData<Budget>().OrderByDescending(x => x.Month).First();
-            AutomationHelper.GenerateBudget(GlobalsProviderBL.Db, latestBudget);
+            //var latestBudget = GlobalsProviderBL.Db.GetData<Budget>().OrderByDescending(x => x.Month).First();
+            //AutomationHelper.GenerateBudget(GlobalsProviderBL.Db, latestBudget);
             RefreshView();
         }
     }

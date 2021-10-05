@@ -1,4 +1,5 @@
-﻿using QBalanceDesktop;
+﻿using Newtonsoft.Json;
+using QBalanceDesktop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +51,16 @@ namespace WpfTestApp1.MVVM.Model
                 MessageType = messageType,
                 Date = DateTime.Now
             };
+        }
+
+        public static void HandleException(Exception ex, DbAccess db)
+        {
+            I_Message message = Genertae(IMessageTypeEnum.Error);
+            message.Title =ex.Message;
+            message.Message = ex.StackTrace;
+            message.ExtraData = ex.InnerException != null ? JsonConvert.SerializeObject( ex.InnerException) : string.Empty;
+            message.SendMail = true;
+            db.Insert(message);
         }
     }
 }

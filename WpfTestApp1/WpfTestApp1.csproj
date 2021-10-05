@@ -133,6 +133,7 @@
     <Compile Include="MVVM\Model\DbEntityAttribute.cs" />
     <Compile Include="MVVM\Model\DbFieldAttribute.cs" />
     <Compile Include="MVVM\Model\DbParam.cs" />
+    <Compile Include="MVVM\Model\DuplicateBudgetException.cs" />
     <Compile Include="MVVM\Model\EnumToItemsSource.cs" />
     <Compile Include="MVVM\Model\Ext.cs" />
     <Compile Include="MVVM\Model\FinandaModels.cs" />

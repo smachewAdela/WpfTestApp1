@@ -9,57 +9,72 @@ namespace WpfTestApp1.MVVM.Model.Automation
 {
     public class AutomationHelper
     {
-        public static Budget GenerateBudget(DbAccess db, Budget progressFrom) 
+
+        public static Budget GenerateBudget(DbAccess db, Budget progressFrom, DateTime? targetDate) 
         {
-            var nextBudgetDate = progressFrom.Month.AddMonths(1);
-            var existingBudget = db.GetData<Budget>(new SearchParameters { BudgetDate = nextBudgetDate }).FirstOrDefault();
-            if (existingBudget != null)
-                throw new Exception("Next Budget Already Exists !");
 
-            var nextBudget = new Budget { Month = nextBudgetDate };
-            db.Insert(nextBudget);
-
-            // incomes
-            var existingIncomes = progressFrom.Incomes;
-            foreach (var existingIncome in existingIncomes)
+            try
             {
-                existingIncome.BudgetId = nextBudget.Id;
-                existingIncome.Amount = 0;
-                db.Insert(existingIncome);
-            }
+                var nextBudgetDate = targetDate ?? progressFrom.Month.AddMonths(1);
+                var existingBudget = db.GetData<Budget>(new SearchParameters { BudgetDate = nextBudgetDate }).FirstOrDefault();
+                if (existingBudget != null)
+                    throw new DuplicateBudgetException("Next Budget Already Exists !");
 
-            // TransactionCheckPoints
-            var existingTransactionCheckPoints = progressFrom.TransactionCheckPoints;
-            foreach (var existingTransactionCheckPoint in existingTransactionCheckPoints)
-            {
-                existingTransactionCheckPoint.BudgetId = nextBudget.Id;
-                existingTransactionCheckPoint.Description = string.Empty;
-                db.Insert(existingTransactionCheckPoint);
-            }
+                db.BeginTransaction();
 
-            // budget Categories
-            var absCategories = db.GetData<AbstractCategory>();
-            foreach (var absCategory in absCategories)
-            {
-                var nBudgetItem = new BudgetItem
+                var nextBudget = new Budget { Month = nextBudgetDate };
+                db.Insert(nextBudget);
+                
+                // incomes
+                var existingIncomes = progressFrom.Incomes;
+                foreach (var existingIncome in existingIncomes)
                 {
-                    BudgetAmount = absCategory.DefaultAmount,
-                    BudgetId = nextBudget.Id,
-                    CategoryName = absCategory.CategoryName,
-                    AbstractCategoryId = absCategory.Id,
-                    GroupId = absCategory.GroupId,
-                    StatusAmount = 0,
-                };
-                db.Insert(nBudgetItem);
+                    existingIncome.BudgetId = nextBudget.Id;
+                    existingIncome.Amount = 0;
+                    db.Insert(existingIncome);
+                }
+
+                // TransactionCheckPoints
+                var existingTransactionCheckPoints = progressFrom.TransactionCheckPoints;
+                foreach (var existingTransactionCheckPoint in existingTransactionCheckPoints)
+                {
+                    existingTransactionCheckPoint.BudgetId = nextBudget.Id;
+                    existingTransactionCheckPoint.Description = string.Empty;
+                    db.Insert(existingTransactionCheckPoint);
+                }
+
+                // budget Categories
+                var absCategories = db.GetData<AbstractCategory>();
+                foreach (var nBudgetItem in progressFrom.Items)
+                {
+                    //var nBudgetItem = new BudgetItem
+                    //{
+                    //    BudgetAmount = absCategory.DefaultAmount,
+                    //    BudgetId = nextBudget.Id,
+                    //    CategoryName = absCategory.CategoryName,
+                    //    AbstractCategoryId = absCategory.Id,
+                    //    GroupId = absCategory.GroupId,
+                    //    StatusAmount = 0,
+                    //};
+                    nBudgetItem.BudgetId = nextBudget.Id;
+                    nBudgetItem.StatusAmount = 0;
+                    db.Insert(nBudgetItem);
+                }
+
+                I_Message message = I_Message.Genertae(IMessageTypeEnum.Info);
+                message.Title = "Budget Progressed";
+                message.Message = progressFrom.Title;
+                message.ExtraData = nextBudget.Title;
+                db.Insert(message);
+
+                db.CommitTransaction();
+                return db.GetSingle<Budget>(new SearchParameters { BudgetDate = nextBudget.Month });
             }
-
-            I_Message message = I_Message.Genertae(IMessageTypeEnum.Info);
-            message.Title = "Budget Progressed";
-            message.Message = progressFrom.Title;
-            message.ExtraData = nextBudget.Title;
-            db.Insert(message);
-
-            return db.GetSingle<Budget>(new SearchParameters { BudgetDate = nextBudget.Month }); ;
+            catch (Exception ex)
+            {
+                db.RollBackTransaction();
+                throw ex;
+            }
         }
 
         public static void HandleAutoTransactions(DbAccess db, Budget budgetToHandle)

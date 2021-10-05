@@ -17,6 +17,59 @@ namespace QBalanceDesktop
         {
             _connectionString = connStr;
         }
+        private SqlTransaction _transaction;
+        private SqlConnection _connection;
+
+        internal void BeginTransaction()
+        {
+            SqlConnection conn = GetConnection();
+            if (_transaction == null)
+                _transaction = conn.BeginTransaction();
+        }
+
+        private void OpenConnection()
+        {
+            if (_connection.State != ConnectionState.Open && _connection.State != ConnectionState.Connecting)
+                _connection.Open();
+        }
+
+        private void CheckTransaction(SqlCommand command)
+        {
+            if (_transaction != null)
+                command.Transaction = _transaction as SqlTransaction;
+        }
+
+        internal void CommitTransaction()
+        {
+            if (_transaction != null)
+                _transaction.Commit();
+
+            _transaction.Dispose();
+        }
+
+        internal void RollBackTransaction()
+        {
+            if (_transaction != null)
+            {
+                _transaction.Rollback();
+                _transaction.Dispose();
+                _transaction = null;
+            }
+        }
+
+        private static object connObj = new object();
+
+        private SqlConnection GetConnection()
+        {
+            lock (connObj)
+            {
+                if (_connection == null)
+                    _connection = new SqlConnection(_connectionString);
+
+                OpenConnection();
+                return _connection as SqlConnection;
+            }
+        }
 
         static object obj = new object();
         public void CheckTable(IDbItem dbItem)
@@ -26,16 +79,15 @@ namespace QBalanceDesktop
 
             lock (obj)
             {
-                using (SqlConnection conn = new SqlConnection(_connectionString))
-                {
-                    conn.Open();
-                    var tableScript = string.Format(createTableFormat, tblName);
-                    var colsScript = BuildTableColumns(dbItem);
-                    tableScript = tableScript.Replace("[[cols]]", colsScript);
-                    string creatScript = $"If not exists (select name from sysobjects where name = '{tblName}') {tableScript}";
-                    SqlCommand command = new SqlCommand(creatScript, conn);
-                    command.ExecuteNonQuery();
-                }
+                SqlConnection conn = GetConnection();
+                
+                var tableScript = string.Format(createTableFormat, tblName);
+                var colsScript = BuildTableColumns(dbItem);
+                tableScript = tableScript.Replace("[[cols]]", colsScript);
+                string creatScript = $"If not exists (select name from sysobjects where name = '{tblName}') {tableScript}";
+                SqlCommand command = new SqlCommand(creatScript, conn);
+                CheckTransaction(command);
+                command.ExecuteNonQuery();
             }
         }
 
@@ -73,43 +125,39 @@ namespace QBalanceDesktop
         public void Update(IDbItem item)
         {
             CheckTable(item);
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                conn.Open();
-                var table = item.GetTableName();
-                string updateScriptFormat = "UPDATE {0} SET {1}  WHERE {2}";
+            SqlConnection conn = GetConnection();
+            
+            var table = item.GetTableName();
+            string updateScriptFormat = "UPDATE {0} SET {1}  WHERE {2}";
 
-                var iFields = item.GetInsertFields();
-                var fieldsSet = string.Join(",", iFields.Select(x => $"{x}=@{x}").ToList());
+            var iFields = item.GetInsertFields();
+            var fieldsSet = string.Join(",", iFields.Select(x => $"{x}=@{x}").ToList());
 
-                var idf = item.GetIdentityField();
-                string where = $"{idf}=@{idf}";
+            var idf = item.GetIdentityField();
+            string where = $"{idf}=@{idf}";
 
-                SqlCommand command = new SqlCommand(string.Format(updateScriptFormat, table, fieldsSet, where), conn);
+            SqlCommand command = new SqlCommand(string.Format(updateScriptFormat, table, fieldsSet, where), conn);
+            CheckTransaction(command);
+            foreach (var DbInsertField in iFields)
+                command.Parameters.AddWithValue($"@{DbInsertField}", item.GetValue(DbInsertField));
 
-                foreach (var DbInsertField in iFields)
-                    command.Parameters.AddWithValue($"@{DbInsertField}", item.GetValue(DbInsertField));
-
-                command.Parameters.AddWithValue($"@{idf}", item.GetValue(idf));
-                command.ExecuteNonQuery();
-            }
+            command.Parameters.AddWithValue($"@{idf}", item.GetValue(idf));
+            command.ExecuteNonQuery();
         }
 
         public void Insert(IDbItem item)
         {
             CheckTable(item);
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                conn.Open();
-                var table = item.GetTableName();
-                var iFields = item.GetInsertFields();
-                SqlCommand command = new SqlCommand($"INSERT INTO {table}({string.Join(",", iFields)})   VALUES({string.Join(",", iFields.Select(x => $"@{x}").ToList())})", conn);
+            SqlConnection conn = GetConnection();
+            
+            var table = item.GetTableName();
+            var iFields = item.GetInsertFields();
+            SqlCommand command = new SqlCommand($"INSERT INTO {table}({string.Join(",", iFields)})   VALUES({string.Join(",", iFields.Select(x => $"@{x}").ToList())})", conn);
+            CheckTransaction(command);
+            foreach (var DbInsertField in iFields)
+                command.Parameters.AddWithValue($"@{DbInsertField}", item.GetValue(DbInsertField));
 
-                foreach (var DbInsertField in iFields)
-                    command.Parameters.AddWithValue($"@{DbInsertField}", item.GetValue(DbInsertField));
-
-                command.ExecuteNonQuery();
-            }
+            command.ExecuteNonQuery();
 
             SetNewDbIdentity(item);
         }
@@ -120,21 +168,20 @@ namespace QBalanceDesktop
             var idCol = item.GetIdentityField();
 
             CheckTable(item);
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            SqlConnection conn = GetConnection();
+            
+
+            SqlCommand command = new SqlCommand($"Select max({idCol}) from {table} ", conn);
+            CheckTransaction(command);
+            using (SqlDataReader reader = command.ExecuteReader())
             {
-                conn.Open();
-
-                SqlCommand command = new SqlCommand($"Select max({idCol}) from {table} ", conn);
-
-                using (SqlDataReader reader = command.ExecuteReader())
+                if (reader.Read())
                 {
-                    if (reader.Read())
-                    {
-                        var newId = reader.GetInt32(0);
-                        item.SetDbIdentity(newId);
-                    }
+                    var newId = reader.GetInt32(0);
+                    item.SetDbIdentity(newId);
                 }
             }
+
         }
 
         public void Delete(IDbItem item)
@@ -143,23 +190,21 @@ namespace QBalanceDesktop
             var idCol = item.GetIdentityField();
 
             CheckTable(item);
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                conn.Open();
+            SqlConnection conn = GetConnection();
 
-                SqlCommand command = new SqlCommand($"delete from {table} where {idCol}=@{idCol}", conn);
-                command.Parameters.AddWithValue($"@{idCol}", item.GetDbIdentity());
-                command.ExecuteNonQuery();
-            }
+            SqlCommand command = new SqlCommand($"delete from {table} where {idCol}=@{idCol}", conn);
+            CheckTransaction(command);
+            command.Parameters.AddWithValue($"@{idCol}", item.GetDbIdentity());
+            command.ExecuteNonQuery();
+
         }
 
         public DataTable ListTableBySql(string sql)
         {
             DataTable dt = new DataTable();
-            using (SqlConnection c = new SqlConnection(_connectionString))
+            SqlConnection c = GetConnection();
             using (SqlDataAdapter sda = new SqlDataAdapter(sql, c))
             {
-                c.Open();
                 sda.Fill(dt);
             }
             return dt;
@@ -176,26 +221,25 @@ namespace QBalanceDesktop
         {
             List<T> lst = new List<T>();
             CheckTable((T)Activator.CreateInstance(typeof(T)));
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                conn.Open();
+            SqlConnection conn = GetConnection();
 
-                SqlCommand command = new SqlCommand(sql, conn);
-                if (parameters != null)
+            SqlCommand command = new SqlCommand(sql, conn);
+            CheckTransaction(command);
+            if (parameters != null)
+            {
+                foreach (var item in parameters)
+                    command.Parameters.AddWithValue(item.Name, item.Value);
+            }
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
                 {
-                    foreach (var item in parameters)
-                        command.Parameters.AddWithValue(item.Name, item.Value);
+                    var i = (T)Activator.CreateInstance(typeof(T));
+                    i.Load(reader);
+                    //i.LoadAccess(this);
+                    lst.Add(i);
                 }
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var i = (T)Activator.CreateInstance(typeof(T));
-                        i.Load(reader);
-                        //i.LoadAccess(this);
-                        lst.Add(i);
-                    }
-                }
+
             }
             return lst;
         }

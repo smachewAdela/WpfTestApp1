@@ -50,6 +50,8 @@ namespace WebBalanceTracker
                 using (SmtpClient smtpClient = new SmtpClient())
                 using (MailMessage message = new MailMessage())
                 {
+#if  DEBUG
+#else
                     MailAddress fromAddress = new MailAddress(MailFrom);
 
                     // setup up the host, increase the timeout to 5 minutes
@@ -74,6 +76,9 @@ namespace WebBalanceTracker
                         }
                     }
                     smtpClient.Send(message);
+
+# endif
+
                     return true;
                 }
             }

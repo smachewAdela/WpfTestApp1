@@ -5,7 +5,7 @@
 
 
     <div class="row px-3">
-        
+
         <div class="col-4 pull-left">
             <span class="material-icons-outlined h-100"><i class="material-icons text-info">arrow_drop_down</i>
             </span>
@@ -18,12 +18,15 @@
             </select>
         </div>
         <div class="col-5"></div>
-        <div class="col-2 pull-right text-warning h4">
-            הפק תקציב מחודש זה
-        </div>
-        <div class="col-1">
-             <button class="bg-transparent text-warning border-0 w-100" onclick="generateBudget(); return false;">
-                <i class="material-icons fa-2x">add</i>
+        <%--   <div class="col-2 pull-right text-warning h3 h-100 text-right  bg-dark">
+           
+        </div>--%>
+        <div class="col-3 p-0  ">
+
+            <div class=" text-warning text-center h3 mb-0 w-50 text-right  bg-dark">הפק תקציב מחודש זה</div>
+
+            <button class=" mt-0 text-warning border-0 w-50  bg-dark" onclick="generateBudget(); return false;">
+                <i class="material-icons md-48">add</i>
             </button>
         </div>
 
@@ -105,7 +108,29 @@
         }
 
         function generateBudget() {
-            alert('generateBudget');
+            //alert('generateBudget');
+
+              var mobj = {
+            };
+            var DTO = { 'userdata': JSON.stringify(mobj) };
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "BudgetPage.aspx/generateBudget",
+                data: JSON.stringify(DTO),
+                datatype: "json",
+                success: function (result) {
+                    //do something
+                    //$('#' + ctrlName).val('')
+                    console.log(result);
+                    showNotification('פעולה בוצעה בהצלחה !', 'success')
+                },
+                error: function (xmlhttprequest, textstatus, errorthrown) {
+                    //alert(" conection to the server failed ");
+                    alert("error: " + errorthrown);
+                }
+            });//end of $.ajax()
+
         }
     </script>
 

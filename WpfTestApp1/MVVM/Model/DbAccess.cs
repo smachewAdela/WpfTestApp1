@@ -42,6 +42,8 @@ namespace QBalanceDesktop
             return Get<T>(query, innerParams.ToArray());
         }
 
+
+
         private List<string> ExtractParameters(SearchParameters parameters, List<DbParam> innerParams)
         {
             List<string> param = new List<string>();
