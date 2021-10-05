@@ -20,7 +20,7 @@ namespace QBalanceDesktop
         private SqlTransaction _transaction;
         private SqlConnection _connection;
 
-        internal void BeginTransaction()
+        public void BeginTransaction()
         {
             SqlConnection conn = GetConnection();
             if (_transaction == null)
@@ -39,7 +39,7 @@ namespace QBalanceDesktop
                 command.Transaction = _transaction as SqlTransaction;
         }
 
-        internal void CommitTransaction()
+        public void Commit()
         {
             if (_transaction != null)
                 _transaction.Commit();
@@ -47,7 +47,7 @@ namespace QBalanceDesktop
             _transaction.Dispose();
         }
 
-        internal void RollBackTransaction()
+        public void RollBack()
         {
             if (_transaction != null)
             {

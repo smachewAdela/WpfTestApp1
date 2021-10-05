@@ -153,4 +153,22 @@ namespace WebBalanceTracker
         public string Name { get; set; }
         public string Description { get; set; }
     }
+
+    public class BudgetInfo
+    {
+        public int Id { get; set; }
+        public int Incomes { get; set; }
+        public int CheckPoints { get; set; }
+        public int BudgetItems { get; set; }
+        public string Title { get; set; }
+
+        public BudgetInfo(Budget x)
+        {
+            this.Id = x.Id;
+            this.Incomes = x.Incomes.Count();
+            this.CheckPoints = x.TransactionCheckPoints.Count();
+            this.BudgetItems = x.Items.Count();
+            this.Title = x.Title;
+        }
+    }
 }

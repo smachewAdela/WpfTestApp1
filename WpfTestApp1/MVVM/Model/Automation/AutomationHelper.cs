@@ -67,12 +67,12 @@ namespace WpfTestApp1.MVVM.Model.Automation
                 message.ExtraData = nextBudget.Title;
                 db.Insert(message);
 
-                db.CommitTransaction();
+                db.Commit();
                 return db.GetSingle<Budget>(new SearchParameters { BudgetDate = nextBudget.Month });
             }
             catch (Exception ex)
             {
-                db.RollBackTransaction();
+                db.RollBack();
                 throw ex;
             }
         }

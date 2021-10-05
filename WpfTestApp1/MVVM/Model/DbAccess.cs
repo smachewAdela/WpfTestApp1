@@ -73,6 +73,7 @@ namespace QBalanceDesktop
             AddIdentityFilter(param, innerParams, parameters.BudgetItemId);
             AddIdentityFilter(param, innerParams, parameters.TransactionCheckPointId);
             AddIdentityFilter(param, innerParams, parameters.BudgetGroupId);
+            AddIdentityFilter(param, innerParams, parameters.BudgetId);
             AddIdentityFilter(param, innerParams, parameters.AbstractAutoTransactionId);
             AddFilter(param, innerParams, parameters.BudgetItemGroupId, "GroupId");
             AddFilter(param, innerParams, parameters.TransactionCheckPointBudgetId, "BudgetId");

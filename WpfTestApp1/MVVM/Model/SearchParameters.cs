@@ -23,5 +23,6 @@ namespace QBalanceDesktop
         public int? BudgetItemAbstractCategoryId { get; internal set; }
         public int? AbstractAutoTransactionId { get; set; }
         public bool? IMessageSendMail { get; set; }
+        public int? BudgetId { get; set; }
     }
 }

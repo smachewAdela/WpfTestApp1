@@ -125,6 +125,7 @@
                                 <a class="dropdown-item" href="AbstractCategories.aspx">קטגוריות ברירת מחדל</a>
                                 <a class="dropdown-item" href="AutoTransactions.aspx">תנועות קבועות </a>
                                 <a class="dropdown-item" href="BudgetGroups.aspx">קבוצות</a>
+                                <a class="dropdown-item" href="BudgetList.aspx">רשימת תקציבים</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="LogPage.aspx">יומן מערכת</a>
                             </div>
