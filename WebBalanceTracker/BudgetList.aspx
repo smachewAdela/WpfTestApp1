@@ -38,7 +38,7 @@
                             <td>
                                    <button id="btnclk" onclick="deleteBudget('<% =bi.Id %>'); return false;"
                                     class="h-100 border-0 text-info bg-transparent">
-                                    <i class="material-icons">add</i>
+                                    <i class="material-icons">delete</i>
                                 </button>
                             </td>
                         </tr>

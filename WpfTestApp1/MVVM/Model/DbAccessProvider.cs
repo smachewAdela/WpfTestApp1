@@ -20,11 +20,16 @@ namespace QBalanceDesktop
         private SqlTransaction _transaction;
         private SqlConnection _connection;
 
+        private static object tranObj = new object();
+
         public void BeginTransaction()
         {
-            SqlConnection conn = GetConnection();
-            if (_transaction == null)
-                _transaction = conn.BeginTransaction();
+            lock (tranObj)
+            {
+                SqlConnection conn = GetConnection();
+                if (_transaction == null)
+                    _transaction = conn.BeginTransaction();
+            }
         }
 
         private void OpenConnection()
@@ -42,9 +47,10 @@ namespace QBalanceDesktop
         public void Commit()
         {
             if (_transaction != null)
+            {
                 _transaction.Commit();
-
-            _transaction.Dispose();
+                ClearTransaction();
+            }
         }
 
         public void RollBack()
@@ -52,9 +58,14 @@ namespace QBalanceDesktop
             if (_transaction != null)
             {
                 _transaction.Rollback();
-                _transaction.Dispose();
-                _transaction = null;
+                ClearTransaction();
             }
+        }
+
+        private void ClearTransaction()
+        {
+            _transaction.Dispose();
+            _transaction = null;
         }
 
         private static object connObj = new object();
@@ -85,9 +96,11 @@ namespace QBalanceDesktop
                 var colsScript = BuildTableColumns(dbItem);
                 tableScript = tableScript.Replace("[[cols]]", colsScript);
                 string creatScript = $"If not exists (select name from sysobjects where name = '{tblName}') {tableScript}";
-                SqlCommand command = new SqlCommand(creatScript, conn);
-                CheckTransaction(command);
-                command.ExecuteNonQuery();
+                using (SqlCommand command = new SqlCommand(creatScript, conn))
+                {
+                    CheckTransaction(command);
+                    command.ExecuteNonQuery();
+                }
             }
         }
 
@@ -136,13 +149,15 @@ namespace QBalanceDesktop
             var idf = item.GetIdentityField();
             string where = $"{idf}=@{idf}";
 
-            SqlCommand command = new SqlCommand(string.Format(updateScriptFormat, table, fieldsSet, where), conn);
-            CheckTransaction(command);
-            foreach (var DbInsertField in iFields)
-                command.Parameters.AddWithValue($"@{DbInsertField}", item.GetValue(DbInsertField));
+            using (SqlCommand command = new SqlCommand(string.Format(updateScriptFormat, table, fieldsSet, where), conn))
+            {
+                CheckTransaction(command);
+                foreach (var DbInsertField in iFields)
+                    command.Parameters.AddWithValue($"@{DbInsertField}", item.GetValue(DbInsertField));
 
-            command.Parameters.AddWithValue($"@{idf}", item.GetValue(idf));
-            command.ExecuteNonQuery();
+                command.Parameters.AddWithValue($"@{idf}", item.GetValue(idf));
+                command.ExecuteNonQuery();
+            }
         }
 
         public void Insert(IDbItem item)
@@ -152,13 +167,14 @@ namespace QBalanceDesktop
             
             var table = item.GetTableName();
             var iFields = item.GetInsertFields();
-            SqlCommand command = new SqlCommand($"INSERT INTO {table}({string.Join(",", iFields)})   VALUES({string.Join(",", iFields.Select(x => $"@{x}").ToList())})", conn);
-            CheckTransaction(command);
-            foreach (var DbInsertField in iFields)
-                command.Parameters.AddWithValue($"@{DbInsertField}", item.GetValue(DbInsertField));
+            using (SqlCommand command = new SqlCommand($"INSERT INTO {table}({string.Join(",", iFields)})   VALUES({string.Join(",", iFields.Select(x => $"@{x}").ToList())})", conn))
+            {
+                CheckTransaction(command);
+                foreach (var DbInsertField in iFields)
+                    command.Parameters.AddWithValue($"@{DbInsertField}", item.GetValue(DbInsertField));
 
-            command.ExecuteNonQuery();
-
+                command.ExecuteNonQuery();
+            }
             SetNewDbIdentity(item);
         }
 
@@ -169,16 +185,18 @@ namespace QBalanceDesktop
 
             CheckTable(item);
             SqlConnection conn = GetConnection();
-            
 
-            SqlCommand command = new SqlCommand($"Select max({idCol}) from {table} ", conn);
-            CheckTransaction(command);
-            using (SqlDataReader reader = command.ExecuteReader())
+
+            using (SqlCommand command = new SqlCommand($"Select max({idCol}) from {table} ", conn))
             {
-                if (reader.Read())
+                CheckTransaction(command);
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    var newId = reader.GetInt32(0);
-                    item.SetDbIdentity(newId);
+                    if (reader.Read())
+                    {
+                        var newId = reader.GetInt32(0);
+                        item.SetDbIdentity(newId);
+                    }
                 }
             }
 
@@ -192,11 +210,12 @@ namespace QBalanceDesktop
             CheckTable(item);
             SqlConnection conn = GetConnection();
 
-            SqlCommand command = new SqlCommand($"delete from {table} where {idCol}=@{idCol}", conn);
-            CheckTransaction(command);
-            command.Parameters.AddWithValue($"@{idCol}", item.GetDbIdentity());
-            command.ExecuteNonQuery();
-
+            using (SqlCommand command = new SqlCommand($"delete from {table} where {idCol}=@{idCol}", conn))
+            {
+                CheckTransaction(command);
+                command.Parameters.AddWithValue($"@{idCol}", item.GetDbIdentity());
+                command.ExecuteNonQuery();
+            }
         }
 
         public DataTable ListTableBySql(string sql)
@@ -223,23 +242,25 @@ namespace QBalanceDesktop
             CheckTable((T)Activator.CreateInstance(typeof(T)));
             SqlConnection conn = GetConnection();
 
-            SqlCommand command = new SqlCommand(sql, conn);
-            CheckTransaction(command);
-            if (parameters != null)
+            using (SqlCommand command = new SqlCommand(sql, conn))
             {
-                foreach (var item in parameters)
-                    command.Parameters.AddWithValue(item.Name, item.Value);
-            }
-            using (SqlDataReader reader = command.ExecuteReader())
-            {
-                while (reader.Read())
+                CheckTransaction(command);
+                if (parameters != null)
                 {
-                    var i = (T)Activator.CreateInstance(typeof(T));
-                    i.Load(reader);
-                    //i.LoadAccess(this);
-                    lst.Add(i);
+                    foreach (var item in parameters)
+                        command.Parameters.AddWithValue(item.Name, item.Value);
                 }
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var i = (T)Activator.CreateInstance(typeof(T));
+                        i.Load(reader);
+                        //i.LoadAccess(this);
+                        lst.Add(i);
+                    }
 
+                }
             }
             return lst;
         }
