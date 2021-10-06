@@ -8,6 +8,7 @@ using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using WpfTestApp1.MVVM.Model;
+using WpfTestApp1.MVVM.Model.Automation;
 
 namespace WebBalanceTracker
 {
@@ -71,6 +72,27 @@ namespace WebBalanceTracker
             }
 
             Global.RefreshBudget();
+            return "Posted";
+        }
+
+
+        [WebMethod]
+        public static string generateBudget(string userdata)
+        {
+            var currentBudget = Global.CurrentBudget;
+            var db = Global.Db;
+            try
+            {
+                var latestBudgetDate = db.GetData<Budget>().Max(x => x.Month).AddMonths(1);
+                AutomationHelper.GenerateBudget(db, currentBudget, latestBudgetDate);
+                Global.RefreshBudget();
+            }
+            catch (Exception ex)
+            {
+                I_Message.HandleException(ex, db);
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Budget not created, check system log for more info");
+            }
+
             return "Posted";
         }
     }

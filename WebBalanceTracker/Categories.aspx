@@ -12,6 +12,7 @@
                 <table class="table table-shopping border-0" dir="rtl">
                     <tr class="text-lg-center text-info h3 bg-dark">
                         <th>קטגוריה</th>
+                        <th>ברירת מחדל</th>
                         <th>קבוצה</th>
                          <th>תקציב</th>
                         <th>עדכון</th>
@@ -23,6 +24,9 @@
 
                             <td>
                                 <% =BudgetGroup[0] %>
+                            </td>
+                             <td>
+                                <% =BudgetGroup[5] %>
                             </td>
                             <td>
                                 <% =BudgetGroup[1] %>
@@ -143,7 +147,8 @@
                     //alert("SUCCESS = " + result.d);
                     console.log(result);
                     $('#myModal').modal('hide');
-                   showNotification('פעולה בוצעה בהצלחה !', 'success')
+                    showNotification('פעולה בוצעה בהצלחה !', 'success');
+                    window.location.reload();
                 },
                 error: function (xmlhttprequest, textstatus, errorthrown) {
                     //alert(" conection to the server failed ");

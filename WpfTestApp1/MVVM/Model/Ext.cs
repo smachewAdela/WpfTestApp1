@@ -22,7 +22,7 @@ namespace QBalanceDesktop
 
         public static DateTime FirstDayOfMonth(this DateTime d)
         {
-            return new DateTime(d.Year, d.Month, 1);
+            return new DateTime(d.Year, d.Month, 1, 0,0,0);
         }
 
         public static int NumberOfWeeksInMonth(this DateTime d)

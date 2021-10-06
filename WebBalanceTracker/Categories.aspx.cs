@@ -29,10 +29,13 @@ namespace WebBalanceTracker
             get
             {
                 var tbl = new DataTable();
-                tbl.AddColumns(5);
+                tbl.AddColumns(6);
 
                 var currentBudget = Global.CurrentBudget;
                 var cats = currentBudget.Items;
+
+                var AbstractCategory = Global.Db.GetData<AbstractCategory>().ToDictionary(x => x.Id, x => x.CategoryName);
+                AbstractCategory.Add(0, "לא הוגדר");
 
                 foreach (var g in cats)
                 {
@@ -43,6 +46,7 @@ namespace WebBalanceTracker
                     rw[2] = g.Id;
                     rw[3] = g.GroupId;
                     rw[4] = g.BudgetAmount;
+                    rw[5] = AbstractCategory[g.AbstractCategoryId];
                     tbl.Rows.Add(rw);
                 }
 
@@ -56,19 +60,28 @@ namespace WebBalanceTracker
         {
             dynamic req = userdata.ToDynamicJObject();
             var lBudget = Global.GetLatestBudget();
-            var upsertC = new BudgetItem
+            if (req.editedId == 0)
             {
-                CategoryName = req.catName,
-                GroupId = req.groupId,
-                BudgetAmount = req.budget,
-                StatusAmount = 0,
-                BudgetId = lBudget.Id,
-                Id = req.editedId
-            };
-            if(req.editedId == 0)
-                Global.Db.Insert(upsertC);
+                BudgetItem upsertC = new BudgetItem
+                {
+                    CategoryName = req.catName,
+                    GroupId = req.groupId,
+                    BudgetAmount = req.budget,
+                    StatusAmount = 0,
+                    BudgetId = lBudget.Id,
+                    Id = req.editedId
+                };
+                Db.Insert(upsertC);
+            }
             else
-                Global.Db.Update(upsertC);
+            {
+                var itemToUpdate = Db.GetSingle<BudgetItem>(new SearchParameters { BudgetItemId = req.editedId });
+                itemToUpdate.CategoryName = req.catName;
+                itemToUpdate.GroupId = req.groupId;
+                itemToUpdate.BudgetAmount = req.budget;
+
+                Db.Update(itemToUpdate);
+            }
 
             Global.RefreshBudget();
             return "Posted";

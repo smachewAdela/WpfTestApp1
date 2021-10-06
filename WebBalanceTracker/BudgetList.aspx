@@ -3,7 +3,7 @@
 
       <div class="row px-1">
         <div class="col-1">
-            <button class="bg-transparent text-warning border-0 w-100" onclick="showIncomeModal(); return false;">
+            <button class="bg-transparent text-warning border-0 w-100" onclick="generateBudget(); return false;">
                 <i class="material-icons fa-2x">add</i>
             </button>
         </div>
@@ -78,6 +78,32 @@
                     alert("error: " + errorthrown);
                 }
             });//end of $.ajax()
+        }
+
+          function generateBudget() {
+            //alert('generateBudget');
+
+              var mobj = {
+            };
+            var DTO = { 'userdata': JSON.stringify(mobj) };
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "BudgetList.aspx/generateBudget",
+                data: JSON.stringify(DTO),
+                datatype: "json",
+                success: function (result) {
+                    //do something
+                    //$('#' + ctrlName).val('')
+                    console.log(result);
+                    showNotification('פעולה בוצעה בהצלחה !', 'success')
+                },
+                error: function (xmlhttprequest, textstatus, errorthrown) {
+                    //alert(" conection to the server failed ");
+                    alert("error: " + errorthrown);
+                }
+            });//end of $.ajax()
+
         }
     </script>
 

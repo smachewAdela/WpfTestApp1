@@ -54,25 +54,5 @@ namespace WebBalanceTracker
             return "Posted";
         }
 
-        [WebMethod]
-        public static string generateBudget(string userdata)
-        {
-            var currentBudget = Global.CurrentBudget;
-            var db = Global.Db;
-            try
-            {
-                var latestBudgetDate = db.GetData<Budget>().Max(x => x.Month).AddMonths(1);
-                AutomationHelper.GenerateBudget(db, currentBudget, latestBudgetDate);
-                Global.RefreshBudget();
-            }
-            catch (Exception ex)
-            {
-                I_Message.HandleException(ex, db);
-                throw new HttpException((int)HttpStatusCode.BadRequest, "Budget not created, check system log for more info");
-            }
-
-            return "Posted";
-        }
-
     }
 }

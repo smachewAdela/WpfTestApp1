@@ -15,6 +15,7 @@
                     <tr class="text-lg-center text-info h3 bg-dark">
                         <th>קבוצה</th>
                         <th>עדכון</th>
+                        <th>מחיקה</th>
                     </tr>
                     <tbody>
                         <% foreach (System.Data.DataRow BudgetGroup in BudgetGroupItems.Rows)
@@ -27,6 +28,11 @@
                             <td>
                                 <button id="btnclk" onclick="showUpdateGroup('<% =BudgetGroup[0] %>','<% =BudgetGroup[1] %>'); return false;" class="h-100 border-0 text-info bg-transparent w-100">
                                     <i class="material-icons">edit</i>
+                                </button>
+                            </td>
+                               <td>
+                                <button id="btnDlt" onclick="deleteGroup('<% =BudgetGroup[1] %>','<% =BudgetGroup[0] %>'); return false;" class="h-100 border-0 text-danger bg-transparent w-100">
+                                    <i class="material-icons">delete</i>
                                 </button>
                             </td>
                         </tr>
@@ -93,6 +99,33 @@
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
                 url: "BudgetGroups.aspx/upsertGroup",
+                data: JSON.stringify(DTO),
+                datatype: "json",
+                success: function (result) {
+                    //do something
+                    console.log(result);
+                    showNotification('פעולה בוצעה בהצלחה !', 'success');
+                    document.location.reload();
+                },
+                error: function (xmlhttprequest, textstatus, errorthrown) {
+                    //alert(" conection to the server failed ");
+                    alert("error: " + errorthrown);
+                }
+            });//end of $.ajax()
+        }
+
+
+         function deleteGroup(groupId,groupName ) {
+
+             //alert(groupName + ' Deleted !');
+                 var mobj = {
+                groupId :groupId
+            };
+            var DTO = { 'userdata': JSON.stringify(mobj) };
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "BudgetGroups.aspx/deleteGroup",
                 data: JSON.stringify(DTO),
                 datatype: "json",
                 success: function (result) {

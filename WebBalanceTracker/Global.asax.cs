@@ -22,7 +22,9 @@ namespace WebBalanceTracker
             // Code that runs on application startup
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            
+
+            HandleOneTimeJobs();
+
             var backgroundWorker = new BackgroundWorkerDispatcher();
             backgroundWorker.Workers.Add(new MessagesWorker());
             backgroundWorker.Start();
@@ -34,6 +36,51 @@ namespace WebBalanceTracker
             message.SendMail = true;
             Db.Insert(message);
 #endif
+        }
+
+        private void HandleOneTimeJobs()
+        {
+            var performUniqueJobs = ConfigurationManager.AppSettings["OnStartUpJobs"];
+            if (!string.IsNullOrEmpty(performUniqueJobs))
+            {
+                var jobs = performUniqueJobs.Split(';').ToList();
+                if (jobs.Any(x => x.Equals("abstractCategoriesFromCurrentBudget")))
+                {
+                    var currentBudgetCategories = Global.CurrentBudget.Items;
+
+                    Db.BeginTransaction();
+
+                    try
+                    {
+                        foreach (var currentBudgetCategory in currentBudgetCategories)
+                        {
+                            var upsertC = new AbstractCategory
+                            {
+                                CategoryName = currentBudgetCategory.CategoryName,
+                                GroupId = currentBudgetCategory.GroupId,
+                                DefaultAmount = currentBudgetCategory.BudgetAmount,
+                                DayInMonth = 10,
+                                Active = true,
+                            };
+                            Db.Insert(upsertC);
+
+                            currentBudgetCategory.AbstractCategoryId = upsertC.Id;
+                            Db.Update(currentBudgetCategory);
+                        }
+                        Db.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        Db.RollBack();
+                        I_Message message = I_Message.Genertae(IMessageTypeEnum.Error);
+                        message.Title = "OnStartUpJobs";
+                        message.Message = "Error on abstractCategoriesFromCurrentBudget";
+                        message.ExtraData = ex.Message;
+                        message.SendMail = true;
+                        Db.Insert(message);
+                    }
+                }
+            }
         }
 
         protected void Session_Start(object sender, EventArgs e)
@@ -62,7 +109,7 @@ namespace WebBalanceTracker
 
                 // AutoTransactions
                 var date = DateTime.Now.FirstDayOfMonth();
-                var latestBudget = Db.GetSingle<Budget>(new SearchParameters { BudgetDate = date });
+                var latestBudget = Global.GetLatestBudget();
                 while (latestBudget == null)
                 {
                     date = date.AddMonths(-1);

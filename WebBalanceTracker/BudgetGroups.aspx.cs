@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using WpfTestApp1.MVVM.Model;
 
 namespace WebBalanceTracker
 {
@@ -58,6 +60,39 @@ namespace WebBalanceTracker
             return "Posted";
         }
 
+
+        [WebMethod]
+        public static string deleteGroup(string userdata)
+        {
+            dynamic req = userdata.ToDynamicJObject();
+
+            var groupToDelete = Db.GetSingle<BudgetGroup>(new SearchParameters { BudgetGroupId = (int)req.groupId });
+            var groupItemsToDelete = Db.GetData<BudgetItem>(new SearchParameters { BudgetItemGroupId = (int)req.groupId }).ToList();
+
+            try
+            {
+                Db.BeginTransaction();
+
+                if (groupToDelete != null)
+                    Db.Delete(groupToDelete);
+
+                foreach (var groupItemToDelete in groupItemsToDelete)
+                    Db.Delete(groupItemToDelete);
+
+                Db.Commit();
+
+                Global.RefreshBudget();
+            }
+            catch (Exception ex)
+            {
+                Db.RollBack();
+                I_Message.HandleException(ex, Db);
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Budget not Deleted, check system log for more info");
+            }
+
+
+            return "Posted";
+        }
 
     }
 }
