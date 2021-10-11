@@ -7,7 +7,7 @@ using System.Text;
 
 namespace QBalanceDesktop
 {
-    public class DbAccessProvider
+    public class DbAccessProvider 
     {
         #region Table Handling
 

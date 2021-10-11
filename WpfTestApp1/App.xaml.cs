@@ -56,16 +56,16 @@ namespace WpfTestApp1
 
                         var groups = (List<BudgetGroup>)JsonConvert.DeserializeObject<List<BudgetGroup>>(dynamicData.groups.ToString());
                         foreach (var g in groups)
-                            db.Insert(g);
+                            db.Add(g);
                         var categories = (List<BudgetItem>)JsonConvert.DeserializeObject<List<BudgetItem>>(dynamicData.categories.ToString());
                         foreach (var c in categories)
-                            db.Insert(c);
+                            db.Add(c);
                         var incomes = (List<BudgetIncomeItem>)JsonConvert.DeserializeObject<List<BudgetIncomeItem>>(dynamicData.incomes.ToString());
                         foreach (var i in incomes)
-                            db.Insert(i);
+                            db.Add(i);
                         var months = (List<Budget>)JsonConvert.DeserializeObject<List<Budget>>(dynamicData.months.ToString());
                         foreach (var m in months)
-                            db.Insert(m);
+                            db.Add(m);
                     }
                 }
             }

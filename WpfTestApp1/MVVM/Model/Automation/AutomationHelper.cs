@@ -23,7 +23,7 @@ namespace WpfTestApp1.MVVM.Model.Automation
                 db.BeginTransaction();
 
                 var nextBudget = new Budget { Month = nextBudgetDate };
-                db.Insert(nextBudget);
+                db.Add(nextBudget);
                 
                 // incomes
                 var existingIncomes = progressFrom.Incomes;
@@ -31,7 +31,7 @@ namespace WpfTestApp1.MVVM.Model.Automation
                 {
                     existingIncome.BudgetId = nextBudget.Id;
                     existingIncome.Amount = 0;
-                    db.Insert(existingIncome);
+                    db.Add(existingIncome);
                 }
 
                 // TransactionCheckPoints
@@ -40,7 +40,7 @@ namespace WpfTestApp1.MVVM.Model.Automation
                 {
                     existingTransactionCheckPoint.BudgetId = nextBudget.Id;
                     existingTransactionCheckPoint.Description = string.Empty;
-                    db.Insert(existingTransactionCheckPoint);
+                    db.Add(existingTransactionCheckPoint);
                 }
 
                 // budget Categories
@@ -58,14 +58,14 @@ namespace WpfTestApp1.MVVM.Model.Automation
                     //};
                     nBudgetItem.BudgetId = nextBudget.Id;
                     nBudgetItem.StatusAmount = 0;
-                    db.Insert(nBudgetItem);
+                    db.Add(nBudgetItem);
                 }
 
                 I_Message message = I_Message.Genertae(IMessageTypeEnum.Info);
                 message.Title = "Budget Progressed";
                 message.Message = progressFrom.Title;
                 message.ExtraData = nextBudget.Title;
-                db.Insert(message);
+                db.Add(message);
 
                 db.Commit();
                 return db.GetSingle<Budget>(new SearchParameters { BudgetDate = nextBudget.Month });
@@ -99,7 +99,7 @@ namespace WpfTestApp1.MVVM.Model.Automation
                         message.Title = "Auto Transaction Applied";
                         message.Message = autoTran.Name;
                         message.ExtraData = autoTran.DefaultAmount.ToNumberFormat();
-                        db.Insert(message);
+                        db.Add(message);
                     }
                 }
             }

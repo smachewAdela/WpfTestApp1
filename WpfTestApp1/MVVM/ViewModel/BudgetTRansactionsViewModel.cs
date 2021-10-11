@@ -26,7 +26,7 @@ namespace WpfTestApp1.MVVM.ViewModel
                     foreach (var checkPoint in _t)
                     {
                         checkPoint.BudgetId = GlobalsProviderBL.CurrentBudget.Id;
-                        GlobalsProviderBL.Db.Insert(checkPoint);
+                        GlobalsProviderBL.Db.Add(checkPoint);
                     }
                     GlobalsProviderBL.CurrentBudget.TransactionCheckPoints = GlobalsProviderBL.Db.GetData<TransactionCheckPoint>(new SearchParameters { TransactionCheckPointBudgetId = GlobalsProviderBL.CurrentBudget.Id });
                 }
@@ -95,7 +95,7 @@ namespace WpfTestApp1.MVVM.ViewModel
             if (log == null)
             {
                 log = new BudgetItemLog { BudgetItemId = o.Id, Amount = tran };
-                GlobalsProviderBL.Db.Insert(log);
+                GlobalsProviderBL.Db.Add(log);
             }
             else
             {

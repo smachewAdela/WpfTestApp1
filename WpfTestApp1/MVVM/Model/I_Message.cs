@@ -60,7 +60,7 @@ namespace WpfTestApp1.MVVM.Model
             message.Message = ex.StackTrace;
             message.ExtraData = ex.InnerException != null ? JsonConvert.SerializeObject( ex.InnerException) : string.Empty;
             message.SendMail = true;
-            db.Insert(message);
+            db.Add(message);
         }
     }
 }

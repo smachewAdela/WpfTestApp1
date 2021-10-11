@@ -63,7 +63,7 @@ namespace WebBalanceTracker
                 Id = req.editedId
             };
             if (req.editedId == 0)
-                Global.Db.Insert(upsertC);
+                Global.Db.Add(upsertC);
             else
                 Global.Db.Update(upsertC);
 

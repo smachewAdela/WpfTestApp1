@@ -129,6 +129,7 @@
     <Compile Include="MVVM\Model\BudgetIncomeItem.cs" />
     <Compile Include="MVVM\Model\BudgetItem.cs" />
     <Compile Include="MVVM\Model\DbAccess.cs" />
+    <Compile Include="MVVM\Model\DbAccessOld.cs" />
     <Compile Include="MVVM\Model\DbAccessProvider.cs" />
     <Compile Include="MVVM\Model\DbEntityAttribute.cs" />
     <Compile Include="MVVM\Model\DbFieldAttribute.cs" />

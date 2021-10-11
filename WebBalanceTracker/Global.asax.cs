@@ -62,7 +62,7 @@ namespace WebBalanceTracker
                                 DayInMonth = 10,
                                 Active = true,
                             };
-                            Db.Insert(upsertC);
+                            Db.Add(upsertC);
 
                             currentBudgetCategory.AbstractCategoryId = upsertC.Id;
                             Db.Update(currentBudgetCategory);
@@ -77,7 +77,7 @@ namespace WebBalanceTracker
                         message.Message = "Error on abstractCategoriesFromCurrentBudget";
                         message.ExtraData = ex.Message;
                         message.SendMail = true;
-                        Db.Insert(message);
+                        Db.Add(message);
                     }
                 }
             }
@@ -133,7 +133,7 @@ namespace WebBalanceTracker
             message.Message = body;
             message.ExtraData = ex.StackTrace;
             message.SendMail = true;
-            Db.Insert(message);
+            Db.Add(message);
         }
 
         static DbAccess budgetDb;
