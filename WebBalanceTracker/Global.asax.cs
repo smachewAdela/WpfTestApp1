@@ -108,14 +108,30 @@ namespace WebBalanceTracker
 
 
                 // AutoTransactions
-                var date = DateTime.Now.FirstDayOfMonth();
-                var latestBudget = Global.GetLatestBudget();
-                while (latestBudget == null)
+                //var date = DateTime.Now.FirstDayOfMonth();
+                //Budget latestBudget = null; // Global.GetLatestBudget();
+                //while (latestBudget == null)
+                //{
+                //    latestBudget = Db.GetSingle<Budget>(new SearchParameters { BudgetDate = date });
+                //    date = date.AddMonths(-1);
+                //}
+                //AutomationHelper.HandleAutoTransactions(Db, latestBudget);
+
+                
+                var oldestBudget = Global.GetLatestBudget();
+                var lastFirstOfMonth = DateTime.Now.FirstDayOfMonth();
+
+                //var newestBudget = Db.GetSingle<Budget>(new SearchParameters { BudgetDate = date });
+                //if (newestBudget == null)
+                //{
+                //    AutomationHelper.GenerateBudget(Db, oldestBudget, date.Date);
+                //    RefreshBudget();
+                //}
+                while (oldestBudget.Month.Date < lastFirstOfMonth)
                 {
-                    date = date.AddMonths(-1);
-                    latestBudget = Db.GetSingle<Budget>(new SearchParameters { BudgetDate = date });
+                    oldestBudget = AutomationHelper.GenerateBudget(Db, oldestBudget);
                 }
-                AutomationHelper.HandleAutoTransactions(Db, latestBudget);
+
             }
         }
 

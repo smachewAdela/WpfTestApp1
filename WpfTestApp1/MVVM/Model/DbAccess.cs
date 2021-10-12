@@ -41,7 +41,7 @@ namespace QBalanceDesktop
 
                 _command.ExecuteNonQuery();
             }
-            //SetNewDbIdentity(item);
+            SetNewDbIdentity(item);
         }
 
         public void Update(IDbItem item)
@@ -149,6 +149,28 @@ namespace QBalanceDesktop
 
                     _command.CommandText = creatScript;
                     _command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void SetNewDbIdentity(IDbItem item)
+        {
+            var table = item.GetTableName();
+            var idCol = item.GetIdentityField();
+
+            CheckTable(item);
+            using (var _connection = new SqlConnection(connectionString))
+            using (var _command = _connection.GetCommand())
+            {
+                CheckTransaction(_command);
+                _command.CommandText = $"Select max({idCol}) from {table} ";
+                using (SqlDataReader reader = _command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        var newId = reader.GetInt32(0);
+                        item.SetDbIdentity(newId);
+                    }
                 }
             }
         }

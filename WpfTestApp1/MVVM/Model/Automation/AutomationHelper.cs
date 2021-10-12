@@ -10,7 +10,7 @@ namespace WpfTestApp1.MVVM.Model.Automation
     public class AutomationHelper
     {
 
-        public static Budget GenerateBudget(DbAccess db, Budget progressFrom, DateTime? targetDate) 
+        public static Budget GenerateBudget(DbAccess db, Budget progressFrom, DateTime? targetDate = null) 
         {
 
             try
