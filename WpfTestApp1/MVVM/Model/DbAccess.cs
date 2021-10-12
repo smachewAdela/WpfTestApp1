@@ -11,7 +11,7 @@ namespace QBalanceDesktop
 {
     public class DbAccess
     {
-        private SqlTransaction _transaction;
+        
         private string connectionString;
 
         public DbAccess(string connStr)
@@ -34,6 +34,7 @@ namespace QBalanceDesktop
             using (var _connection = new SqlConnection(connectionString))
             using (var _command = _connection.GetCommand())
             {
+                CheckTransaction(_command);
                 _command.CommandText = $"INSERT INTO {table}({string.Join(",", iFields)})   VALUES({string.Join(",", iFields.Select(x => $"@{x}").ToList())})";
                 foreach (var DbInsertField in iFields)
                     _command.Parameters.AddWithValue($"@{DbInsertField}", item.GetValue(DbInsertField));
@@ -62,25 +63,12 @@ namespace QBalanceDesktop
                 foreach (var DbInsertField in iFields)
                     _command.Parameters.AddWithValue($"@{DbInsertField}", item.GetValue(DbInsertField));
 
+                CheckTransaction(_command);
+
                 _command.Parameters.AddWithValue($"@{idf}", item.GetValue(idf));
                 _command.CommandText = string.Format(updateScriptFormat, table, fieldsSet, where);
                 _command.ExecuteNonQuery();
             }
-        }
-
-        public void BeginTransaction()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Commit()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RollBack()
-        {
-            throw new NotImplementedException();
         }
 
         public void Delete(BaseDbItem item)
@@ -93,32 +81,13 @@ namespace QBalanceDesktop
             using (var _connection = new SqlConnection(connectionString))
             using (var _command = _connection.GetCommand())
             {
+                CheckTransaction(_command);
                 _command.CommandText = $"delete from {table} where {idCol}=@{idCol}";
                 _command.Parameters.AddWithValue($"@{idCol}", item.GetDbIdentity());
                 _command.ExecuteNonQuery();
             }
         }
 
-        public T GetSingle<T>(SearchParameters parameters) where T : BaseDbItem
-        {
-            return GetData<T>(parameters).FirstOrDefault();
-        }
-
-        public List<T> GetData<T>(SearchParameters parameters = null) where T : BaseDbItem
-        {
-            if (parameters == null)
-                parameters = new SearchParameters();
-            List<DbParam> innerParams = new List<DbParam>();
-            var i = (T)Activator.CreateInstance(typeof(T));
-            var query = $"select * from {i.GetTableName()}";
-            List<string> paramsText = ExtractParameters(parameters, innerParams);
-            if (paramsText.Count > 0)
-            {
-                query += $" where { string.Join(" and ", paramsText)}";
-            }
-
-            return Get<T>(query, innerParams.ToArray());
-        }
 
         public DataTable ListTableBySql(string sql)
         {
@@ -141,6 +110,7 @@ namespace QBalanceDesktop
             using (var _command = _connection.GetCommand())
             {
                 _command.CommandText = sql;
+                CheckTransaction(_command);
                 if (parameters != null)
                 {
                     foreach (var item in parameters)
@@ -158,6 +128,94 @@ namespace QBalanceDesktop
             }
             return lst;
         }
+
+
+        static object obj = new object();
+        public void CheckTable(IDbItem dbItem)
+        {
+            List<string> cols = dbItem.GetInsertFields();
+            string tblName = dbItem.GetTableName();
+
+            lock (obj)
+            {
+                using (var _connection = new SqlConnection(connectionString))
+                using (var _command = _connection.GetCommand())
+                {
+                    CheckTransaction(_command);
+                    var tableScript = string.Format(createTableFormat, tblName);
+                    var colsScript = BuildTableColumns(dbItem);
+                    tableScript = tableScript.Replace("[[cols]]", colsScript);
+                    string creatScript = $"If not exists (select name from sysobjects where name = '{tblName}') {tableScript}";
+
+                    _command.CommandText = creatScript;
+                    _command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void CheckTransaction(SqlCommand command)
+        {
+            if (_transaction != null)
+            {
+                command.Transaction = _transaction;
+                command.Connection = _transactionConnection;
+            }
+        }
+
+        private SqlTransaction _transaction;
+        private SqlConnection _transactionConnection;
+
+        public void BeginTransaction()
+        {
+            _transactionConnection = new SqlConnection(connectionString);
+            _transactionConnection.Open();
+            _transaction = _transactionConnection.BeginTransaction();
+        }
+
+        public void Commit()
+        {
+            _transaction.Commit();
+            ClearTransaction();
+        }
+
+        private void ClearTransaction()
+        {
+            _transaction.Dispose();
+            _transaction = null;
+
+            _transactionConnection.Close();
+            _transactionConnection.Dispose();
+            _transactionConnection = null;
+        }
+
+        public void RollBack()
+        {
+            _transaction.Rollback();
+            ClearTransaction();
+        }
+
+
+        public T GetSingle<T>(SearchParameters parameters) where T : BaseDbItem
+        {
+            return GetData<T>(parameters).FirstOrDefault();
+        }
+
+        public List<T> GetData<T>(SearchParameters parameters = null) where T : BaseDbItem
+        {
+            if (parameters == null)
+                parameters = new SearchParameters();
+            List<DbParam> innerParams = new List<DbParam>();
+            var i = (T)Activator.CreateInstance(typeof(T));
+            var query = $"select * from {i.GetTableName()}";
+            List<string> paramsText = ExtractParameters(parameters, innerParams);
+            if (paramsText.Count > 0)
+            {
+                query += $" where { string.Join(" and ", paramsText)}";
+            }
+
+            return Get<T>(query, innerParams.ToArray());
+        }
+
 
         private List<string> ExtractParameters(SearchParameters parameters, List<DbParam> innerParams)
         {
@@ -241,29 +299,6 @@ namespace QBalanceDesktop
             {
                 param.Add("Id=@Id");
                 innerParams.Add(new DbParam("@Id", parameter.Value));
-            }
-        }
-
-        static object obj = new object();
-        public void CheckTable(IDbItem dbItem)
-        {
-            List<string> cols = dbItem.GetInsertFields();
-            string tblName = dbItem.GetTableName();
-
-            lock (obj)
-            {
-                using (var _connection = new SqlConnection(connectionString))
-                using (var _command = _connection.GetCommand())
-                {
-                    
-                    var tableScript = string.Format(createTableFormat, tblName);
-                    var colsScript = BuildTableColumns(dbItem);
-                    tableScript = tableScript.Replace("[[cols]]", colsScript);
-                    string creatScript = $"If not exists (select name from sysobjects where name = '{tblName}') {tableScript}";
-
-                    _command.CommandText = creatScript;
-                    _command.ExecuteNonQuery();
-                }
             }
         }
 
