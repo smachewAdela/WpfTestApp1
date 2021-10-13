@@ -54,5 +54,13 @@ namespace WebBalanceTracker
                 ;
             }
         }
+
+        public Dictionary<int,string> Budgets
+        {
+            get
+            {
+                return Global.Db.GetData<Budget>().OrderByDescending(x => x.Id).ToDictionary(x => x.Id, x => x.Title);
+            }
+        }
     }
 }
