@@ -45,6 +45,16 @@ namespace WebBalanceTracker
             }
         }
 
+        
+
+        public string LeftFromIncome
+        {
+            get
+            {
+                return (Global.CurrentBudget.Incomes.Sum(x => x.Amount) - Global.CurrentBudget.Items.Sum(x => x.StatusAmount)).ToNumberFormat();
+            }
+        }
+
         public string LefttoUse
         {
             get
@@ -52,7 +62,6 @@ namespace WebBalanceTracker
                 return (Global.CurrentBudget.Items.Sum(x => x.BudgetAmount) - Global.CurrentBudget.Items.Sum(x => x.StatusAmount)).ToNumberFormat();
             }
         }
-
         public int Ratio
         {
             set { }

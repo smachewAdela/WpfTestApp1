@@ -182,6 +182,11 @@ namespace QBalanceDesktop
                 command.Transaction = _transaction;
                 command.Connection = _transactionConnection;
             }
+            else
+            {
+                if(command.Connection.State != ConnectionState.Open && command.Connection.State != ConnectionState.Connecting)
+                    command.Connection.Open();
+            }
         }
 
         private SqlTransaction _transaction;

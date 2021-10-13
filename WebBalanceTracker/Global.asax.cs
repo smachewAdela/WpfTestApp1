@@ -218,7 +218,16 @@ namespace WebBalanceTracker
                 CurrentBudget = nextB;
             }
         }
-        
+
+        internal static void ChangeGlobalBudget(int nextId)
+        {
+            var nextB = Db.GetSingle<Budget>(new SearchParameters { BudgetId = nextId });
+            if (nextB != null)
+            {
+                CurrentBudget = nextB;
+            }
+        }
+
         static Budget b;
         public static Budget CurrentBudget
         {

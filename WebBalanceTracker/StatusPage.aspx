@@ -6,6 +6,7 @@
     <div class="row">
         <% foreach (System.Data.DataRow BudgetGroup in BudgetGroups.Rows)
             { %>
+
         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
             <div class="card card-stats bg-darker">
                 <div class="card-header card-header-info card-header-icon">

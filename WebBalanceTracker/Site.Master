@@ -40,7 +40,7 @@
 
 </head>
 <%--<body class="dark-edition">--%>
-<body class="bg-fade py-3">
+<body class=" py-3">
     <form runat="server">
         <asp:ScriptManager runat="server">
             <Scripts>
@@ -64,30 +64,30 @@
 
 
         <div class="wrapper mt-0">
-            <div class="sidebar" data-color="azure" data-background-color="black" data-image="./assets/img/sidebar-2.jpg">
+            <div class="sidebar w-10"  data-image="./assets/img/sidebar-2.jpg">
                 <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
       Tip 2: you can also add an image using data-image tag
   -->
-                <div class="logo py-4 h1" style="z-index:100">
-
-                    <%--    <a href="Default.aspx" class="simple-text logo-normal">מעקב תקציב
-                    </a>--%>
-
+                <div class="logo py-2 h1" style="z-index:100">
                     <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle bg-transparent w-100 text-info" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-secondary dropdown-toggle bg-transparent w-100 text-info h3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <%= global_asax.CurrentTitle %>
                         </button>
-                        <div class="dropdown-menu bg-darker w-100 text-white h1" aria-labelledby="dropdownMenuButton">
+                        <div class="dropdown-menu w-100 py-0 px-0 text-white " aria-labelledby="dropdownMenuButton">
                             <% foreach (var bb in Budgets)
                                 { %>
-                                    <a class="dropdown-item  text-center" href="#" onclick="changeBudget('<%= bb.Key %>'); return false;"><%= bb.Value %></a>
+                                    <button class="btn-white border-0 my-0 btn  text-center h3 w-100 " onclick="changeBudget('<%= bb.Key %>'); return false;">
+                                        <%= bb.Value %>
+                                    </button>
                             <% } %>
                         </div>
                     </div>
-
                 </div>
+
+
+                <%--Menus--%>
                 <div class="sidebar-wrapper">
                     <ul class="nav">
                         <li class="nav-item  qpage" id="nvMain" runat="server">
@@ -172,7 +172,7 @@
 
                     <% if (!hideBudgetNavigator)
                         {  %>
-                    <div class="container-fluid">
+                    <%--<div class="container-fluid">
                         <div class="row px-5 py-2">
                             <div class="w-25">
                                 <button id="btnclk" onclick="updates('prev'); return false;" class="h-100 border-0 text-danger bg-transparent w-100">
@@ -189,7 +189,7 @@
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div>--%>
                     <% } %>
                     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                     </asp:ContentPlaceHolder>
@@ -525,7 +525,29 @@
         }
 
         function changeBudget(newBudgetId) {
-            alert('nextBudget =' + newBudgetId);
+            //alert('nextBudget =' + newBudgetId);
+
+               var mobj = {
+                nextBudget: newBudgetId,
+            };
+            var DTO = { 'userdata': JSON.stringify(mobj) };
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "StatusPage.aspx/changeGlobalBudget",
+                data: JSON.stringify(DTO),
+                datatype: "json",
+                success: function (result) {
+                    //do something
+                    //alert("SUCCESS = " + result.d);
+                    console.log(result);
+                    window.location.href = window.location.href;
+                },
+                error: function (xmlhttprequest, textstatus, errorthrown) {
+                    //alert(" conection to the server failed ");
+                    alert("error: " + errorthrown);
+                }
+            });//end of $.ajax()
         }
     </script>
 </body>

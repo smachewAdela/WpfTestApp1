@@ -70,5 +70,17 @@ namespace WebBalanceTracker
             //HttpContext.Current.Response.Redirect(req.source.ToString());
             return "Posted";
         }
+
+
+        [WebMethod]
+        public static string changeGlobalBudget(string userdata)
+        {
+            dynamic req = userdata.ToDynamicJObject();
+
+            int nextBudget = req.nextBudget;
+            Global.ChangeGlobalBudget(nextBudget);
+            //HttpContext.Current.Response.Redirect(req.source.ToString());
+            return "Posted";
+        }
     }
 }
