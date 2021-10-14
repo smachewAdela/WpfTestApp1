@@ -3,35 +3,35 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="row px-1">
         <div class="col-1">
-            <button class="bg-transparent text-warning border-0 w-100" onclick="showInsertCategory(); return false;">
+            <%--<button class="bg-transparent text-warning border-0 w-100" onclick="showInsertCategory(); return false;">
                 <i class="material-icons fa-2x">add</i>
-            </button>
+            </button>--%>
         </div>
-        <div class="col-10">
+        <div class="col-6">
             <div class="table-responsive">
                 <table class="table table-shopping border-0" dir="rtl">
                     <tr class="text-lg-center text-info h3 bg-dark">
                         <th>קטגוריה</th>
                         <th>ברירת מחדל</th>
                         <th>קבוצה</th>
-                         <th>תקציב</th>
+                        <th>תקציב</th>
                         <th>עדכון</th>
                     </tr>
                     <tbody>
                         <% foreach (System.Data.DataRow BudgetGroup in BudgetCategories.Rows)
                             { %>
-                        <tr class="text-center  bg-darker text-white border-bottom">
+                        <tr class="text-center text-dark font-weight-bold border-bottom">
 
                             <td>
                                 <% =BudgetGroup[0] %>
                             </td>
-                             <td>
+                            <td>
                                 <% =BudgetGroup[5] %>
                             </td>
                             <td>
                                 <% =BudgetGroup[1] %>
                             </td>
-                               <td>
+                            <td>
                                 <% =BudgetGroup[4] %>
                             </td>
                             <td>
@@ -46,7 +46,47 @@
                 </table>
             </div>
         </div>
-        <div class="col-1"></div>
+        <div class="col-5">
+
+            <div class="card my-0">
+                <div class="card-header text-info h3 bg-dark my-0 text-lg-center ">
+                    פעולות
+                </div>
+                <div class="card-body row">
+
+                    <div class="col-4">
+                        <button type="button" class="btn btn-outline-info text-lg-center h4" onclick="showInsertCategory(); return false;">
+                            הוספה
+                         <i class="material-icons text-lg-center ">add</i>
+                        </button>
+                    </div>
+
+                    <div class="col-8 ">
+
+                        <div class="row">
+
+                            <div class="col-1 my-auto mx-auto">
+                                <span class="material-icons-outlined w-100 pull-left"><i class="material-icons text-info">arrow_drop_down</i>
+                                </span>
+                            </div>
+                            <div class="col-11 my-auto mx-auto">
+                                <select id="groupSelector" class="h3 py-0 text-center border-0 text-white  h-100 text-info  bg-transparent">
+                                    <option value="">....קבוצה לסינון</option>
+                                    <% foreach (WebBalanceTracker.GroupData budgetGroup in BudgetGroups)
+                                        { %>
+                                    <option value="<% =budgetGroup.Id %>" class=" text-center text-info w-100 border-0"><% =budgetGroup.GroupName %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" dir="rtl">
             <div class="modal-dialog" role="document">
@@ -56,7 +96,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <input type=hidden id="edtId" value="0"/>
+                            <input type="hidden" id="edtId" value="0" />
 
                             <div class="col-4 text-lg-center h3 h-100">שם : </div>
                             <div class="col-8">
@@ -67,7 +107,7 @@
                             <div class="col-8">
                                 <asp:DropDownList ID="cmbGroups" CssClass="form-control w-100  h-100" ClientIDMode="Static" runat="server"></asp:DropDownList>
                             </div>
-                             <div class="col-4 text-lg-center h3 h-100">תקציב : </div>
+                            <div class="col-4 text-lg-center h3 h-100">תקציב : </div>
                             <div class="col-8">
                                 <input type="text" class="form-control w-100 h-100" placeholder="" id="edtBudget">
                             </div>
@@ -99,7 +139,7 @@
             $('#myModalLabel').text(catName);
             $('#edtName').attr('value', catName);
             $('#edtId').attr('value', catId);
-              $('#edtBudget').attr('value', budget);
+            $('#edtBudget').attr('value', budget);
             $('#cmbGroups').val(catGroupId).change();
             $('#myModal').modal('show')
         }
@@ -116,7 +156,7 @@
                 alert('please enter category name');
                 return;
             }
-             if (groupId == '' || groupId == undefined) {
+            if (groupId == '' || groupId == undefined) {
                 alert('please select group');
                 return;
             }
@@ -133,7 +173,7 @@
                 editedId: editedId,
                 catName: catName,
                 groupId: groupId,
-                budget : budget
+                budget: budget
             };
             var DTO = { 'userdata': JSON.stringify(mobj) };
             $.ajax({
@@ -156,5 +196,22 @@
                 }
             });//end of $.ajax()
         }
+    </script>
+
+    <script>
+         $("#groupSelector").change(function () {
+            var selectedGroupId = this.value;
+            $(".groupData").each(function () {
+                var gid = $(this).attr('groupData');
+                var visible = gid == selectedGroupId;
+                if (visible) {
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+
+            });
+        });
     </script>
 </asp:Content>

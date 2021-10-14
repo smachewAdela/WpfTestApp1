@@ -34,8 +34,6 @@
         .custom-text {
             font-size: 28px !important;
         }
-
-
     </style>
 
 </head>
@@ -64,13 +62,13 @@
 
 
         <div class="wrapper mt-0">
-            <div class="sidebar w-10"  data-image="./assets/img/sidebar-2.jpg">
+            <div class="sidebar w-10" data-image="./assets/img/sidebar-2.jpg">
                 <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
       Tip 2: you can also add an image using data-image tag
   -->
-                <div class="logo py-2 h1" style="z-index:100">
+                <div class="logo py-2 h1" style="z-index: 100">
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle bg-transparent w-100 text-info h3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <%= global_asax.CurrentTitle %>
@@ -78,9 +76,9 @@
                         <div class="dropdown-menu w-100 py-0 px-0 text-white " aria-labelledby="dropdownMenuButton">
                             <% foreach (var bb in Budgets)
                                 { %>
-                                    <button class="btn-white border-0 my-0 btn  text-center h3 w-100 " onclick="changeBudget('<%= bb.Key %>'); return false;">
-                                        <%= bb.Value %>
-                                    </button>
+                            <button class="btn-white border-0 my-0 btn  text-center h3 w-100 " onclick="changeBudget('<%= bb.Key %>'); return false;">
+                                <%= bb.Value %>
+                            </button>
                             <% } %>
                         </div>
                     </div>
@@ -191,6 +189,12 @@
                         </div>
                     </div>--%>
                     <% } %>
+
+                    <div class="w-100  bg-info text-white my-1">
+                        <div class="py-2 text-center h2">
+                            <%= global_asax.CurrentTitle %>
+                        </div>
+                    </div>
                     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                     </asp:ContentPlaceHolder>
                 </div>
@@ -527,7 +531,7 @@
         function changeBudget(newBudgetId) {
             //alert('nextBudget =' + newBudgetId);
 
-               var mobj = {
+            var mobj = {
                 nextBudget: newBudgetId,
             };
             var DTO = { 'userdata': JSON.stringify(mobj) };

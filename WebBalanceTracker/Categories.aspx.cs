@@ -54,6 +54,26 @@ namespace WebBalanceTracker
             }
         }
 
+        public List<GroupData> BudgetGroups
+        {
+            get
+            {
+                var tbl = new DataTable();
+                tbl.AddColumns(5);
+                var gData = new List<GroupData>();
+
+                var currentBudget = Global.CurrentBudget;
+                var gGroups = Db.GetData<BudgetGroup>(new SearchParameters { });
+
+                foreach (var g in gGroups)
+                {
+                    g.BudgetItems = currentBudget.Items.Where(x => x.GroupId == g.Id).ToList();
+                    gData.Add(new GroupData(g));
+                }
+
+                return gData;
+            }
+        }
 
         [WebMethod]
         public static string upsertCategory(string userdata)
