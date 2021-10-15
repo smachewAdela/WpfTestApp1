@@ -4,20 +4,20 @@
 
 
 
-    <div class="row ">
+    <div class="row">
 
         <div class="col-1"></div>
-        <div class="col-6 ">
+        <div class="col-6  mt-0 pt-0">
             <% foreach (WebBalanceTracker.GroupData budgetGroup in BudgetGroups)
                 { %>
 
-            <div class="col-12 groupData" groupdata="<% =budgetGroup.Id %>">
+            <div class="mt-0 groupData" groupdata="<% =budgetGroup.Id %>">
                 <div class="text-center text-info py-2 h3 bg-darker">
                     <% =budgetGroup.GroupName %>
                 </div>
 
                 <div class="col-12">
-                    <table class="text-center table my-2" id="tbl" dir="rtl">
+                    <table class="text-center  my-2 table" id="tbl" dir="rtl">
                         <thead>
                             <tr class=" text-info bg-dark custom-text">
                                 <th>קטגוריה</th>
@@ -53,7 +53,7 @@
         </div>
 
         <div class="col-4">
-            <div class="card py-0">
+            <div class="card bg-transparent mt-4">
                 <div class="card-header text-info h3 bg-dark my-0 text-center  ">
                     פעולות
                 </div>
@@ -84,7 +84,7 @@
                                     <% foreach (var reportInfo in BudgetGroups)
                                         { %>
                                     <a class="dropdown-item w-100 text-center h5 btn-info " onclick="filterByGroup('<% =reportInfo.Id %>'); return false;">
-                                      <div class="text-center w-100">  <% =reportInfo.GroupName %></div>
+                                        <div class="text-center w-100"><% =reportInfo.GroupName %></div>
                                     </a>
                                     <%}%>
                                 </div>
@@ -178,7 +178,7 @@
         });
 
         function filterByGroup(groupId) {
-               $(".groupData").each(function () {
+            $(".groupData").each(function () {
                 var gid = $(this).attr('groupData');
                 var visible = gid == groupId;
                 if (visible) {

@@ -13,7 +13,7 @@ namespace QBalanceDesktop
 
         public string Title
         {
-            get { return $"{Month.ToString("MMMM")}-{Month.Year.ToString()}"; }
+            get { return $"{Month.ToString("MMMM")} {Month.Year.ToString().Substring(2,2)}"; }
         }
 
         List<BudgetItem> items;

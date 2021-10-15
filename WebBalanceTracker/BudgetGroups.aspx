@@ -4,12 +4,9 @@
 
     <div class="row px-1">
 
-        <div class="col-3">
-            <button class="bg-transparent text-warning border-0 w-100" onclick="showCreateGroup(); return false;">
-                <i class="material-icons fa-2x">add</i>
-            </button>
+        <div class="col-1">
         </div>
-        <div class="col-6">
+        <div class="col-7">
             <div class="table-responsive">
                 <table class="table table-shopping border-0" dir="rtl">
                     <tr class="text-lg-center text-info h3 bg-dark">
@@ -20,7 +17,7 @@
                     <tbody>
                         <% foreach (System.Data.DataRow BudgetGroup in BudgetGroupItems.Rows)
                             { %>
-                        <tr class="text-center  bg-darker text-white border-bottom">
+                        <tr class="text-center  bg-white text-info border-bottom">
 
                             <td>
                                 <% =BudgetGroup[0] %>
@@ -30,7 +27,7 @@
                                     <i class="material-icons">edit</i>
                                 </button>
                             </td>
-                               <td>
+                            <td>
                                 <button id="btnDlt" onclick="deleteGroup('<% =BudgetGroup[1] %>','<% =BudgetGroup[0] %>'); return false;" class="h-100 border-0 text-danger bg-transparent w-100">
                                     <i class="material-icons">delete</i>
                                 </button>
@@ -42,15 +39,33 @@
                 </table>
             </div>
         </div>
-        <div class="col-3"></div>
+        <div class="col-3">
+
+            <div class="card my-0">
+                <div class="card-header text-info h3 bg-dark my-0 text-center ">
+                    פעולות
+                </div>
+                <div class="card-body row">
+
+                    <div class="col-12">
+                        <button type="button" class="btn btn-outline-info text-center h4" onclick="showCreateGroup(); return false;">
+                            הוספה
+                         <i class="material-icons text-center ">add</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-1"></div>
     </div>
 
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" dir="rtl">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title py-2 text-warning" id="myModalLabel">Modal title</h3>
+                <div class="modal-header bg-dark text-info">
+                    <h3 class="modal-title py-2 text-info" id="myModalLabel">Modal title</h3>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -62,8 +77,13 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">ביטול</button>
-                        <button type="button" class="btn btn-success" onclick="CreateGroup(); return false;">שמור</button>
+
+                        <button type="button" class="btn btn-info text-lg-center h4 w-50 my-auto" data-dismiss="modal">
+                            <i class="material-icons text-lg-center ">clear</i>    ביטול    
+                        </button>
+                        <button type="button" class="btn btn-outline-info text-lg-center h4 w-50 my-auto" onclick="CreateGroup(); return false;">
+                            <i class="material-icons text-lg-center ">save</i>    שמור    
+                        </button>
                     </div>
                 </div>
             </div>
@@ -82,7 +102,7 @@
         function showUpdateGroup(groupName, groupId) {
 
             $('#myModalLabel').text('ערוך קבוצה : ' + groupName);
-            $('#edtName').attr('value',groupName);
+            $('#edtName').attr('value', groupName);
             $('#edtId').attr('value', groupId);
             $('#myModal').modal('show');
         }
@@ -92,7 +112,7 @@
             var groupId = $('#edtId').val();
             var mobj = {
                 groupName: groupName,
-                groupId :groupId
+                groupId: groupId
             };
             var DTO = { 'userdata': JSON.stringify(mobj) };
             $.ajax({
@@ -115,11 +135,11 @@
         }
 
 
-         function deleteGroup(groupId,groupName ) {
+        function deleteGroup(groupId, groupName) {
 
-             //alert(groupName + ' Deleted !');
-                 var mobj = {
-                groupId :groupId
+            //alert(groupName + ' Deleted !');
+            var mobj = {
+                groupId: groupId
             };
             var DTO = { 'userdata': JSON.stringify(mobj) };
             $.ajax({
