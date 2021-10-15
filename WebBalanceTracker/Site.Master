@@ -191,8 +191,8 @@
                     <% } %>
 
                     <div class="w-100  bg-info text-white my-1">
-                        <div class="py-2 text-center h2">
-                            <%= global_asax.CurrentTitle %>
+                        <div class="py-2 text-center h2 bg-darker text-info">
+                            <%= global_asax.CurrentTitle %> - <%= xTitle %> 
                         </div>
                     </div>
                     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">

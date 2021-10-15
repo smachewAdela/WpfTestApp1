@@ -22,7 +22,7 @@ namespace WebBalanceTracker
             get
             {
                 var tbl = new DataTable();
-                tbl.AddColumns(5);
+                tbl.AddColumns(6);
 
                 var currentBudget = Global.CurrentBudget;
                 var gGroups = Db.GetData<BudgetGroup>(new SearchParameters { });
@@ -47,12 +47,13 @@ namespace WebBalanceTracker
                     IsTotal = true
                 };
 
-                //totalRow[0] = total.Name;
-                //totalRow[1] = total.BudgetStr;
-                //totalRow[2] = total.StatusStr;
-                //totalRow[3] = $"{total.Ratio}%";
-                //totalRow[4] = "1";
-                //tbl.Rows.Add(totalRow);
+                totalRow[0] = total.Name;
+                totalRow[1] = total.BudgetStr;
+                totalRow[2] = total.StatusStr;
+                totalRow[3] = $"{total.Ratio}%";
+                totalRow[4] = "0";
+                totalRow[5] = "1"; // is total
+                tbl.Rows.Add(totalRow);
 
                 return tbl;
             }

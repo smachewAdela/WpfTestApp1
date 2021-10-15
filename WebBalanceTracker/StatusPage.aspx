@@ -2,31 +2,37 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-   
+
     <div class="row">
-        <% foreach (System.Data.DataRow BudgetGroup in BudgetGroups.Rows)
-            { %>
 
-      <%--  <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-            <div class="card card-stats">
-                <div class="card-header card-header-info card-header-icon">
-                    <div class="card-icon">
-                        <i class="material-icons">payments</i>
-                    </div>
-                    <div class="h2"> <% =BudgetGroup[0] %></div>
-                    <h3 class="card-title text-info"> <% =BudgetGroup[2] %>/ <% =BudgetGroup[1] %>
-                    </h3>
-                </div>
-                <div class="card-footer ">
-                    <div class="stats <% =BudgetGroup[4] == "1" ? "text-danger" : "text-info" %>">
-                        <i class="material-icons ">timeline</i>
-                         <% =BudgetGroup[3] %>
-                    </div>
-                </div>
-            </div>
-        </div>--%>
+        <div class="col-12 page-content page-container" id="page-content">
+            <div class="padding">
+                <div class="row container d-flex justify-content-center">
+                    <div class="col-lg-8 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-header card-chart card-header-info">
+                                <div class="card-icon bg-transparent">
+                                    <i class="material-icons">balance</i>
+                                </div>
+                                
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table rtl">
+                                        <thead>
+                                            <tr class="bg-dark text-center text-info h2 ">
+                                                <th>השלמה</th>
+                                                <th>סטטוס</th>
+                                                <th>תקציב</th>
+                                                <th>שם</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
-          <div class="col-md-3">
+                                            <% foreach (System.Data.DataRow BudgetGroup in BudgetGroups.Rows)
+                                                { %>
+
+                                            <%-- <div class="col-md-3">
             <div class="card rtl">
                 <div class="card-header card-chart card-header-info">
                     <div class="card-icon bg-transparent">
@@ -44,9 +50,28 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>--%>
 
-        <% } %>
+
+                                            <tr class="text-center h3 <% =BudgetGroup[4] == "1" ? "text-danger" : "text-info" %>  <% =BudgetGroup[5] == "1" ? "bg-darker" : "" %>">
+                                                <td><% =BudgetGroup[3] %></td>
+                                                <td><% =BudgetGroup[2] %></td>
+                                                <td><% =BudgetGroup[1] %></td>
+                                                <td>
+                                                    <% =BudgetGroup[0] %>
+                                                </td>
+                                            </tr>
+
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </asp:Content>
