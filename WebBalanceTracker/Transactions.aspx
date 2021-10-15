@@ -2,9 +2,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <div class="row px-3">
+    <div class="row py-2">
 
-        <div class="col-1"></div>
+        <%--      <div class="col-1"></div>
         <div class="col-10">
             <span class="material-icons-outlined"><i class="material-icons text-info">arrow_drop_down</i>
             </span>
@@ -16,23 +16,23 @@
                 <% } %>
             </select>
         </div>
-        <div class="col-1"></div>
+        <div class="col-1"></div>--%>
 
         <div class="col-1"></div>
-        <div class="col-10 row">
+        <div class="col-6 row">
 
             <% foreach (WebBalanceTracker.GroupData budgetGroup in BudgetGroups)
                 { %>
             <div class="col-12 groupData" groupdata="<% =budgetGroup.Id %>">
 
-                <div class="text-center text-info py-2 h3 bg-darker">
+                <div class="text-center text-info py-2 h3 bg-darker w-100 my-0">
                     <% =budgetGroup.GroupName %>
                 </div>
 
                 <div class="col-12">
-                    <table class="text-center table bg-dark my-2" id="tbl" dir="rtl">
+                    <table class="text-center table my-2 w-100" id="tbl" dir="rtl">
                         <thead>
-                            <tr class=" text-warning custom-text">
+                            <tr class=" text-info custom-text bg-dark">
                                 <th>קטגוריה</th>
                                 <th>תקציב</th>
                                 <th>אחוז השלמה</th>
@@ -45,7 +45,7 @@
 
                             <% foreach (WebBalanceTracker.BudgetData catData in budgetGroup.BudgetGroups)
                                 { %>
-                            <tr class="text-white h4">
+                            <tr class="text-dark h4">
                                 <td><% =string.Format("{0:n0}",catData.CategoryName) %></td>
                                 <td><% =string.Format("{0:n0}",catData.BudgetAmount) %></td>
                                 <td class="text-info"><% =catData.Ratio %>%</td>
@@ -70,45 +70,77 @@
             </div>
             <% } %>
         </div>
-        <div class="col-1"></div>
-        
+        <div class="col-4">
+            <div class="card my-0">
+                <div class="card-header text-info h3 bg-dark my-0 text-center ">
+                    פעולות
+                </div>
+                <div class="card-body mt-0">
+
+                    <div class="row">
+
+                        <div class="col-12 text-center text-info py-2 h3 bg-darker">
+                            סינון
+                        </div>
+                        <div class="col-12 pull-right mx-2 my-2">
+                            <span class="material-icons-outlined pull-left  mx-3"><i class="material-icons text-info">arrow_drop_down</i>
+                            </span>
+                            <select id="groupSelector" class="h3  border-0 text-white text-info   h-100 py-2 mx-2 my-auto">
+                                <option value="">....קבוצה לסינון</option>
+                                <% foreach (WebBalanceTracker.GroupData budgetGroup in BudgetGroups)
+                                    { %>
+                                <option value="<% =budgetGroup.Id %>" class=" text-center text-info w-100 border-0 my-2 mx-auto"><% =budgetGroup.GroupName %></option>
+                                <% } %>
+                            </select>
+                        </div>
+
+
+
+                        <div class="col-12 text-center text-info py-2 h3 bg-darker">
+                            עדכון תנועה אחרונה
+                        </div>
+
+                        <div class="col-12">
+                            <table class="text-center table bg-transparent" id="bv" dir="rtl">
+                                <thead>
+                                    <tr class="text-info bg-dark font-weight-bold  custom-text">
+                                        <th>שם</th>
+                                        <th>תיאור תנועה אחרונה</th>
+                                        <th>עדכן</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% foreach (WebBalanceTracker.CheckPointData cPoint in CheckPoints)
+                                        { %>
+
+
+                                    <tr class="text-info h4">
+                                        <td class="w-25"><% =string.Format("{0:n0}",cPoint.Name) %></td>
+                                        <td class="w-50">
+                                            <input type="text" class="form-control w-100 h-100 align-bottom text-center text-dark" value="<% =cPoint.Description %>" id="edtCheckpoint<% =cPoint.Id %>">
+                                        </td>
+                                        <td class="w-25">
+                                            <button id="btncpoint" onclick="saveCheckpoint('<% =cPoint.Id %>','edtCheckpoint<% =cPoint.Id %>'); return false;"
+                                                class="h-100 border-0 text-info bg-transparent">
+                                                <i class="material-icons">update</i>
+                                            </button>
+                                        </td>
+
+                                    </tr>
+
+                                    <% } %>
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="col-2"></div>
         <div class="col-8 row">
-
-            <div class="col-12 text-center text-info py-2 h3 bg-darker">
-                עדכון תנועה אחרונה
-            </div>
-
-            <table class="text-center table bg-transparent" id="bv" dir="rtl">
-                <thead>
-                    <tr class="text-warning font-weight-bold  custom-text">
-                        <th>שם</th>
-                        <th>תיאור תנועה אחרונה</th>
-                        <th>עדכן</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% foreach (WebBalanceTracker.CheckPointData cPoint in CheckPoints)
-                        { %>
-
-
-                    <tr class="text-white h4">
-                        <td class="w-25"><% =string.Format("{0:n0}",cPoint.Name) %></td>
-                        <td class="w-50">
-                            <input type="text" class="form-control w-100 h-100 align-bottom text-center text-white" value="<% =cPoint.Description %>" id="edtCheckpoint<% =cPoint.Id %>">
-                        </td>
-                        <td class="w-25">
-                            <button id="btncpoint" onclick="saveCheckpoint('<% =cPoint.Id %>','edtCheckpoint<% =cPoint.Id %>'); return false;"
-                                class="h-100 border-0 text-info bg-transparent">
-                                <i class="material-icons">update</i>
-                            </button>
-                        </td>
-
-                    </tr>
-
-                    <% } %>
-                </tbody>
-            </table>
         </div>
         <div class="col-2"></div>
     </div>
