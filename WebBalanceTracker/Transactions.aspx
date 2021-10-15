@@ -83,7 +83,8 @@
                             סינון
                         </div>
                         <div class="col-12 pull-right mx-2 my-2">
-                            <span class="material-icons-outlined pull-left  mx-3"><i class="material-icons text-info">arrow_drop_down</i>
+
+                       <%--     <span class="material-icons-outlined pull-left  mx-3"><i class="material-icons text-info">arrow_drop_down</i>
                             </span>
                             <select id="groupSelector" class="h3  border-0 text-white text-info   h-100 py-2 mx-2 my-auto">
                                 <option value="">....קבוצה לסינון</option>
@@ -91,7 +92,24 @@
                                     { %>
                                 <option value="<% =budgetGroup.Id %>" class=" text-center text-info w-100 border-0 my-2 mx-auto"><% =budgetGroup.GroupName %></option>
                                 <% } %>
-                            </select>
+                            </select>--%>
+
+
+                            <div class="dropdown">
+                            <button class=" w-100 h-100 btn btn-outline-info dropdown-toggle h4 " type="button" id="groupSelector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                ...קבוצה לסינון
+                            </button>
+                            <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
+
+                                <% foreach (var reportInfo in BudgetGroups)
+                                    { %>
+                                <a class="dropdown-item w-100 text-center h5 btn-info " onclick="filterByGroup('<% =reportInfo.Id %>'); return false;">
+                                    <div class="text-center w-100"><% =reportInfo.GroupName %></div>
+                                </a>
+                                <%}%>
+                            </div>
+                        </div>
+
                         </div>
 
 
@@ -228,5 +246,19 @@
 
             });
         });
+
+         function filterByGroup(groupId) {
+               $(".groupData").each(function () {
+                var gid = $(this).attr('groupData');
+                var visible = gid == groupId;
+                if (visible) {
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+
+            });
+        }
     </script>
 </asp:Content>
