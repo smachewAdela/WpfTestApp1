@@ -6,14 +6,15 @@
 
         <div class="col-4">
             <div class="dropdown ">
-                <button class="bg-info w-100 h-100 btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    בחר דו"ח להפקה
+                <button class=" w-100 h-100 btn btn-outline-info dropdown-toggle h4" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      בחר דו"ח להפקה
                 </button>
                 <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
 
                     <% foreach (var reportInfo in ReeportNames)
                         { %>
-                    <a class="dropdown-item w-100 text-center" onclick="generateReport('<% =reportInfo.Key %>'); return false;"><% =reportInfo.Value %></a>
+                    <a class="dropdown-item w-100 text-center" onclick="generateReport('<% =reportInfo.Key %>'); return false;">
+                        <div class="text-center w-100"><% =reportInfo.Value %></div></a>
                     <%}%>
                 </div>
             </div>
