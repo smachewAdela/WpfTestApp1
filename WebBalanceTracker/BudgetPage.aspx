@@ -7,7 +7,36 @@
     <div class="row">
 
         <div class="col-1"></div>
-        <div class="col-6  mt-0 pt-0">
+
+        <div class="col-lg-4  col-sm-12">
+            <div class="card bg-transparent mt-4">
+                <div class="card-header text-info h3 bg-dark my-0 text-center  ">
+                    פעולות
+                </div>
+                <div class="card-body mt-0">
+
+                    <div class="row">
+                        <div class="col-12 pull-right mx-2 my-2">
+                            <div class="dropdown">
+                                <button class=" w-100 h-100 btn btn-outline-info dropdown-toggle h4 " type="button" id="groupSelector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    ...קבוצה לסינון
+                                </button>
+                                <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
+
+                                    <% foreach (var reportInfo in BudgetGroups)
+                                        { %>
+                                    <a class="dropdown-item w-100 text-center h5 btn-info " onclick="filterByGroup('<% =reportInfo.Id %>'); return false;">
+                                        <div class="text-center w-100"><% =reportInfo.GroupName %></div>
+                                    </a>
+                                    <%}%>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6  col-sm-12  mt-0 pt-0">
             <% foreach (WebBalanceTracker.GroupData budgetGroup in BudgetGroups)
                 { %>
 
@@ -52,52 +81,8 @@
             <% } %>
         </div>
 
-        <div class="col-4">
-            <div class="card bg-transparent mt-4">
-                <div class="card-header text-info h3 bg-dark my-0 text-center  ">
-                    פעולות
-                </div>
-                <div class="card-body mt-0">
 
-                    <div class="row">
-
-                        <%--                        <div class="col-12 text-center text-info py-2 h3 bg-darker">
-                            סינון
-                        </div>--%>
-                        <div class="col-12 pull-right mx-2 my-2">
-                            <%-- <span class="material-icons-outlined pull-left  mx-3"><i class="material-icons text-info">arrow_drop_down</i>
-                            </span>
-                            <select id="groupSelector" class="h3  border-0 text-white text-info   h-100 py-2 mx-2 my-auto">
-                                <option value="">....קבוצה לסינון</option>
-                                <% foreach (WebBalanceTracker.GroupData budgetGroup in BudgetGroups)
-                                    { %>
-                                <option value="<% =budgetGroup.Id %>" class=" text-center text-info w-100 border-0 my-2 mx-auto"><% =budgetGroup.GroupName %></option>
-                                <% } %>
-                            </select>--%>
-
-                            <div class="dropdown">
-                                <button class=" w-100 h-100 btn btn-outline-info dropdown-toggle h4 " type="button" id="groupSelector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    ...קבוצה לסינון
-                                </button>
-                                <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
-
-                                    <% foreach (var reportInfo in BudgetGroups)
-                                        { %>
-                                    <a class="dropdown-item w-100 text-center h5 btn-info " onclick="filterByGroup('<% =reportInfo.Id %>'); return false;">
-                                        <div class="text-center w-100"><% =reportInfo.GroupName %></div>
-                                    </a>
-                                    <%}%>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <div class="col-1"></div>
 
     </div>
 

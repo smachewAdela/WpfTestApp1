@@ -1,48 +1,14 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AbstractCategories.aspx.cs" Inherits="WebBalanceTracker.AbstractCategories" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <div class="row px-1">
         <div class="col-1">
- 
         </div>
-        <div class="col-6">
-            <div class="table-responsive w-100">
-                <table class="table table-shopping border-0" dir="rtl">
-                    <tr class="text-lg-center text-info h3 bg-dark">
-                        <th>קטגוריה</th>
-                        <th>קבוצה</th>
-                         <th>תקציב</th>
-                        <th>עדכון</th>
-                    </tr>
-                    <tbody>
-                        <% foreach (System.Data.DataRow BudgetGroup in BudgetCategories.Rows)
-                            { %>
-                        <tr class="text-center  text-info bg-white border-bottom">
 
-                            <td>
-                                <% =BudgetGroup[0] %>
-                            </td>
-                            <td>
-                                <% =BudgetGroup[1] %>
-                            </td>
-                               <td>
-                                <% =BudgetGroup[4] %>
-                            </td>
-                            <td>
-                                <button id="btnclk" onclick="showUpdateCategory('<% =BudgetGroup[0] %>','<% =BudgetGroup[3] %>','<% =BudgetGroup[2] %>','<% =BudgetGroup[4] %>'); return false;" class="h-100 border-0 text-info bg-transparent w-100">
-                                    <i class="material-icons">edit</i>
-                                </button>
-                            </td>
-                        </tr>
+        <div class="col-lg-4  col-sm-12">
 
-                        <% } %>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-          <div class="col-3">
-
-             <div class="card my-0">
+            <div class="card my-0">
                 <div class="card-header text-info h3 bg-dark my-0 text-center ">
                     פעולות
                 </div>
@@ -58,9 +24,44 @@
             </div>
 
         </div>
-        <div class="col-2"></div>
+        <div class="col-lg-6  col-sm-12">
+            <div class="table-responsive w-100">
+                <table class="table table-shopping border-0" dir="rtl">
+                    <tr class="text-lg-center text-info h3 bg-dark">
+                        <th>קטגוריה</th>
+                        <th>קבוצה</th>
+                        <th>תקציב</th>
+                        <th>עדכון</th>
+                    </tr>
+                    <tbody>
+                        <% foreach (System.Data.DataRow BudgetGroup in BudgetCategories.Rows)
+                            { %>
+                        <tr class="text-center  text-info bg-white border-bottom">
+
+                            <td>
+                                <% =BudgetGroup[0] %>
+                            </td>
+                            <td>
+                                <% =BudgetGroup[1] %>
+                            </td>
+                            <td>
+                                <% =BudgetGroup[4] %>
+                            </td>
+                            <td>
+                                <button id="btnclk" onclick="showUpdateCategory('<% =BudgetGroup[0] %>','<% =BudgetGroup[3] %>','<% =BudgetGroup[2] %>','<% =BudgetGroup[4] %>'); return false;" class="h-100 border-0 text-info bg-transparent w-100">
+                                    <i class="material-icons">edit</i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-1"></div>
         <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" dir="rtl">
+        <div class="modal fade my-4" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" dir="rtl">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-dark text-info">
@@ -68,7 +69,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="row text-info">
-                            <input type=hidden id="edtId" value="0"/>
+                            <input type="hidden" id="edtId" value="0" />
 
                             <div class="col-4 text-lg-center h3 h-100">שם : </div>
                             <div class="col-8">
@@ -79,7 +80,7 @@
                             <div class="col-8">
                                 <asp:DropDownList ID="cmbGroups" CssClass="form-control w-100  h-100" ClientIDMode="Static" runat="server"></asp:DropDownList>
                             </div>
-                             <div class="col-4 text-lg-center h3 h-100">תקציב : </div>
+                            <div class="col-4 text-lg-center h3 h-100">תקציב : </div>
                             <div class="col-8">
                                 <input type="text" class="form-control w-100 h-100" placeholder="" id="edtBudget">
                             </div>
@@ -88,7 +89,7 @@
                             <%--<button type="button" class="btn btn-danger" data-dismiss="modal">ביטול</button>
                             <button type="button" class="btn btn-success" onclick="performUpsertCategory(); return false;">שמור</button>--%>
 
-                               <button type="button" class="btn btn-info text-lg-center h4 w-50 my-auto" data-dismiss="modal">
+                            <button type="button" class="btn btn-info text-lg-center h4 w-50 my-auto" data-dismiss="modal">
                                 <i class="material-icons text-lg-center ">clear</i>    ביטול    
                             </button>
                             <button type="button" class="btn btn-outline-info text-lg-center h4 w-50 my-auto" onclick="performUpsertCategory(); return false;">
@@ -101,8 +102,8 @@
         </div>
 
     </div>
-    
-     <script>
+
+    <script>
 
         function showInsertCategory() {
             //alert(dir);
@@ -119,7 +120,7 @@
             $('#myModalLabel').text(catName);
             $('#edtName').attr('value', catName);
             $('#edtId').attr('value', catId);
-              $('#edtBudget').attr('value', budget);
+            $('#edtBudget').attr('value', budget);
             $('#cmbGroups').val(catGroupId).change();
             $('#myModal').modal('show')
         }
@@ -136,7 +137,7 @@
                 alert('please enter category name');
                 return;
             }
-             if (groupId == '' || groupId == undefined) {
+            if (groupId == '' || groupId == undefined) {
                 alert('please select group');
                 return;
             }
@@ -153,7 +154,7 @@
                 editedId: editedId,
                 catName: catName,
                 groupId: groupId,
-                budget : budget
+                budget: budget
             };
             var DTO = { 'userdata': JSON.stringify(mobj) };
             $.ajax({
@@ -168,7 +169,7 @@
                     console.log(result);
                     $('#myModal').modal('hide');
                     showNotification('פעולה בוצעה בהצלחה !', 'success');
-                       window.location.reload();
+                    window.location.reload();
                 },
                 error: function (xmlhttprequest, textstatus, errorthrown) {
                     //alert(" conection to the server failed ");

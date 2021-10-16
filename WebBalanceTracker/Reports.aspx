@@ -4,7 +4,7 @@
 
     <div class="row px-4 bg-white">
 
-        <div class="col-4">
+        <div class="col-lg-4  col-sm-12">
             <div class="dropdown ">
                 <button class=" w-100 h-100 btn btn-outline-info dropdown-toggle h4" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       בחר דו"ח להפקה

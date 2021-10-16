@@ -1,55 +1,12 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="BudgetList.aspx.cs" Inherits="WebBalanceTracker.BudgetList" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-      <div class="row px-1">
+    <div class="row px-1">
         <div class="col-1">
-        <%--    <button class="bg-transparent text-warning border-0 w-100" onclick="generateBudget(); return false;">
-                <i class="material-icons fa-2x">add</i>
-            </button>--%>
-        </div>
-        <div class="col-7">
-            <div class="table-responsive">
-                <table class="table table-shopping border-0" dir="rtl">
-                    <tr class="text-lg-center text-info h3 bg-dark">
-                        <th>תקציב</th>
-                        <th>רשומות תקציב</th>
-                        <th>רשומות הכנסה</th>
-                        <th>תנועות יומן</th>
-                        <th>מחיקה</th>
-                    </tr>
-                    <tbody>
-                        <% foreach (var bi in Budgets)
-                            { %>
-                        <tr class="text-center text-info  bg-white border-bottom">
-
-                            <td>
-                                <% =bi.Title %>
-                            </td>
-                            <td >
-                                <% =bi.BudgetItems %> 
-                            </td>
-                            <td >
-                               <% =bi.Incomes %>
-                            </td>
-
-                            <td>
-                              <% =bi.CheckPoints %>
-                            </td>
-                            <td>
-                                   <button id="btnclk" onclick="deleteBudget('<% =bi.Id %>'); return false;"
-                                    class="h-100 border-0 text-info bg-transparent">
-                                    <i class="material-icons">delete</i>
-                                </button>
-                            </td>
-                        </tr>
-
-                        <% } %>
-                    </tbody>
-                </table>
-            </div>
         </div>
 
-            <div class="col-3">
+        <div class="col-lg-4  col-sm-12">
 
             <div class="card my-0">
                 <div class="card-header text-info h3 bg-dark my-0 text-center ">
@@ -67,13 +24,55 @@
             </div>
 
         </div>
+        <div class="col-lg-6  col-sm-12">
+            <div class="table-responsive">
+                <table class="table table-shopping border-0" dir="rtl">
+                    <tr class="text-lg-center text-info h3 bg-dark">
+                        <th>תקציב</th>
+                        <th>רשומות תקציב</th>
+                        <th>רשומות הכנסה</th>
+                        <th>תנועות יומן</th>
+                        <th>מחיקה</th>
+                    </tr>
+                    <tbody>
+                        <% foreach (var bi in Budgets)
+                            { %>
+                        <tr class="text-center text-info  bg-white border-bottom">
+
+                            <td>
+                                <% =bi.Title %>
+                            </td>
+                            <td>
+                                <% =bi.BudgetItems %> 
+                            </td>
+                            <td>
+                                <% =bi.Incomes %>
+                            </td>
+
+                            <td>
+                                <% =bi.CheckPoints %>
+                            </td>
+                            <td>
+                                <button id="btnclk" onclick="deleteBudget('<% =bi.Id %>'); return false;"
+                                    class="h-100 border-0 text-info bg-transparent">
+                                    <i class="material-icons">delete</i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <div class="col-1"></div>
-     
+
     </div>
 
 
     <script>
-         function deleteBudget(budgetId) {
+        function deleteBudget(budgetId) {
 
             var mobj = {
                 budgetId: budgetId
@@ -99,10 +98,10 @@
             });//end of $.ajax()
         }
 
-          function generateBudget() {
+        function generateBudget() {
             //alert('generateBudget');
 
-              var mobj = {
+            var mobj = {
             };
             var DTO = { 'userdata': JSON.stringify(mobj) };
             $.ajax({

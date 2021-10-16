@@ -15,13 +15,31 @@ namespace WebBalanceTracker
             this.XTitle = "יומן אירועים";
         }
 
-        public List<I_Message> Logs
+        public List<LogInfo> Logs
         {
             get
             {
                 var budgets = Db.GetData<I_Message>();
-                return budgets.OrderByDescending(x => x.Date).ToList();
+                return budgets.OrderByDescending(x => x.Date).Select(x => 
+                new LogInfo
+                {
+                    Date = x.Date.ToString(),
+                    Title = x.Title,
+                    Message = x.Message,
+                    ExtraData = x.ExtraData,
+                    Type = x.IType.ToString()
+
+                }).ToList();
             }
         }
+    }
+
+    public class LogInfo
+    {
+        public string Date { get; internal set; }
+        public string Title { get; internal set; }
+        public string Message { get; internal set; }
+        public string ExtraData { get; internal set; }
+        public string Type { get; internal set; }
     }
 }

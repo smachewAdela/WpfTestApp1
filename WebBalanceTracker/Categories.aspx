@@ -3,53 +3,12 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="row px-1">
         <div class="col-1">
-            <%--<button class="bg-transparent text-warning border-0 w-100" onclick="showInsertCategory(); return false;">
-                <i class="material-icons fa-2x">add</i>
-            </button>--%>
         </div>
-        <div class="col-lg-6 col-sm-12">
-            <div class="table-responsive">
-                <table class="table table-shopping border-0" dir="rtl">
-                    <tr class="text-lg-center text-info h3 bg-dark">
-                        <th>קטגוריה</th>
-                        <th>ברירת מחדל</th>
-                        <th>קבוצה</th>
-                        <th>תקציב</th>
-                        <th>עדכון</th>
-                    </tr>
-                    <tbody>
-                        <% foreach (System.Data.DataRow BudgetGroup in BudgetCategories.Rows)
-                            { %>
-                        <tr class="groupData text-center text-dark font-weight-bold border-bottom " groupdata="<% =BudgetGroup[3] %>">
 
-                            <td>
-                                <% =BudgetGroup[0] %>
-                            </td>
-                            <td>
-                                <% =BudgetGroup[5] %>
-                            </td>
-                            <td>
-                                <% =BudgetGroup[1] %>
-                            </td>
-                            <td>
-                                <% =BudgetGroup[4] %>
-                            </td>
-                            <td>
-                                <button id="btnclk" onclick="showUpdateCategory('<% =BudgetGroup[0] %>','<% =BudgetGroup[3] %>','<% =BudgetGroup[2] %>','<% =BudgetGroup[4] %>'); return false;" class="h-100 border-0 text-info bg-transparent w-100">
-                                    <i class="material-icons">edit</i>
-                                </button>
-                            </td>
-                        </tr>
-
-                        <% } %>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-lg-4  col-sm-12">
+        <div class="col-lg-4  col-sm-12" dir="rtl">
 
             <div class="card my-0">
-                <div class="card-header text-info h3 bg-dark my-0 text-lg-center ">
+                <div class="card-header text-info h3 bg-dark my-0 text-center w-100 ">
                     פעולות
                 </div>
                 <div class="card-body row">
@@ -95,8 +54,50 @@
             </div>
 
         </div>
+        <div class="col-lg-6 col-sm-12">
+            <div class="table-responsive">
+                <table class="table table-shopping border-0" dir="rtl">
+                    <tr class="text-lg-center text-info h3 bg-dark">
+                        <th>קטגוריה</th>
+                        <th>ברירת מחדל</th>
+                        <th>קבוצה</th>
+                        <th>תקציב</th>
+                        <th>עדכון</th>
+                    </tr>
+                    <tbody>
+                        <% foreach (System.Data.DataRow BudgetGroup in BudgetCategories.Rows)
+                            { %>
+                        <tr class="groupData text-center text-dark font-weight-bold border-bottom " groupdata="<% =BudgetGroup[3] %>">
+
+                            <td>
+                                <% =BudgetGroup[0] %>
+                            </td>
+                            <td>
+                                <% =BudgetGroup[5] %>
+                            </td>
+                            <td>
+                                <% =BudgetGroup[1] %>
+                            </td>
+                            <td>
+                                <% =BudgetGroup[4] %>
+                            </td>
+                            <td>
+                                <button id="btnclk" onclick="showUpdateCategory('<% =BudgetGroup[0] %>','<% =BudgetGroup[3] %>','<% =BudgetGroup[2] %>','<% =BudgetGroup[4] %>'); return false;" class="h-100 border-0 text-info bg-transparent w-100">
+                                    <i class="material-icons">edit</i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+           <div class="col-1">
+          
+        </div>
         <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" dir="rtl">
+        <div class="modal fade my-4" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" dir="rtl">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-dark text-info">
@@ -156,8 +157,8 @@
             });
         });
 
-          function filterByGroup(groupId) {
-               $(".groupData").each(function () {
+        function filterByGroup(groupId) {
+            $(".groupData").each(function () {
                 var gid = $(this).attr('groupData');
                 var visible = gid == groupId;
                 if (visible) {
