@@ -60,7 +60,7 @@
         $(function () {
             $(".ltext").each(function (i) {
                 len = $(this).text().length;
-                alert(len);
+                //alert(len);
                 if (len > 30) {
                     $(this).text($(this).text().substr(0, 80) + '...');
                 }

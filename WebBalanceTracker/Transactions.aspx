@@ -21,16 +21,6 @@
                         </div>
                         <div class="col-12 pull-right mx-2 my-2">
 
-                            <%--     <span class="material-icons-outlined pull-left  mx-3"><i class="material-icons text-info">arrow_drop_down</i>
-                            </span>
-                            <select id="groupSelector" class="h3  border-0 text-white text-info   h-100 py-2 mx-2 my-auto">
-                                <option value="">....קבוצה לסינון</option>
-                                <% foreach (WebBalanceTracker.GroupData budgetGroup in BudgetGroups)
-                                    { %>
-                                <option value="<% =budgetGroup.Id %>" class=" text-center text-info w-100 border-0 my-2 mx-auto"><% =budgetGroup.GroupName %></option>
-                                <% } %>
-                            </select>--%>
-
 
                             <div class="dropdown">
                                 <button class=" w-100 h-100 btn btn-outline-info dropdown-toggle h4 " type="button" id="groupSelector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -41,7 +31,7 @@
                                     <% foreach (var reportInfo in BudgetGroups)
                                         { %>
                                     <a class="dropdown-item w-100 text-center h5 btn-info " onclick="filterByGroup('<% =reportInfo.Id %>'); return false;">
-                                        <div class="text-center w-100"><% =reportInfo.GroupName %></div>
+                                        <div class="text-center w-100 h4"><% =reportInfo.GroupName %></div>
                                     </a>
                                     <%}%>
                                 </div>
@@ -104,7 +94,7 @@
                 </div>
 
                 <div class="col-12">
-                    <table class="text-center table my-2 w-100" id="tbl" dir="rtl">
+                    <table class="text-center table my-2 w-100 bg-white" id="tbl" dir="rtl">
                         <thead>
                             <tr class=" text-info custom-text bg-dark">
                                 <th>קטגוריה</th>
@@ -127,7 +117,7 @@
                                     <% =string.Format("{0:n0}",catData.StatusAmount) %>
                                 </td>
                                 <td class="w-25">
-                                    <input type="text" class="form-control w-50 h-100 align-bottom text-center text-white" placeholder="" id="edtTran<% =catData.Id %>"></td>
+                                    <input type="text" class="form-control w-50 h-100 align-bottom text-center text-info" placeholder="" id="edtTran<% =catData.Id %>"></td>
                                 <td>
                                     <button id="btnclk" onclick="addTransaction('<% =catData.Id %>','edtTran<% =catData.Id %>'); return false;"
                                         class="h-100 border-0 text-info bg-transparent">
