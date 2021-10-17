@@ -4,20 +4,25 @@
 
     <div class="row px-4 bg-white">
 
-        <div class="col-lg-4  col-sm-12">
+        <div class="col-lg-4  col-sm-6">
             <div class="dropdown ">
                 <button class=" w-100 h-100 btn btn-outline-info dropdown-toggle h4" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      בחר דו"ח להפקה
+                    בחר דו"ח להפקה
                 </button>
                 <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
 
                     <% foreach (var reportInfo in ReeportNames)
                         { %>
-                    <a class="dropdown-item w-100 text-center" onclick="generateReport('<% =reportInfo.Key %>'); return false;">
-                        <div class="text-center w-100"><% =reportInfo.Value %></div></a>
+                    <a class="dropdown-item w-100 text-center" onclick="generateReport('<% =reportInfo.Key %>', '<% =reportInfo.Value %>'); return false;">
+                        <div class="text-center w-100 h4 "><% =reportInfo.Value %></div>
+                    </a>
                     <%}%>
                 </div>
             </div>
+        </div>
+
+        <div class="col-lg-8  col-sm-6">
+            <div class="text-center w-100 h-100 h2 text-capitalize text-info py-1" id="dvReportName"  style="text-decoration:underline"></div>
         </div>
     </div>
 
@@ -32,7 +37,10 @@
 
     <script>
 
-        function generateReport(reportType) {
+        function generateReport(reportType, reportName) {
+
+            //alert(reportName);
+            $('#dvReportName').text('דו"ח ' +  reportName);
 
             var mobj = {
                 reportType: reportType
@@ -80,13 +88,10 @@
             var columnSet = [];
             var headerTr$ = $('<tr  class="text-lg-center text-info h3 bg-dark"/>');
 
-            for (var i = 0; i < myList.length; i++)
-            {
+            for (var i = 0; i < myList.length; i++) {
                 var rowHash = myList[i];
-                for (var key in rowHash)
-                {
-                    if ($.inArray(key, columnSet) == -1)
-                    {
+                for (var key in rowHash) {
+                    if ($.inArray(key, columnSet) == -1) {
                         columnSet.push(key);
                         headerTr$.append($('<th/>').html(key));
                     }

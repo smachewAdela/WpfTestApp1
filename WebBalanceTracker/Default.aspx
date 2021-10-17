@@ -85,8 +85,8 @@
                     <div class="ct-chart xchart" id="crt1" xchartsource="6MonthsDiff"></div>
                 </div>
                 <div class="card-body">
-                    <div class="card-title w-100 text-right h3 text-secondary pr-3">מאזן בסוף חודש</div>
-                    <p class="card-category">
+                    <div class="card-title w-100 text-right h3 text-secondary pr-3"></div>
+                    <p class="card-category text-info">מאזן בסוף חודש
                     </p>
                 </div>
                 <div class="card-footer">

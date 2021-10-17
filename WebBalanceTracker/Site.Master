@@ -120,7 +120,7 @@
                         </li>
                         <li class="nav-item qpage" id="Li1" runat="server">
                             <a class="nav-link" href="BudgetPage.aspx">
-                                <i class="material-icons text-info">settings</i>
+                                <i class="material-icons text-info">tune</i>
                                 <p>תקציב</p>
                             </a>
                         </li>
@@ -132,7 +132,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:;" role="button" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons text-info">tune</i>
+                                <i class="material-icons text-info">settings</i>
                                 <p>מערכת</p>
                             </a>
                             <div class="dropdown-menu" style="opacity: 0.99">

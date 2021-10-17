@@ -173,13 +173,29 @@ namespace WpfTestApp1.MVVM.Model
             {
                 var row = tbl.NewRow();
                 row[0] = g.Name;
-                row[1] = currentMonth.Items.Where(x => x.GroupId == g.Id).Sum(x => x.BudgetAmount).ToNumberFormat();
-                row[2] = ((int)months.Where(x => x.GroupStatusData.ContainsKey(g.Id)).Average(x => x.GroupStatusData[g.Id])).ToNumberFormat();
-                row[3] = ((int)months.Where(x => x.GroupOverSpentData.ContainsKey(g.Id)).Sum(x => x.GroupOverSpentData[g.Id])).ToNumberFormat();
-                row[4] = ((int)months.Where(x => x.GroupBudgetData.ContainsKey(g.Id)).Sum(x => x.GroupBudgetData[g.Id]) - months.Where(x => x.GroupStatusData.ContainsKey(g.Id)).Sum(x => x.GroupStatusData[g.Id])).ToNumberFormat();
+                try
+                {
+                    row[1] = currentMonth.Items.Where(x => x.GroupId == g.Id).Sum(x => x.BudgetAmount).ToNumberFormat();
+                    if(months.Any(x => x.GroupStatusData.ContainsKey(g.Id)))
+                        row[2] = ((int)months.Where(x => x.GroupStatusData.ContainsKey(g.Id)).Average(x => x.GroupStatusData[g.Id])).ToNumberFormat();
 
-                var ration = (months.Where(x => x.GroupStatusData.ContainsKey(g.Id)).Sum(x => x.GroupStatusData[g.Id]) * 100) / months.Where(x => x.GroupBudgetData.ContainsKey(g.Id)).Sum(x => x.GroupBudgetData[g.Id]);
-                row[5] = $"{ ration }%";
+                    if (months.Any(x => x.GroupOverSpentData.ContainsKey(g.Id)))
+                        row[3] = ((int)months.Where(x => x.GroupOverSpentData.ContainsKey(g.Id)).Sum(x => x.GroupOverSpentData[g.Id])).ToNumberFormat();
+
+                    if (months.Any(x => x.GroupBudgetData.ContainsKey(g.Id) && x.GroupStatusData.ContainsKey(g.Id)))
+                        row[4] = ((int)months.Where(x => x.GroupBudgetData.ContainsKey(g.Id)).Sum(x => x.GroupBudgetData[g.Id]) - months.Where(x => x.GroupStatusData.ContainsKey(g.Id)).Sum(x => x.GroupStatusData[g.Id])).ToNumberFormat();
+
+                    if (months.Any(x => x.GroupBudgetData.ContainsKey(g.Id) && x.GroupStatusData.ContainsKey(g.Id)))
+                    {
+                        var ration = (months.Where(x => x.GroupStatusData.ContainsKey(g.Id)).Sum(x => x.GroupStatusData[g.Id]) * 100) / months.Where(x => x.GroupBudgetData.ContainsKey(g.Id)).Sum(x => x.GroupBudgetData[g.Id]);
+                        row[5] = $"{ ration }%";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string m = ex.Message;
+                    throw ex;
+                }
                 tbl.Rows.Add(row);
             }
         }

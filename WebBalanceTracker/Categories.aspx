@@ -43,7 +43,7 @@
                                 <% foreach (var reportInfo in BudgetGroups)
                                     { %>
                                 <a class="dropdown-item w-100 text-center h5 btn-info " onclick="filterByGroup('<% =reportInfo.Id %>'); return false;">
-                                    <div class="text-center w-100"><% =reportInfo.GroupName %></div>
+                                    <div class="text-center w-100 h4"><% =reportInfo.GroupName %></div>
                                 </a>
                                 <%}%>
                             </div>
@@ -56,7 +56,7 @@
         </div>
         <div class="col-lg-6 col-sm-12">
             <div class="table-responsive">
-                <table class="table table-shopping border-0" dir="rtl">
+                <table class="table table-shopping border-0 bg-white" dir="rtl">
                     <tr class="text-lg-center text-info h3 bg-dark">
                         <th>קטגוריה</th>
                         <th>ברירת מחדל</th>
