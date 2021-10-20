@@ -83,6 +83,7 @@ namespace WebBalanceTracker
             }
         }
 
+
         protected void Session_Start(object sender, EventArgs e)
         {
             // Code that runs when a new session is started
@@ -127,9 +128,12 @@ namespace WebBalanceTracker
                 //    AutomationHelper.GenerateBudget(Db, oldestBudget, date.Date);
                 //    RefreshBudget();
                 //}
-                while (oldestBudget.Month.Date < lastFirstOfMonth)
+                if (oldestBudget != null)
                 {
-                    oldestBudget = AutomationHelper.GenerateBudget(Db, oldestBudget);
+                    while (oldestBudget.Month.Date < lastFirstOfMonth)
+                    {
+                        oldestBudget = AutomationHelper.GenerateBudget(Db, oldestBudget);
+                    }
                 }
 
             }
@@ -199,7 +203,7 @@ namespace WebBalanceTracker
                 b = Db.GetSingle<Budget>(new SearchParameters { BudgetDate = d.FirstDayOfMonth() });
                 d = d.AddMonths(-1);
             }
-            while (b == null);
+            while (b == null && d.Year >= 2020);
 
             return b;
         }
@@ -248,8 +252,21 @@ namespace WebBalanceTracker
         {
             get
             {
-                return CurrentBudget.Title;
+                return CurrentBudget?.Title;
             }
+        }
+
+
+        internal static Budget GenerateDefaultInitialBudget()
+        {
+            var buudget = new Budget
+            {
+                Month = DateTime.Now.FirstDayOfMonth()
+            };
+            Db.Insert(buudget);
+
+
+            return buudget;
         }
     }
 }

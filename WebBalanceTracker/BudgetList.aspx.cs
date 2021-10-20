@@ -80,6 +80,12 @@ namespace WebBalanceTracker
         public static string generateBudget(string userdata)
         {
             var currentBudget = Global.CurrentBudget;
+            if (currentBudget == null)
+                currentBudget = Global.GetLatestBudget();
+
+            if (currentBudget == null)
+                currentBudget = Global.GenerateDefaultInitialBudget();
+
             var db = Global.Db;
             try
             {

@@ -32,22 +32,25 @@ namespace WebBalanceTracker
                 tbl.AddColumns(6);
 
                 var currentBudget = Global.CurrentBudget;
-                var cats = currentBudget.Items;
-
-                var AbstractCategory = Global.Db.GetData<AbstractCategory>().ToDictionary(x => x.Id, x => x.CategoryName);
-                AbstractCategory.Add(0, "לא הוגדר");
-
-                foreach (var g in cats)
+                if (currentBudget != null)
                 {
-                    var rw = tbl.NewRow();
+                    var cats = currentBudget.Items;
 
-                    rw[0] = g.CategoryName;
-                    rw[1] = Groups[g.GroupId];
-                    rw[2] = g.Id;
-                    rw[3] = g.GroupId;
-                    rw[4] = g.BudgetAmount;
-                    rw[5] = AbstractCategory[g.AbstractCategoryId];
-                    tbl.Rows.Add(rw);
+                    var AbstractCategory = Global.Db.GetData<AbstractCategory>().ToDictionary(x => x.Id, x => x.CategoryName);
+                    AbstractCategory.Add(0, "לא הוגדר");
+
+                    foreach (var g in cats)
+                    {
+                        var rw = tbl.NewRow();
+
+                        rw[0] = g.CategoryName;
+                        rw[1] = Groups[g.GroupId];
+                        rw[2] = g.Id;
+                        rw[3] = g.GroupId;
+                        rw[4] = g.BudgetAmount;
+                        rw[5] = AbstractCategory[g.AbstractCategoryId];
+                        tbl.Rows.Add(rw);
+                    }
                 }
 
                 return tbl;

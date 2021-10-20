@@ -72,6 +72,9 @@ namespace WebBalanceTracker
         {
             get
             {
+                if (Global.CurrentBudget == null)
+                    return new List<CheckPointData>();
+
                 if (Global.CurrentBudget.TransactionCheckPoints.IsEmptyOrNull())
                 {
                     var _t = Global.GenerateDefaultCheckPoints();

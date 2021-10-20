@@ -23,37 +23,43 @@ namespace WebBalanceTracker
             {
                 var tbl = new DataTable();
                 tbl.AddColumns(6);
-
-                var currentBudget = Global.CurrentBudget;
-                var gGroups = Db.GetData<BudgetGroup>(new SearchParameters { });
-
-                foreach (var g in gGroups)
+                if (Global.CurrentBudget != null)
                 {
-                    var rw = tbl.NewRow();
-                    g.BudgetItems = currentBudget.Items.Where(x => x.GroupId == g.Id).ToList();
 
-                    rw[0] = g.Name;
-                    rw[1] = g.BudgetStr;
-                    rw[2] = g.StatusStr;
-                    rw[3] = $"{g.Ratio}%";
-                    rw[4] = g.IsOverSpent ? "1" : "0";
-                    tbl.Rows.Add(rw);
+                    var currentBudget = Global.CurrentBudget;
+                    var gGroups = Db.GetData<BudgetGroup>(new SearchParameters { });
+
+                    if (gGroups.IsNotEmpty())
+                    {
+                        foreach (var g in gGroups)
+                        {
+                            var rw = tbl.NewRow();
+                            g.BudgetItems = currentBudget.Items.Where(x => x.GroupId == g.Id).ToList();
+
+                            rw[0] = g.Name;
+                            rw[1] = g.BudgetStr;
+                            rw[2] = g.StatusStr;
+                            rw[3] = $"{g.Ratio}%";
+                            rw[4] = g.IsOverSpent ? "1" : "0";
+                            tbl.Rows.Add(rw);
+                        }
+                        var totalRow = tbl.NewRow();
+                        BudgetGroup total = new BudgetGroup
+                        {
+                            Name = "",
+                            BudgetItems = currentBudget.Items,
+                            IsTotal = true
+                        };
+
+                        totalRow[0] = total.Name;
+                        totalRow[1] = total.BudgetStr;
+                        totalRow[2] = total.StatusStr;
+                        totalRow[3] = $"{total.Ratio}%";
+                        totalRow[4] = "0";
+                        totalRow[5] = "1"; // is total
+                        tbl.Rows.Add(totalRow);
+                    }
                 }
-                var totalRow = tbl.NewRow();
-                BudgetGroup total = new BudgetGroup
-                {
-                    Name = "",
-                    BudgetItems = currentBudget.Items,
-                    IsTotal = true
-                };
-
-                totalRow[0] = total.Name;
-                totalRow[1] = total.BudgetStr;
-                totalRow[2] = total.StatusStr;
-                totalRow[3] = $"{total.Ratio}%";
-                totalRow[4] = "0";
-                totalRow[5] = "1"; // is total
-                tbl.Rows.Add(totalRow);
 
                 return tbl;
             }

@@ -25,27 +25,30 @@ namespace WebBalanceTracker
                 tbl.AddColumns(5);
 
                 var currentBudget = Global.CurrentBudget;
-                var items = currentBudget.Incomes;
-
-                foreach (var g in items)
+                if (currentBudget != null)
                 {
-                    var rw = tbl.NewRow();
+                    var items = currentBudget.Incomes;
 
-                    rw[0] = g.Id;
-                    rw[1] = g.BudgetId;
-                    rw[2] = g.Name;
-                    rw[3] = g.Amount.ToNumberFormat();
-                    rw[4] = "0";
-                    tbl.Rows.Add(rw);
+                    foreach (var g in items)
+                    {
+                        var rw = tbl.NewRow();
+
+                        rw[0] = g.Id;
+                        rw[1] = g.BudgetId;
+                        rw[2] = g.Name;
+                        rw[3] = g.Amount.ToNumberFormat();
+                        rw[4] = "0";
+                        tbl.Rows.Add(rw);
+                    }
+
+                    var totalRow = tbl.NewRow();
+                    totalRow[0] = "0";
+                    totalRow[1] = currentBudget.Id;
+                    totalRow[2] = currentBudget.Title;
+                    totalRow[3] = items.Sum(x => x.Amount).ToNumberFormat();
+                    totalRow[4] = "1";
+                    tbl.Rows.Add(totalRow);
                 }
-
-                var totalRow = tbl.NewRow();
-                totalRow[0] = "0";
-                totalRow[1] = currentBudget.Id;
-                totalRow[2] = currentBudget.Title;
-                totalRow[3] = items.Sum(x => x.Amount).ToNumberFormat();
-                totalRow[4] = "1";
-                tbl.Rows.Add(totalRow);
 
                 return tbl;
             }

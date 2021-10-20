@@ -24,6 +24,8 @@ namespace WebBalanceTracker
         {
             get
             {
+                if (Global.CurrentBudget == null)
+                    return string.Empty;
                 return Global.CurrentBudget.Title;
             }
         }
@@ -32,6 +34,8 @@ namespace WebBalanceTracker
         {
             get
             {
+                if (Global.CurrentBudget == null)
+                    return string.Empty;
                 return Global.CurrentBudget.Items.Sum(x => x.StatusAmount).ToNumberFormat();
             }
         }
@@ -41,6 +45,8 @@ namespace WebBalanceTracker
         {
             get
             {
+                if (Global.CurrentBudget == null)
+                    return string.Empty;
                 return Global.CurrentBudget.Incomes.Sum(x => x.Amount).ToNumberFormat();
             }
         }
@@ -51,6 +57,8 @@ namespace WebBalanceTracker
         {
             get
             {
+                if (Global.CurrentBudget == null)
+                    return string.Empty;
                 return (Global.CurrentBudget.Incomes.Sum(x => x.Amount) - Global.CurrentBudget.Items.Sum(x => x.StatusAmount)).ToNumberFormat();
             }
         }
@@ -59,6 +67,8 @@ namespace WebBalanceTracker
         {
             get
             {
+                if (Global.CurrentBudget == null)
+                    return string.Empty;
                 return (Global.CurrentBudget.Items.Sum(x => x.BudgetAmount) - Global.CurrentBudget.Items.Sum(x => x.StatusAmount)).ToNumberFormat();
             }
         }
@@ -68,6 +78,8 @@ namespace WebBalanceTracker
             get
             {
                 // 75/100
+                if (Global.CurrentBudget == null)
+                    return 0;
                 var status = Global.CurrentBudget.Items.Sum(x => x.StatusAmount);
                 var budget = Global.CurrentBudget.Items.Sum(x => x.BudgetAmount);
                 var res = (status * 100) / (budget == 0 ? 100 : budget);
@@ -79,6 +91,9 @@ namespace WebBalanceTracker
         [WebMethod]
         public static string getChartDataSource(string userdata)
         {
+            if (Global.CurrentBudget == null)
+                return string.Empty;
+
             dynamic req = userdata.ToDynamicJObject();
             var chartDdatasourceType = (string)req.datasourceType;
             dynamic cDs = ReportHandler.GenerateChartData(chartDdatasourceType);

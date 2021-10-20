@@ -57,7 +57,7 @@
                             <td>
                                 <% if (BudgetGroup[4] == "0")
                                     { %>
-                                <button id="btnclk" onclick="updateIncome('<% =BudgetGroup[0] %>','<% =BudgetGroup[1] %>','<% =BudgetGroup[2] %>','<% =BudgetGroup[3] %>'); return false;"
+                                <button id="btnclk" onclick="updateIncome('<% =BudgetGroup[0] %>','<% =BudgetGroup[1] %>','<% =BudgetGroup[2] %>','<% =BudgetGroup[3] %>') return false;"
                                     class="h-100 border-0 text-info bg-transparent">
                                     <i class="material-icons">add</i>
                                 </button>
@@ -173,7 +173,7 @@
                     //alert("SUCCESS = " + result.d);
                     console.log(result);
                     showNotification('פעולה בוצעה בהצלחה !', 'success')
-
+                     $('#myModal').modal('hide')
                 },
                 error: function (xmlhttprequest, textstatus, errorthrown) {
                     //alert(" conection to the server failed ");
