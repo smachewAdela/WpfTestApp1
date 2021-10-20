@@ -6,7 +6,7 @@
 
 
         <div class="col-1"></div>
-        
+
         <div class="col-lg-4  col-sm-12">
             <div class="card my-0">
                 <div class="card-header text-info h3 bg-dark my-0 text-center ">
@@ -14,12 +14,12 @@
                 </div>
                 <div class="card-body mt-0">
 
-                    <div class="row">
+                    <div class="row py-1">
 
-                        <div class="col-12 text-center text-info py-2 h3 bg-darker">
+<%--                        <div class="col-12 text-center text-warning bg-dark py-2 h3">
                             סינון
-                        </div>
-                        <div class="col-12 pull-right mx-2 my-2">
+                        </div>--%>
+                        <div class="col-12 pull-right mx-0 my-1">
 
 
                             <div class="dropdown">
@@ -41,9 +41,9 @@
 
 
 
-                        <div class="col-12 text-center text-info py-2 h3 bg-darker">
-                            עדכון תנועה אחרונה
-                        </div>
+                      <%--  <div class="col-12 text-center text-warning  h3">
+                            <hr class="h-25 bg-darker" />
+                        </div>--%>
 
                         <div class="col-12">
                             <table class="text-center table bg-transparent" id="bv" dir="rtl">
@@ -89,20 +89,20 @@
                 { %>
             <div class="col-12 groupData" groupdata="<% =budgetGroup.Id %>">
 
-                <div class="text-center text-info py-2 h3 bg-darker w-100 my-0">
+              <%--  <div class="text-center text-dark py-2 h3 w-100 my-0">
                     <% =budgetGroup.GroupName %>
-                </div>
+                </div>--%>
 
                 <div class="col-12">
                     <table class="text-center table my-2 w-100 bg-white" id="tbl" dir="rtl">
                         <thead>
                             <tr class=" text-info custom-text bg-dark">
-                                <th>קטגוריה</th>
+                                <th class="h3 text-warning"><% =budgetGroup.GroupName %></th>
                                 <th>תקציב</th>
                                 <th>אחוז השלמה</th>
                                 <th>מצב</th>
                                 <th></th>
-                                <th></th>
+                                <th class="h3 text-warning"><% =budgetGroup.Status %></th>
                             </tr>
                         </thead>
                         <tbody>

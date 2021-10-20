@@ -102,6 +102,14 @@ namespace WebBalanceTracker
         public int Id { get; set; }
         public string GroupName { get; set; }
         public List<BudgetData> BudgetGroups { get; set; }
+
+        public string Status
+        {
+            get
+            {
+                return BudgetGroups.IsNotEmpty() ? BudgetGroups.Sum(x => x.StatusAmount).ToNumberFormat() : string.Empty;
+            }
+        }
     }
 
     public class BudgetData

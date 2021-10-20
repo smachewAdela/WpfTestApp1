@@ -41,18 +41,18 @@
                 { %>
 
             <div class="mt-0 groupData" groupdata="<% =budgetGroup.Id %>">
-                <div class="text-center text-info py-2 h3 bg-darker">
+              <%--  <div class="text-center text-info py-2 h3 bg-darker">
                     <% =budgetGroup.GroupName %>
-                </div>
+                </div>--%>
 
                 <div class="col-12">
                     <table class="text-center  my-2 table bg-white" id="tbl" dir="rtl">
                         <thead>
                             <tr class=" text-info bg-dark custom-text">
-                                <th>קטגוריה</th>
+                                <th class="h3 text-warning"><% =budgetGroup.GroupName %></th>
                                 <th>אחוז השלמה</th>
                                 <th>תקציב</th>
-                                <th></th>
+                                <th class="h3 text-warning"><% =budgetGroup.Status %></th>
                             </tr>
                         </thead>
                         <tbody>
