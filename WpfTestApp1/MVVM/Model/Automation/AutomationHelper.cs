@@ -77,29 +77,35 @@ namespace WpfTestApp1.MVVM.Model.Automation
             }
         }
 
-        public static void HandleAutoTransactions(DbAccess db, Budget budgetToHandle)
+        public static void HandleAutoTransactions(DbAccess db)
         {
             var autoTrans = db.GetData<AbstractAutoTransaction>(new SearchParameters { });
+            var currentBudget = db.GetSingle<Budget>(new SearchParameters { BudgetDate = DateTime.Now.FirstDayOfMonth() });
 
-            foreach (var autoTran in autoTrans)
+            if (currentBudget != null)
             {
-                if (autoTran.BudgetId != budgetToHandle.Id && autoTran.DayOfTheMonth <= DateTime.Now.Day)
+                foreach (var autoTran in autoTrans.Where(a => a.Active).ToList())
                 {
-                    BudgetItem matchingCategory = GetMatchingcategory(db, autoTran.AbstractCategoryId, budgetToHandle.Id);
-                    if (matchingCategory != null)
+                    if (autoTran.BudgetId != currentBudget.Id && autoTran.DayOfTheMonth <= DateTime.Now.Day)
                     {
-                        matchingCategory.StatusAmount += autoTran.DefaultAmount;
-                        db.Update(matchingCategory);
+                        BudgetItem matchingCategory = GetMatchingcategory(db, autoTran.AbstractCategoryId, currentBudget.Id);
+                        if (matchingCategory != null)
+                        {
 
-                        autoTran.BudgetId = budgetToHandle.Id;
-                        autoTran.LastPaymentDate = budgetToHandle.Title;
-                        db.Update(autoTran);
+                            // add auto tran amount to status
+                            matchingCategory.StatusAmount += autoTran.DefaultAmount;
+                            db.Update(matchingCategory);
 
-                        I_Message message = I_Message.Genertae( IMessageTypeEnum.Info);
-                        message.Title = "Auto Transaction Applied";
-                        message.Message = autoTran.Name;
-                        message.ExtraData = autoTran.DefaultAmount.ToNumberFormat();
-                        db.Add(message);
+                            autoTran.BudgetId = currentBudget.Id;
+                            autoTran.LastPaymentDate = currentBudget.Title;
+                            db.Update(autoTran);
+
+                            I_Message message = I_Message.Genertae(IMessageTypeEnum.Info);
+                            message.Title = "Auto Transaction Applied";
+                            message.Message = autoTran.Name;
+                            message.ExtraData = autoTran.DefaultAmount.ToNumberFormat();
+                            db.Add(message);
+                        }
                     }
                 }
             }
