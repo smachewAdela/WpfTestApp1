@@ -1,5 +1,4 @@
-﻿using QBalanceDesktop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -15,10 +14,13 @@ namespace WebBalanceTracker
         protected void Page_Load(object sender, EventArgs e)
         {
             this.XTitle = "קטגוריות ברירת מחדל";
-            Groups = Db.GetData<BudgetGroup>(new SearchParameters { }).ToDictionary(x => x.Id, x => x.Name);
-            foreach (var item in Groups)
+            using (var context = new BalanceAdmin_Entities())
             {
-                cmbGroups.Items.Add(new System.Web.UI.WebControls.ListItem { Text = item.Value, Value = item.Key.ToString() });
+                Groups =context.BudgetGroup.ToDictionary(x => x.Id, x => x.Name);
+                foreach (var item in Groups)
+                {
+                    cmbGroups.Items.Add(new System.Web.UI.WebControls.ListItem { Text = item.Value, Value = item.Key.ToString() });
+                }
             }
         }
 
@@ -29,21 +31,22 @@ namespace WebBalanceTracker
             {
                 var tbl = new DataTable();
                 tbl.AddColumns(5);
-
-                var cats = Db.GetData<AbstractCategory>(new SearchParameters { }).OrderBy(x => x.CategoryName).ToList();
-
-                foreach (var g in cats)
+                using (var context = new BalanceAdmin_Entities())
                 {
-                    var rw = tbl.NewRow();
+                    var cats = context.AbstractCategory.OrderBy(x => x.Name).ToList();
 
-                    rw[0] = g.CategoryName;
-                    rw[1] = Groups[g.GroupId];
-                    rw[2] = g.Id;
-                    rw[3] = g.GroupId;
-                    rw[4] = g.DefaultAmount;
-                    tbl.Rows.Add(rw);
+                    foreach (var g in cats)
+                    {
+                        var rw = tbl.NewRow();
+
+                        rw[0] = g.Name;
+                        rw[1] = Groups[g.BudgetGroupId];
+                        rw[2] = g.Id;
+                        rw[3] = g.BudgetGroupId;
+                        rw[4] = g.Amount;
+                        tbl.Rows.Add(rw);
+                    }
                 }
-
                 return tbl;
             }
         }
@@ -53,20 +56,29 @@ namespace WebBalanceTracker
         {
             dynamic req = userdata.ToDynamicJObject();
             var lBudget = Global.GetLatestBudget();
-            var upsertC = new AbstractCategory
+            using (var context = new BalanceAdmin_Entities())
             {
-                CategoryName = req.catName,
-                GroupId = req.groupId,
-                DefaultAmount = req.budget,
-                DayInMonth = 10,
-                Active = true,
-                Id = req.editedId
-            };
-            if (req.editedId == 0)
-                Global.Db.Add(upsertC);
-            else
-                Global.Db.Update(upsertC);
+                int entityId = req.req.editedId;
+                if (entityId == 0)
+                {
+                    context.AbstractCategory.Add(new AbstractCategory
+                    {
+                        Name = req.catName,
+                        BudgetGroupId = req.groupId,
+                        Amount = req.budget,
+                        Active = true,
+                    });
+                }
+                else
+                {
+                    var existing = context.AbstractCategory.SingleOrDefault(x => x.Id == entityId);
+                    existing.Name = req.catName;
+                    existing.BudgetGroupId = req.groupId;
+                    existing.Amount = req.budget;
 
+                }
+                context.SaveChanges();
+            }
             Global.RefreshBudget();
             return "Posted";
         }

@@ -1,5 +1,4 @@
-﻿using QBalanceDesktop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,8 +6,6 @@ using System.Web;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using WpfTestApp1.MVVM.Model;
-using WpfTestApp1.MVVM.Model.Automation;
 
 namespace WebBalanceTracker
 {

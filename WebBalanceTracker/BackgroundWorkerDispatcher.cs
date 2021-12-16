@@ -1,5 +1,4 @@
-﻿using QBalanceDesktop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -73,7 +72,6 @@ namespace WebBalanceTracker
         /// do cycle in every supplied miliseconds
         /// </summary>
         public abstract int RepeatEvery { get; }
-        public abstract DbAccess Db { get; }
         public abstract void DoWork();
     }
 }

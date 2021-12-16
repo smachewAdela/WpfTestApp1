@@ -1,5 +1,4 @@
-﻿using QBalanceDesktop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -7,7 +6,6 @@ using System.Web;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using WpfTestApp1.MVVM.Model;
 
 namespace WebBalanceTracker
 {
@@ -16,10 +14,13 @@ namespace WebBalanceTracker
         protected void Page_Load(object sender, EventArgs e)
         {
             this.XTitle = "תנועות אוטומטיות";
-            AbstractCategories = Db.GetData<AbstractCategory>(new SearchParameters { }).ToDictionary(x => x.Id, x => x.CategoryName);
-            foreach (var item in AbstractCategories)
+            using (var context = new BalanceAdmin_Entities())
             {
-                cmbAbstractCategories.Items.Add(new System.Web.UI.WebControls.ListItem { Text = item.Value, Value = item.Key.ToString() });
+                AbstractCategories = context.BudgetAutoTransaction.ToDictionary(x => x.Id, x => x.Description);
+                foreach (var item in AbstractCategories)
+                {
+                    cmbAbstractCategories.Items.Add(new System.Web.UI.WebControls.ListItem { Text = item.Value, Value = item.Key.ToString() });
+                }
             }
         }
 
@@ -33,21 +34,22 @@ namespace WebBalanceTracker
                 var tbl = new DataTable();
                 tbl.AddColumns(8);
 
-                var cats = Db.GetData<AbstractAutoTransaction>(new SearchParameters { });
-
-                foreach (var g in cats)
+                using (var context = new BalanceAdmin_Entities())
                 {
-                    var rw = tbl.NewRow();
+                    foreach (var g in context.BudgetAutoTransaction)
+                    {
+                        var rw = tbl.NewRow();
 
-                    rw[0] = g.Name;
-                    rw[1] = AbstractCategories[g.AbstractCategoryId];
-                    rw[2] = g.DefaultAmount;
-                    rw[3] = g.Active ? "פעיל" : "לא פעיל";
-                    rw[4] = g.DayOfTheMonth;
-                    rw[5] = string.IsNullOrEmpty(g.LastPaymentDate) ? string.Empty : g.LastPaymentDate;
-                    rw[6] = g.Id;
-                    rw[7] = g.AbstractCategoryId;
-                    tbl.Rows.Add(rw);
+                        rw[0] = g.Description;
+                        rw[1] = AbstractCategories[g.AbstractCatrgoryId];
+                        rw[2] = g.Amount;
+                        rw[3] = g.Active ? "פעיל" : "לא פעיל";
+                        rw[4] = g.DayInMonth;
+                        rw[5] =  string.Empty ;
+                        rw[6] = g.Id;
+                        rw[7] = g.AbstractCatrgoryId;
+                        tbl.Rows.Add(rw);
+                    }
                 }
 
                 return tbl;
@@ -59,25 +61,34 @@ namespace WebBalanceTracker
         {
             dynamic req = userdata.ToDynamicJObject();
             var lBudget = Global.GetLatestBudget();
+            int entId = req.editedId;
+            using (var context = new BalanceAdmin_Entities())
+            {
 
-            var upsertC = Db.GetSingle<AbstractAutoTransaction>(new SearchParameters { AbstractAutoTransactionId = req.editedId });
-
-            if (upsertC == null)
-                upsertC = new AbstractAutoTransaction
+                if (entId == 0)
                 {
-                    Name = req.name,
-                    AbstractCategoryId = req.abstractCategoryId,
-                    DefaultAmount = req.defaultAmount,
-                    DayOfTheMonth = req.dayOfTheMonth,
-                    Active = bool.Parse(req.active.ToString()),
-                    Id = req.editedId
-                };
+                    context.BudgetAutoTransaction.Add(new BudgetAutoTransaction 
+                    {
+                        Description = req.name,
+                        AbstractCatrgoryId = req.abstractCategoryId,
+                        Amount = req.defaultAmount,
+                        DayInMonth = req.dayOfTheMonth,
+                        Active = bool.Parse(req.active.ToString()),
+                        Id = req.editedId
+                    });
+                }
+                else
+                {
+                    var exsisting = context.BudgetAutoTransaction.SingleOrDefault(x => x.Id == entId);
+                    exsisting.Description = req.name;
+                    exsisting.AbstractCatrgoryId = req.abstractCategoryId;
+                    exsisting.Amount = req.defaultAmount;
+                    exsisting.DayInMonth = req.dayOfTheMonth;
+                    exsisting.Active = bool.Parse(req.active.ToString());
 
-            if (req.editedId == 0)
-                Global.Db.Insert(upsertC);
-            else
-                Global.Db.Update(upsertC);
-
+                }
+                context.SaveChanges();
+            }
             Global.RefreshBudget();
             return "Posted";
         }

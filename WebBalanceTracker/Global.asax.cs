@@ -1,5 +1,4 @@
-﻿using QBalanceDesktop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -10,8 +9,6 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
-using WpfTestApp1.MVVM.Model;
-using WpfTestApp1.MVVM.Model.Automation;
 
 namespace WebBalanceTracker
 {
@@ -22,8 +19,6 @@ namespace WebBalanceTracker
             // Code that runs on application startup
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-            HandleOneTimeJobs();
 
             var backgroundWorker = new BackgroundWorkerDispatcher();
             backgroundWorker.Workers.Add(new MessagesWorker());
@@ -36,51 +31,6 @@ namespace WebBalanceTracker
             message.SendMail = true;
             Db.Insert(message);
 #endif
-        }
-
-        private void HandleOneTimeJobs()
-        {
-            var performUniqueJobs = ConfigurationManager.AppSettings["OnStartUpJobs"];
-            if (!string.IsNullOrEmpty(performUniqueJobs))
-            {
-                var jobs = performUniqueJobs.Split(';').ToList();
-                if (jobs.Any(x => x.Equals("abstractCategoriesFromCurrentBudget")))
-                {
-                    var currentBudgetCategories = Global.CurrentBudget.Items;
-
-                    Db.BeginTransaction();
-
-                    try
-                    {
-                        foreach (var currentBudgetCategory in currentBudgetCategories)
-                        {
-                            var upsertC = new AbstractCategory
-                            {
-                                CategoryName = currentBudgetCategory.CategoryName,
-                                GroupId = currentBudgetCategory.GroupId,
-                                DefaultAmount = currentBudgetCategory.BudgetAmount,
-                                DayInMonth = 10,
-                                Active = true,
-                            };
-                            Db.Add(upsertC);
-
-                            currentBudgetCategory.AbstractCategoryId = upsertC.Id;
-                            Db.Update(currentBudgetCategory);
-                        }
-                        Db.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        Db.RollBack();
-                        I_Message message = I_Message.Genertae(IMessageTypeEnum.Error);
-                        message.Title = "OnStartUpJobs";
-                        message.Message = "Error on abstractCategoriesFromCurrentBudget";
-                        message.ExtraData = ex.Message;
-                        message.SendMail = true;
-                        Db.Add(message);
-                    }
-                }
-            }
         }
 
 
@@ -97,45 +47,8 @@ namespace WebBalanceTracker
         {
             lock (obj)
             {
-                // budgets
-                //var newestBudget = Db.GetData<Budget>().OrderByDescending(x => x.Month).First();
-                //var targetDate = DateTime.Now.FirstDayOfMonth();
-                //var dateToProcess = newestBudget.Month.AddMonths(1);
-                //while (dateToProcess.Month <= targetDate.Month)
-                //{
-                //    newestBudget = AutomationHelper.GenerateBudget(Db, newestBudget);
-                //    dateToProcess = newestBudget.Month.AddMonths(1);
-                //}
-
-
-                // AutoTransactions
-                //var date = DateTime.Now.FirstDayOfMonth();
-                //Budget latestBudget = null; // Global.GetLatestBudget();
-                //while (latestBudget == null)
-                //{
-                //    latestBudget = Db.GetSingle<Budget>(new SearchParameters { BudgetDate = date });
-                //    date = date.AddMonths(-1);
-                //}
-                //AutomationHelper.HandleAutoTransactions(Db, latestBudget);
-
-                
-                var oldestBudget = Global.GetLatestBudget();
-                var lastFirstOfMonth = DateTime.Now.FirstDayOfMonth();
-
-                //var newestBudget = Db.GetSingle<Budget>(new SearchParameters { BudgetDate = date });
-                //if (newestBudget == null)
-                //{
-                //    AutomationHelper.GenerateBudget(Db, oldestBudget, date.Date);
-                //    RefreshBudget();
-                //}
-                if (oldestBudget != null)
-                {
-                    while (oldestBudget.Month.Date < lastFirstOfMonth)
-                    {
-                        oldestBudget = AutomationHelper.GenerateBudget(Db, oldestBudget);
-                    }
-                }
-
+                AutomationHelper.Perform();
+                MigrationHelper.Perform();
             }
         }
 
@@ -148,26 +61,12 @@ namespace WebBalanceTracker
             var subject = "WebBalanceTracker error !";
             var body = ex.Message;
 
-            I_Message message = I_Message.Genertae(IMessageTypeEnum.Error);
-            message.Title = subject;
-            message.Message = body;
-            message.ExtraData = ex.StackTrace;
-            message.SendMail = true;
-            Db.Add(message);
-        }
-
-        static DbAccess budgetDb;
-        public static DbAccess Db
-        {
-            get
-            {
-                if (budgetDb == null)
-                {
-                    string connStr = GetConnectionString();
-                    budgetDb = new DbAccess(connStr);
-                }
-                return budgetDb;
-            }
+            //I_Message message = I_Message.Genertae(IMessageTypeEnum.Error);
+            //message.Title = subject;
+            //message.Message = body;
+            //message.ExtraData = ex.StackTrace;
+            //message.SendMail = true;
+            //Db.Add(message);
         }
 
         public static string GetConnectionString()
@@ -175,13 +74,6 @@ namespace WebBalanceTracker
             return ConfigurationManager.AppSettings["connectionString"];
         }
 
-        public static ISettings Settings
-        {
-            get
-            {
-                return Db.GetData<ISettings>().FirstOrDefault();
-            }
-        }
 
         internal static List<TransactionCheckPoint> GenerateDefaultCheckPoints()
         {
@@ -197,15 +89,10 @@ namespace WebBalanceTracker
         {
 
             var d = DateTime.Now.Date;
-            Budget b = null;
-            do
+            using (var context = new BalanceAdmin_Entities())
             {
-                b = Db.GetSingle<Budget>(new SearchParameters { BudgetDate = d.FirstDayOfMonth() });
-                d = d.AddMonths(-1);
+                return new Budget(context.BudgetMonth.OrderByDescending(x => x.Month).First(), context);
             }
-            while (b == null && d.Year >= 2020);
-
-            return b;
         }
 
         internal static void RefreshBudget()
@@ -215,20 +102,26 @@ namespace WebBalanceTracker
 
         internal static void ProgressMonthSelection(int dir)
         {
-            var nextDate = CurrentBudget.Month.AddMonths(dir);
-            var nextB = Db.GetSingle<Budget>(new SearchParameters { BudgetDate = nextDate });
-            if (nextB != null)
+            DateTime nextDate = CurrentBudget.Month.AddMonths(dir);
+            using (var context = new BalanceAdmin_Entities())
             {
-                CurrentBudget = nextB;
+                var nextB = context.BudgetMonth.SingleOrDefault(x => x.Month == nextDate);
+                if (nextB != null)
+                {
+                    CurrentBudget = new Budget(nextB,context);
+                }
             }
         }
 
         internal static void ChangeGlobalBudget(int nextId)
         {
-            var nextB = Db.GetSingle<Budget>(new SearchParameters { BudgetId = nextId });
-            if (nextB != null)
+            using (var context = new BalanceAdmin_Entities())
             {
-                CurrentBudget = nextB;
+                var nextB = context.BudgetMonth.SingleOrDefault(x => x.Id == nextId); 
+                if (nextB != null)
+                {
+                    CurrentBudget = new Budget(nextB, context);
+                }
             }
         }
 
@@ -259,14 +152,14 @@ namespace WebBalanceTracker
 
         internal static Budget GenerateDefaultInitialBudget()
         {
-            var buudget = new Budget
+            using (var context = new BalanceAdmin_Entities())
             {
-                Month = DateTime.Now.FirstDayOfMonth()
-            };
-            Db.Insert(buudget);
-
-
-            return buudget;
+                var buudget = new Budget(DateTime.Now.FirstDayOfMonth(), context);
+                context.BudgetMonth.Add(new BudgetMonth { Month = buudget.Month });
+                context.SaveChanges();
+                return buudget;
+            }
         }
     }
+
 }

@@ -1,5 +1,4 @@
-﻿using QBalanceDesktop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -8,7 +7,6 @@ using System.Web;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using WpfTestApp1.MVVM.Model;
 
 namespace WebBalanceTracker
 {
@@ -25,18 +23,17 @@ namespace WebBalanceTracker
             {
                 var tbl = new DataTable();
                 tbl.AddColumns(2);
-
-                var cats = Db.GetData<BudgetGroup>(new SearchParameters { }).ToList();
-
-                foreach (var g in cats)
+                using (var context = new BalanceAdmin_Entities())
                 {
-                    var rw = tbl.NewRow();
+                    foreach (var g in context.BudgetGroup)
+                    {
+                        var rw = tbl.NewRow();
 
-                    rw[0] = g.Name;
-                    rw[1] = g.Id;
-                    tbl.Rows.Add(rw);
+                        rw[0] = g.Name;
+                        rw[1] = g.Id;
+                        tbl.Rows.Add(rw);
+                    }
                 }
-
                 return tbl;
             }
         }
@@ -47,15 +44,31 @@ namespace WebBalanceTracker
         public static string upsertGroup(string userdata)
         {
             dynamic req = userdata.ToDynamicJObject();
+            int entId = req.groupId;
             var g = new BudgetGroup
             {
                 Name = req.groupName,
                 Id = req.groupId
             };
-            if (g.Id == 0)
-                Global.Db.Insert(g);
-            else
-                Global.Db.Update(g);
+            using (var context = new BalanceAdmin_Entities())
+            {
+                if (g.Id == 0)
+                {
+                    context.BudgetGroup.Add(new BudgetGroup
+                    {
+                        Name = req.name,
+                        AbstractCategory = req.abstractCategoryId,
+                    });
+                }
+                else
+                {
+                    var exsisting = context.BudgetGroup.SingleOrDefault(x => x.Id == entId);
+                    exsisting.Name = req.name;
+                    exsisting.AbstractCategory = req.abstractCategoryId;
+                }
+                context.SaveChanges();
+            }
+
             //Global.RefreshBudget();
             return "Posted";
         }

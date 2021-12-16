@@ -1,0 +1,526 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="deskopBalanceDb_prodModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AbstractAutoTransactions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="DefaultAmount" Type="int" Nullable="false" />
+          <Property Name="AbstractCategoryId" Type="int" Nullable="false" />
+          <Property Name="BudgetId" Type="int" Nullable="false" />
+          <Property Name="DayOfTheMonth" Type="int" Nullable="false" />
+          <Property Name="LastPaymentDate" Type="nvarchar(max)" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AbstractCategories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar(max)" />
+          <Property Name="DefaultAmount" Type="int" Nullable="false" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
+          <Property Name="DayInMonth" Type="int" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BudgetForMonth">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Month" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BudgetIncomes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Amount" Type="int" Nullable="false" />
+          <Property Name="BudgetId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BudgetItemGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="BudgetItemLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BudgetItemId" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="int" Nullable="false" />
+          <Property Name="RollBackExecuted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BudgetItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar(max)" />
+          <Property Name="BudgetAmount" Type="int" Nullable="false" />
+          <Property Name="StatusAmount" Type="int" Nullable="false" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
+          <Property Name="BudgetId" Type="int" Nullable="false" />
+          <Property Name="AbstractCategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbBackUpLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LastBackUp" Type="datetime" Nullable="false" />
+          <Property Name="LogInfo" Type="nvarchar(max)" />
+          <Property Name="Success" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FinandaSyncLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SyncStart" Type="datetime" Nullable="false" />
+          <Property Name="SyncEnd" Type="datetime" Nullable="false" />
+          <Property Name="LogInfo" Type="nvarchar(max)" />
+          <Property Name="NewTransactions" Type="int" Nullable="false" />
+          <Property Name="Success" Type="bit" Nullable="false" />
+          <Property Name="TransactionsFromDate" Type="datetime" Nullable="false" />
+          <Property Name="TransactionsToDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FinandaTransactions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TransID" Type="nvarchar(max)" />
+          <Property Name="uid" Type="nvarchar(max)" />
+          <Property Name="InstituteTransID" Type="nvarchar(max)" />
+          <Property Name="CurrencyDebit" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="AccountType" Type="int" Nullable="false" />
+          <Property Name="TransType" Type="nvarchar(max)" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="TransCurrency" Type="nvarchar(max)" />
+          <Property Name="Source" Type="nvarchar(max)" />
+          <Property Name="Credit" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="ReportedBalance" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Debit" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="TransValueDate" Type="nvarchar(max)" />
+          <Property Name="ReferenceID" Type="nvarchar(max)" />
+          <Property Name="TransDate" Type="nvarchar(max)" />
+          <Property Name="Amount" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="category" Type="nvarchar(max)" />
+          <Property Name="CatDesc" Type="nvarchar(max)" />
+          <Property Name="CatGroupID" Type="nvarchar(max)" />
+          <Property Name="CatGroup" Type="nvarchar(max)" />
+          <Property Name="AccountNumber" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ShowUnbudgetedCategories" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SystemMessages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="ExtraData" Type="nvarchar(max)" />
+          <Property Name="IType" Type="nvarchar(max)" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="SendMail" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransactionCheckPoint">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BudgetId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="LastTransactionAmount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="deskopBalanceDb_prodModelStoreContainer">
+          <EntitySet Name="AbstractAutoTransactions" EntityType="Self.AbstractAutoTransactions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AbstractCategories" EntityType="Self.AbstractCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BudgetForMonth" EntityType="Self.BudgetForMonth" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BudgetIncomes" EntityType="Self.BudgetIncomes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BudgetItemGroup" EntityType="Self.BudgetItemGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BudgetItemLog" EntityType="Self.BudgetItemLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BudgetItems" EntityType="Self.BudgetItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbBackUpLog" EntityType="Self.DbBackUpLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FinandaSyncLog" EntityType="Self.FinandaSyncLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FinandaTransactions" EntityType="Self.FinandaTransactions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemMessages" EntityType="Self.SystemMessages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionCheckPoint" EntityType="Self.TransactionCheckPoint" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="deskopBalanceDb_prodModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AbstractAutoTransactions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DefaultAmount" Type="Int32" Nullable="false" />
+          <Property Name="AbstractCategoryId" Type="Int32" Nullable="false" />
+          <Property Name="BudgetId" Type="Int32" Nullable="false" />
+          <Property Name="DayOfTheMonth" Type="Int32" Nullable="false" />
+          <Property Name="LastPaymentDate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AbstractCategories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DefaultAmount" Type="Int32" Nullable="false" />
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <Property Name="DayInMonth" Type="Int32" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BudgetForMonth">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Month" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="BudgetIncomes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Int32" Nullable="false" />
+          <Property Name="BudgetId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BudgetItemGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="BudgetItemLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BudgetItemId" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Int32" Nullable="false" />
+          <Property Name="RollBackExecuted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BudgetItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BudgetAmount" Type="Int32" Nullable="false" />
+          <Property Name="StatusAmount" Type="Int32" Nullable="false" />
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <Property Name="BudgetId" Type="Int32" Nullable="false" />
+          <Property Name="AbstractCategoryId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbBackUpLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastBackUp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LogInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Success" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FinandaSyncLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SyncStart" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SyncEnd" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LogInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NewTransactions" Type="Int32" Nullable="false" />
+          <Property Name="Success" Type="Boolean" Nullable="false" />
+          <Property Name="TransactionsFromDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TransactionsToDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="FinandaTransactions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TransID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="uid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InstituteTransID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CurrencyDebit" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AccountType" Type="Int32" Nullable="false" />
+          <Property Name="TransType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TransCurrency" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Source" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Credit" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="ReportedBalance" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Debit" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="TransValueDate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReferenceID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TransDate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="category" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CatDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CatGroupID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CatGroup" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AccountNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShowUnbudgetedCategories" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SystemMessages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ExtraData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SendMail" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransactionCheckPoint">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BudgetId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastTransactionAmount" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="Legacy_prodEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AbstractAutoTransactions" EntityType="Self.AbstractAutoTransactions" />
+          <EntitySet Name="AbstractCategories" EntityType="Self.AbstractCategories" />
+          <EntitySet Name="BudgetForMonth" EntityType="Self.BudgetForMonth" />
+          <EntitySet Name="BudgetIncomes" EntityType="Self.BudgetIncomes" />
+          <EntitySet Name="BudgetItemGroup" EntityType="Self.BudgetItemGroup" />
+          <EntitySet Name="BudgetItemLog" EntityType="Self.BudgetItemLog" />
+          <EntitySet Name="BudgetItems" EntityType="Self.BudgetItems" />
+          <EntitySet Name="DbBackUpLog" EntityType="Self.DbBackUpLog" />
+          <EntitySet Name="FinandaSyncLog" EntityType="Self.FinandaSyncLog" />
+          <EntitySet Name="FinandaTransactions" EntityType="Self.FinandaTransactions" />
+          <EntitySet Name="Settings" EntityType="Self.Settings" />
+          <EntitySet Name="SystemMessages" EntityType="Self.SystemMessages" />
+          <EntitySet Name="TransactionCheckPoint" EntityType="Self.TransactionCheckPoint" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="deskopBalanceDb_prodModelStoreContainer" CdmEntityContainer="Legacy_prodEntities">
+          <EntitySetMapping Name="AbstractAutoTransactions">
+            <EntityTypeMapping TypeName="deskopBalanceDb_prodModel.AbstractAutoTransactions">
+              <MappingFragment StoreEntitySet="AbstractAutoTransactions">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DefaultAmount" ColumnName="DefaultAmount" />
+                <ScalarProperty Name="AbstractCategoryId" ColumnName="AbstractCategoryId" />
+                <ScalarProperty Name="BudgetId" ColumnName="BudgetId" />
+                <ScalarProperty Name="DayOfTheMonth" ColumnName="DayOfTheMonth" />
+                <ScalarProperty Name="LastPaymentDate" ColumnName="LastPaymentDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AbstractCategories">
+            <EntityTypeMapping TypeName="deskopBalanceDb_prodModel.AbstractCategories">
+              <MappingFragment StoreEntitySet="AbstractCategories">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="DefaultAmount" ColumnName="DefaultAmount" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="DayInMonth" ColumnName="DayInMonth" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BudgetForMonth">
+            <EntityTypeMapping TypeName="deskopBalanceDb_prodModel.BudgetForMonth">
+              <MappingFragment StoreEntitySet="BudgetForMonth">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BudgetIncomes">
+            <EntityTypeMapping TypeName="deskopBalanceDb_prodModel.BudgetIncomes">
+              <MappingFragment StoreEntitySet="BudgetIncomes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="BudgetId" ColumnName="BudgetId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BudgetItemGroup">
+            <EntityTypeMapping TypeName="deskopBalanceDb_prodModel.BudgetItemGroup">
+              <MappingFragment StoreEntitySet="BudgetItemGroup">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BudgetItemLog">
+            <EntityTypeMapping TypeName="deskopBalanceDb_prodModel.BudgetItemLog">
+              <MappingFragment StoreEntitySet="BudgetItemLog">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="BudgetItemId" ColumnName="BudgetItemId" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="RollBackExecuted" ColumnName="RollBackExecuted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BudgetItems">
+            <EntityTypeMapping TypeName="deskopBalanceDb_prodModel.BudgetItems">
+              <MappingFragment StoreEntitySet="BudgetItems">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="BudgetAmount" ColumnName="BudgetAmount" />
+                <ScalarProperty Name="StatusAmount" ColumnName="StatusAmount" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="BudgetId" ColumnName="BudgetId" />
+                <ScalarProperty Name="AbstractCategoryId" ColumnName="AbstractCategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbBackUpLog">
+            <EntityTypeMapping TypeName="deskopBalanceDb_prodModel.DbBackUpLog">
+              <MappingFragment StoreEntitySet="DbBackUpLog">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LastBackUp" ColumnName="LastBackUp" />
+                <ScalarProperty Name="LogInfo" ColumnName="LogInfo" />
+                <ScalarProperty Name="Success" ColumnName="Success" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FinandaSyncLog">
+            <EntityTypeMapping TypeName="deskopBalanceDb_prodModel.FinandaSyncLog">
+              <MappingFragment StoreEntitySet="FinandaSyncLog">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SyncStart" ColumnName="SyncStart" />
+                <ScalarProperty Name="SyncEnd" ColumnName="SyncEnd" />
+                <ScalarProperty Name="LogInfo" ColumnName="LogInfo" />
+                <ScalarProperty Name="NewTransactions" ColumnName="NewTransactions" />
+                <ScalarProperty Name="Success" ColumnName="Success" />
+                <ScalarProperty Name="TransactionsFromDate" ColumnName="TransactionsFromDate" />
+                <ScalarProperty Name="TransactionsToDate" ColumnName="TransactionsToDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FinandaTransactions">
+            <EntityTypeMapping TypeName="deskopBalanceDb_prodModel.FinandaTransactions">
+              <MappingFragment StoreEntitySet="FinandaTransactions">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TransID" ColumnName="TransID" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="InstituteTransID" ColumnName="InstituteTransID" />
+                <ScalarProperty Name="CurrencyDebit" ColumnName="CurrencyDebit" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="AccountType" ColumnName="AccountType" />
+                <ScalarProperty Name="TransType" ColumnName="TransType" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="TransCurrency" ColumnName="TransCurrency" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Credit" ColumnName="Credit" />
+                <ScalarProperty Name="ReportedBalance" ColumnName="ReportedBalance" />
+                <ScalarProperty Name="Debit" ColumnName="Debit" />
+                <ScalarProperty Name="TransValueDate" ColumnName="TransValueDate" />
+                <ScalarProperty Name="ReferenceID" ColumnName="ReferenceID" />
+                <ScalarProperty Name="TransDate" ColumnName="TransDate" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="category" ColumnName="category" />
+                <ScalarProperty Name="CatDesc" ColumnName="CatDesc" />
+                <ScalarProperty Name="CatGroupID" ColumnName="CatGroupID" />
+                <ScalarProperty Name="CatGroup" ColumnName="CatGroup" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="deskopBalanceDb_prodModel.Settings">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ShowUnbudgetedCategories" ColumnName="ShowUnbudgetedCategories" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemMessages">
+            <EntityTypeMapping TypeName="deskopBalanceDb_prodModel.SystemMessages">
+              <MappingFragment StoreEntitySet="SystemMessages">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="ExtraData" ColumnName="ExtraData" />
+                <ScalarProperty Name="IType" ColumnName="IType" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="SendMail" ColumnName="SendMail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionCheckPoint">
+            <EntityTypeMapping TypeName="deskopBalanceDb_prodModel.TransactionCheckPoint">
+              <MappingFragment StoreEntitySet="TransactionCheckPoint">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="BudgetId" ColumnName="BudgetId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="LastTransactionAmount" ColumnName="LastTransactionAmount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

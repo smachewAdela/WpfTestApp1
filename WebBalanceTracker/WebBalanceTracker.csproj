@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -44,6 +45,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -53,6 +60,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
@@ -108,6 +117,16 @@
     <Content Include="About.aspx" />
     <Content Include="AbstractCategories.aspx" />
     <Content Include="AutoTransactions.aspx" />
+    <Content Include="BalanceAdminEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BalanceAdminEntities.edmx</DependentUpon>
+      <LastGenOutput>BalanceAdminEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="BalanceAdminEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BalanceAdminEntities.edmx</DependentUpon>
+      <LastGenOutput>BalanceAdminEntities.cs</LastGenOutput>
+    </Content>
     <Content Include="BudgetGroups.aspx" />
     <Content Include="BudgetList.aspx" />
     <Content Include="BudgetPage.aspx" />
@@ -130,9 +149,33 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <EntityDeploy Include="LegacyEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LegacyEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="LegacyEntities.edmx.diagram">
+      <DependentUpon>LegacyEntities.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="BalanceAdminEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BalanceAdminEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="BalanceAdminEntities.edmx.diagram">
+      <DependentUpon>BalanceAdminEntities.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Incomes.aspx" />
+    <Content Include="LegacyEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LegacyEntities.edmx</DependentUpon>
+      <LastGenOutput>LegacyEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="LegacyEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LegacyEntities.edmx</DependentUpon>
+      <LastGenOutput>LegacyEntities.cs</LastGenOutput>
+    </Content>
     <Content Include="LogPage.aspx" />
     <Content Include="Reports.aspx" />
     <Content Include="Scripts\bootstrap.js" />
@@ -172,12 +215,25 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractAutoTransactions.cs">
+      <DependentUpon>LegacyEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="AbstractCategories.aspx.cs">
       <DependentUpon>AbstractCategories.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="AbstractCategories.aspx.designer.cs">
       <DependentUpon>AbstractCategories.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AbstractCategories.cs">
+      <DependentUpon>LegacyEntities.tt</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AbstractCategory.cs">
+      <DependentUpon>BalanceAdminEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AbstractIncome.cs">
+      <DependentUpon>BalanceAdminEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="About.aspx.cs">
@@ -188,6 +244,7 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="AutomationHelper.cs" />
     <Compile Include="AutoTransactions.aspx.cs">
       <DependentUpon>AutoTransactions.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -196,8 +253,33 @@
       <DependentUpon>AutoTransactions.aspx</DependentUpon>
     </Compile>
     <Compile Include="BackgroundWorkerDispatcher.cs" />
+    <Compile Include="BalanceAdminEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BalanceAdminEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BalanceAdminEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BalanceAdminEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BalanceAdminEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BalanceAdminEntities.edmx</DependentUpon>
+    </Compile>
     <Compile Include="BaseForm.cs">
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Budget.cs" />
+    <Compile Include="BudgetAutoTransaction.cs">
+      <DependentUpon>BalanceAdminEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BudgetForMonth.cs">
+      <DependentUpon>LegacyEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BudgetGroup.cs">
+      <DependentUpon>BalanceAdminEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="BudgetGroups.aspx.cs">
       <DependentUpon>BudgetGroups.aspx</DependentUpon>
@@ -206,6 +288,18 @@
     <Compile Include="BudgetGroups.aspx.designer.cs">
       <DependentUpon>BudgetGroups.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BudgetIncomes.cs">
+      <DependentUpon>LegacyEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BudgetItemGroup.cs">
+      <DependentUpon>LegacyEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BudgetItemLog.cs">
+      <DependentUpon>LegacyEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BudgetItems.cs">
+      <DependentUpon>LegacyEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="BudgetList.aspx.cs">
       <DependentUpon>BudgetList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -213,12 +307,18 @@
     <Compile Include="BudgetList.aspx.designer.cs">
       <DependentUpon>BudgetList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BudgetMonth.cs">
+      <DependentUpon>BalanceAdminEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="BudgetPage.aspx.cs">
       <DependentUpon>BudgetPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BudgetPage.aspx.designer.cs">
       <DependentUpon>BudgetPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BudgetTransaction.cs">
+      <DependentUpon>BalanceAdminEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Categories.aspx.cs">
       <DependentUpon>Categories.aspx</DependentUpon>
@@ -234,6 +334,9 @@
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DbBackUpLog.cs">
+      <DependentUpon>LegacyEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -243,6 +346,13 @@
     </Compile>
     <Compile Include="EmailHelper.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Extensions1.cs" />
+    <Compile Include="FinandaSyncLog.cs">
+      <DependentUpon>LegacyEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FinandaTransactions.cs">
+      <DependentUpon>LegacyEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -253,6 +363,24 @@
     <Compile Include="Incomes.aspx.designer.cs">
       <DependentUpon>Incomes.aspx</DependentUpon>
     </Compile>
+    <Compile Include="IncomeTransaction.cs">
+      <DependentUpon>BalanceAdminEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LegacyEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LegacyEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LegacyEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LegacyEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LegacyEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LegacyEntities.edmx</DependentUpon>
+    </Compile>
     <Compile Include="LogPage.aspx.cs">
       <DependentUpon>LogPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -262,6 +390,7 @@
     </Compile>
     <Compile Include="MessageHandler.cs" />
     <Compile Include="MessagesWorker.cs" />
+    <Compile Include="MigrationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportHandler.cs" />
     <Compile Include="Reports.aspx.cs">
@@ -270,6 +399,9 @@
     </Compile>
     <Compile Include="Reports.aspx.designer.cs">
       <DependentUpon>Reports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.cs">
+      <DependentUpon>LegacyEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
@@ -291,6 +423,12 @@
     </Compile>
     <Compile Include="StatusPage.aspx.designer.cs">
       <DependentUpon>StatusPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SystemMessages.cs">
+      <DependentUpon>LegacyEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionCheckPoint.cs">
+      <DependentUpon>LegacyEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Transactions.aspx.cs">
       <DependentUpon>Transactions.aspx</DependentUpon>
@@ -322,10 +460,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WpfTestApp1\WpfTestApp1.csproj">
-      <Project>{E87ADD21-7A46-4A90-9340-A589C52E73BF}</Project>
-      <Name>WpfTestApp1</Name>
-    </ProjectReference>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -376,7 +511,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

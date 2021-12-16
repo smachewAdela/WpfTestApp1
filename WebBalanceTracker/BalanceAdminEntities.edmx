@@ -1,0 +1,468 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BalanceAdmin_TestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AbstractCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Amount" Type="int" Nullable="false" />
+          <Property Name="BudgetGroupId" Type="int" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AbstractIncome">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="DefaultAmount" Type="int" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BudgetAutoTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" Nullable="false" />
+          <Property Name="Amount" Type="int" Nullable="false" />
+          <Property Name="AbstractCatrgoryId" Type="int" Nullable="false" />
+          <Property Name="DayInMonth" Type="int" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BudgetGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BudgetMonth">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Month" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BudgetTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Amount" Type="int" Nullable="false" />
+          <Property Name="AbstractCatrgoryId" Type="int" Nullable="false" />
+          <Property Name="BudgetMonthId" Type="int" Nullable="false" />
+          <Property Name="BudgetAutoTransactionId" Type="int" />
+        </EntityType>
+        <EntityType Name="IncomeTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Amount" Type="int" />
+          <Property Name="Name" Type="varchar(max)" />
+          <Property Name="AbstractIncomeId" Type="int" />
+          <Property Name="BudgetMonthId" Type="int" />
+        </EntityType>
+        <Association Name="FK_AbstractCategory_BudgetGroup">
+          <End Role="BudgetGroup" Type="Self.BudgetGroup" Multiplicity="1" />
+          <End Role="AbstractCategory" Type="Self.AbstractCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BudgetGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AbstractCategory">
+              <PropertyRef Name="BudgetGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BudgetAutoTransaction_AbstractCategory">
+          <End Role="AbstractCategory" Type="Self.AbstractCategory" Multiplicity="1" />
+          <End Role="BudgetAutoTransaction" Type="Self.BudgetAutoTransaction" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AbstractCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BudgetAutoTransaction">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BudgetTransaction_BudgetAutoTransaction">
+          <End Role="BudgetAutoTransaction" Type="Self.BudgetAutoTransaction" Multiplicity="1" />
+          <End Role="BudgetTransaction" Type="Self.BudgetTransaction" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="BudgetAutoTransaction">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BudgetTransaction">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BudgetTransaction_BudgetMonth">
+          <End Role="BudgetMonth" Type="Self.BudgetMonth" Multiplicity="1" />
+          <End Role="BudgetTransaction" Type="Self.BudgetTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BudgetMonth">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BudgetTransaction">
+              <PropertyRef Name="BudgetMonthId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IncomeTransaction_AbstractIncome">
+          <End Role="AbstractIncome" Type="Self.AbstractIncome" Multiplicity="0..1" />
+          <End Role="IncomeTransaction" Type="Self.IncomeTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AbstractIncome">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IncomeTransaction">
+              <PropertyRef Name="AbstractIncomeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IncomeTransaction_BudgetMonth">
+          <End Role="BudgetMonth" Type="Self.BudgetMonth" Multiplicity="0..1" />
+          <End Role="IncomeTransaction" Type="Self.IncomeTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BudgetMonth">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IncomeTransaction">
+              <PropertyRef Name="BudgetMonthId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BalanceAdmin_TestModelStoreContainer">
+          <EntitySet Name="AbstractCategory" EntityType="Self.AbstractCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AbstractIncome" EntityType="Self.AbstractIncome" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BudgetAutoTransaction" EntityType="Self.BudgetAutoTransaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BudgetGroup" EntityType="Self.BudgetGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BudgetMonth" EntityType="Self.BudgetMonth" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BudgetTransaction" EntityType="Self.BudgetTransaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IncomeTransaction" EntityType="Self.IncomeTransaction" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AbstractCategory_BudgetGroup" Association="Self.FK_AbstractCategory_BudgetGroup">
+            <End Role="BudgetGroup" EntitySet="BudgetGroup" />
+            <End Role="AbstractCategory" EntitySet="AbstractCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BudgetAutoTransaction_AbstractCategory" Association="Self.FK_BudgetAutoTransaction_AbstractCategory">
+            <End Role="AbstractCategory" EntitySet="AbstractCategory" />
+            <End Role="BudgetAutoTransaction" EntitySet="BudgetAutoTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BudgetTransaction_BudgetAutoTransaction" Association="Self.FK_BudgetTransaction_BudgetAutoTransaction">
+            <End Role="BudgetAutoTransaction" EntitySet="BudgetAutoTransaction" />
+            <End Role="BudgetTransaction" EntitySet="BudgetTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BudgetTransaction_BudgetMonth" Association="Self.FK_BudgetTransaction_BudgetMonth">
+            <End Role="BudgetMonth" EntitySet="BudgetMonth" />
+            <End Role="BudgetTransaction" EntitySet="BudgetTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IncomeTransaction_AbstractIncome" Association="Self.FK_IncomeTransaction_AbstractIncome">
+            <End Role="AbstractIncome" EntitySet="AbstractIncome" />
+            <End Role="IncomeTransaction" EntitySet="IncomeTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IncomeTransaction_BudgetMonth" Association="Self.FK_IncomeTransaction_BudgetMonth">
+            <End Role="BudgetMonth" EntitySet="BudgetMonth" />
+            <End Role="IncomeTransaction" EntitySet="IncomeTransaction" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BalanceAdmin_TestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AbstractCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Int32" Nullable="false" />
+          <Property Name="BudgetGroupId" Type="Int32" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BudgetAutoTransaction" Relationship="Self.FK_BudgetAutoTransaction_AbstractCategory" FromRole="AbstractCategory" ToRole="BudgetAutoTransaction" />
+          <NavigationProperty Name="BudgetGroup" Relationship="BalanceAdmin_TestModel.FK_AbstractCategory_BudgetGroup" FromRole="AbstractCategory" ToRole="BudgetGroup" />
+        </EntityType>
+        <EntityType Name="AbstractIncome">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DefaultAmount" Type="Int32" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="IncomeTransaction" Relationship="Self.FK_IncomeTransaction_AbstractIncome" FromRole="AbstractIncome" ToRole="IncomeTransaction" />
+        </EntityType>
+        <EntityType Name="BudgetAutoTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Amount" Type="Int32" Nullable="false" />
+          <Property Name="AbstractCatrgoryId" Type="Int32" Nullable="false" />
+          <Property Name="DayInMonth" Type="Int32" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AbstractCategory" Relationship="Self.FK_BudgetAutoTransaction_AbstractCategory" FromRole="BudgetAutoTransaction" ToRole="AbstractCategory" />
+          <NavigationProperty Name="BudgetTransaction" Relationship="Self.FK_BudgetTransaction_BudgetAutoTransaction" FromRole="BudgetAutoTransaction" ToRole="BudgetTransaction" />
+        </EntityType>
+        <EntityType Name="BudgetGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="AbstractCategory" Relationship="BalanceAdmin_TestModel.FK_AbstractCategory_BudgetGroup" FromRole="BudgetGroup" ToRole="AbstractCategory" />
+        </EntityType>
+        <EntityType Name="BudgetMonth">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Month" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="BudgetTransaction" Relationship="Self.FK_BudgetTransaction_BudgetMonth" FromRole="BudgetMonth" ToRole="BudgetTransaction" />
+          <NavigationProperty Name="IncomeTransaction" Relationship="Self.FK_IncomeTransaction_BudgetMonth" FromRole="BudgetMonth" ToRole="IncomeTransaction" />
+        </EntityType>
+        <EntityType Name="BudgetTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Amount" Type="Int32" Nullable="false" />
+          <Property Name="AbstractCatrgoryId" Type="Int32" Nullable="false" />
+          <Property Name="BudgetMonthId" Type="Int32" Nullable="false" />
+          <Property Name="BudgetAutoTransactionId" Type="Int32" />
+          <NavigationProperty Name="BudgetAutoTransaction" Relationship="Self.FK_BudgetTransaction_BudgetAutoTransaction" FromRole="BudgetTransaction" ToRole="BudgetAutoTransaction" />
+          <NavigationProperty Name="BudgetMonth" Relationship="Self.FK_BudgetTransaction_BudgetMonth" FromRole="BudgetTransaction" ToRole="BudgetMonth" />
+        </EntityType>
+        <EntityType Name="IncomeTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Amount" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AbstractIncomeId" Type="Int32" />
+          <Property Name="BudgetMonthId" Type="Int32" />
+          <NavigationProperty Name="AbstractIncome" Relationship="Self.FK_IncomeTransaction_AbstractIncome" FromRole="IncomeTransaction" ToRole="AbstractIncome" />
+          <NavigationProperty Name="BudgetMonth" Relationship="Self.FK_IncomeTransaction_BudgetMonth" FromRole="IncomeTransaction" ToRole="BudgetMonth" />
+        </EntityType>
+        <Association Name="FK_BudgetAutoTransaction_AbstractCategory">
+          <End Role="AbstractCategory" Type="Self.AbstractCategory" Multiplicity="1" />
+          <End Role="BudgetAutoTransaction" Type="Self.BudgetAutoTransaction" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AbstractCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BudgetAutoTransaction">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IncomeTransaction_AbstractIncome">
+          <End Role="AbstractIncome" Type="Self.AbstractIncome" Multiplicity="0..1" />
+          <End Role="IncomeTransaction" Type="Self.IncomeTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AbstractIncome">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IncomeTransaction">
+              <PropertyRef Name="AbstractIncomeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BudgetTransaction_BudgetAutoTransaction">
+          <End Role="BudgetAutoTransaction" Type="Self.BudgetAutoTransaction" Multiplicity="1" />
+          <End Role="BudgetTransaction" Type="Self.BudgetTransaction" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="BudgetAutoTransaction">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BudgetTransaction">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BudgetTransaction_BudgetMonth">
+          <End Role="BudgetMonth" Type="Self.BudgetMonth" Multiplicity="1" />
+          <End Role="BudgetTransaction" Type="Self.BudgetTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BudgetMonth">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BudgetTransaction">
+              <PropertyRef Name="BudgetMonthId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IncomeTransaction_BudgetMonth">
+          <End Role="BudgetMonth" Type="Self.BudgetMonth" Multiplicity="0..1" />
+          <End Role="IncomeTransaction" Type="Self.IncomeTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BudgetMonth">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IncomeTransaction">
+              <PropertyRef Name="BudgetMonthId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BalanceAdmin_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AbstractCategory" EntityType="Self.AbstractCategory" />
+          <EntitySet Name="AbstractIncome" EntityType="Self.AbstractIncome" />
+          <EntitySet Name="BudgetAutoTransaction" EntityType="Self.BudgetAutoTransaction" />
+          <EntitySet Name="BudgetGroup" EntityType="Self.BudgetGroup" />
+          <EntitySet Name="BudgetMonth" EntityType="Self.BudgetMonth" />
+          <EntitySet Name="BudgetTransaction" EntityType="Self.BudgetTransaction" />
+          <EntitySet Name="IncomeTransaction" EntityType="Self.IncomeTransaction" />
+          <AssociationSet Name="FK_BudgetAutoTransaction_AbstractCategory" Association="Self.FK_BudgetAutoTransaction_AbstractCategory">
+            <End Role="AbstractCategory" EntitySet="AbstractCategory" />
+            <End Role="BudgetAutoTransaction" EntitySet="BudgetAutoTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IncomeTransaction_AbstractIncome" Association="Self.FK_IncomeTransaction_AbstractIncome">
+            <End Role="AbstractIncome" EntitySet="AbstractIncome" />
+            <End Role="IncomeTransaction" EntitySet="IncomeTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BudgetTransaction_BudgetAutoTransaction" Association="Self.FK_BudgetTransaction_BudgetAutoTransaction">
+            <End Role="BudgetAutoTransaction" EntitySet="BudgetAutoTransaction" />
+            <End Role="BudgetTransaction" EntitySet="BudgetTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BudgetTransaction_BudgetMonth" Association="Self.FK_BudgetTransaction_BudgetMonth">
+            <End Role="BudgetMonth" EntitySet="BudgetMonth" />
+            <End Role="BudgetTransaction" EntitySet="BudgetTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IncomeTransaction_BudgetMonth" Association="Self.FK_IncomeTransaction_BudgetMonth">
+            <End Role="BudgetMonth" EntitySet="BudgetMonth" />
+            <End Role="IncomeTransaction" EntitySet="IncomeTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AbstractCategory_BudgetGroup" Association="BalanceAdmin_TestModel.FK_AbstractCategory_BudgetGroup">
+            <End Role="BudgetGroup" EntitySet="BudgetGroup" />
+            <End Role="AbstractCategory" EntitySet="AbstractCategory" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_AbstractCategory_BudgetGroup">
+          <End Type="BalanceAdmin_TestModel.BudgetGroup" Role="BudgetGroup" Multiplicity="1" />
+          <End Type="BalanceAdmin_TestModel.AbstractCategory" Role="AbstractCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BudgetGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AbstractCategory">
+              <PropertyRef Name="BudgetGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BalanceAdmin_TestModelStoreContainer" CdmEntityContainer="BalanceAdmin_Entities">
+          <EntitySetMapping Name="AbstractCategory">
+            <EntityTypeMapping TypeName="BalanceAdmin_TestModel.AbstractCategory">
+              <MappingFragment StoreEntitySet="AbstractCategory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="BudgetGroupId" ColumnName="BudgetGroupId" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AbstractIncome">
+            <EntityTypeMapping TypeName="BalanceAdmin_TestModel.AbstractIncome">
+              <MappingFragment StoreEntitySet="AbstractIncome">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DefaultAmount" ColumnName="DefaultAmount" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BudgetAutoTransaction">
+            <EntityTypeMapping TypeName="BalanceAdmin_TestModel.BudgetAutoTransaction">
+              <MappingFragment StoreEntitySet="BudgetAutoTransaction">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="AbstractCatrgoryId" ColumnName="AbstractCatrgoryId" />
+                <ScalarProperty Name="DayInMonth" ColumnName="DayInMonth" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BudgetGroup">
+            <EntityTypeMapping TypeName="BalanceAdmin_TestModel.BudgetGroup">
+              <MappingFragment StoreEntitySet="BudgetGroup">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BudgetMonth">
+            <EntityTypeMapping TypeName="BalanceAdmin_TestModel.BudgetMonth">
+              <MappingFragment StoreEntitySet="BudgetMonth">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BudgetTransaction">
+            <EntityTypeMapping TypeName="BalanceAdmin_TestModel.BudgetTransaction">
+              <MappingFragment StoreEntitySet="BudgetTransaction">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="AbstractCatrgoryId" ColumnName="AbstractCatrgoryId" />
+                <ScalarProperty Name="BudgetMonthId" ColumnName="BudgetMonthId" />
+                <ScalarProperty Name="BudgetAutoTransactionId" ColumnName="BudgetAutoTransactionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IncomeTransaction">
+            <EntityTypeMapping TypeName="BalanceAdmin_TestModel.IncomeTransaction">
+              <MappingFragment StoreEntitySet="IncomeTransaction">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AbstractIncomeId" ColumnName="AbstractIncomeId" />
+                <ScalarProperty Name="BudgetMonthId" ColumnName="BudgetMonthId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
