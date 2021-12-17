@@ -16,12 +16,12 @@ namespace WebBalanceTracker
             this.XTitle = "רשימת תקציבים";
         }
 
-        public List<BudgetInfo> Budgets
+        public List<BudgetMonth> Budgets
         {
             get
             {
-                var budgets = Db.GetData<Budget>();
-                return budgets.OrderByDescending(x => x.Month).Select(x => new BudgetInfo(x)).ToList();
+                using (var context = new BalanceAdmin_Entities())
+                    return context.BudgetMonth.ToList();
             }
         }
 
@@ -31,42 +31,42 @@ namespace WebBalanceTracker
             dynamic req = userdata.ToDynamicJObject();
             int budgetId = req.budgetId;
 
-            var BudgetItemToDelete = Db.GetSingle<Budget>(new SearchParameters { BudgetId = (int)req.budgetId });
-            if (BudgetItemToDelete != null)
-            {
-                var db = Global.Db;
-                try
-                {
-                    db.BeginTransaction();
+            //var BudgetItemToDelete = Db.GetSingle<Budget>(new SearchParameters { BudgetId = (int)req.budgetId });
+            //if (BudgetItemToDelete != null)
+            //{
+            //    var db = Global.Db;
+            //    try
+            //    {
+            //        db.BeginTransaction();
 
-                    // incomes
-                    foreach (var ei in BudgetItemToDelete.Incomes)
-                    {
-                        db.Delete(ei);
-                    }
-                    // TransactionCheckPoints
-                    foreach (var ei in BudgetItemToDelete.TransactionCheckPoints)
-                    {
-                        db.Delete(ei);
-                    }
+            //        // incomes
+            //        foreach (var ei in BudgetItemToDelete.Incomes)
+            //        {
+            //            db.Delete(ei);
+            //        }
+            //        // TransactionCheckPoints
+            //        foreach (var ei in BudgetItemToDelete.TransactionCheckPoints)
+            //        {
+            //            db.Delete(ei);
+            //        }
 
-                    // budget Categories
-                    foreach (var ei in BudgetItemToDelete.Items)
-                    {
-                        db.Delete(ei);
-                    }
+            //        // budget Categories
+            //        foreach (var ei in BudgetItemToDelete.Items)
+            //        {
+            //            db.Delete(ei);
+            //        }
 
-                    db.Delete(BudgetItemToDelete);
+            //        db.Delete(BudgetItemToDelete);
 
-                    db.Commit();
-                }
-                catch (Exception ex)
-                {
-                    db.RollBack();
-                    I_Message.HandleException(ex, db);
-                    throw new HttpException((int)HttpStatusCode.BadRequest, "Budget not created, check system log for more info");
-                }
-            }
+            //        db.Commit();
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        db.RollBack();
+            //        I_Message.HandleException(ex, db);
+            //        throw new HttpException((int)HttpStatusCode.BadRequest, "Budget not created, check system log for more info");
+            //    }
+            //}
 
             Global.RefreshBudget();
             return "Posted";
@@ -83,16 +83,18 @@ namespace WebBalanceTracker
             if (currentBudget == null)
                 currentBudget = Global.GenerateDefaultInitialBudget();
 
-            var db = Global.Db;
             try
             {
-                var latestBudgetDate = db.GetData<Budget>().Max(x => x.Month).AddMonths(1);
-                AutomationHelper.GenerateBudget(db, currentBudget, latestBudgetDate);
-                Global.RefreshBudget();
+                using (var context = new BalanceAdmin_Entities())
+                {
+                    var latestBudgetDate = context.BudgetMonth.Max(x => x.Month).AddMonths(1);
+                    //AutomationHelper.GenerateBudget(db, currentBudget, latestBudgetDate);
+                    //Global.RefreshBudget();
+                }
             }
             catch (Exception ex)
             {
-                I_Message.HandleException(ex, db);
+                //I_Message.HandleException(ex, db);
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Budget not created, check system log for more info");
             }
 

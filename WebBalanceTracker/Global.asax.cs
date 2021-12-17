@@ -85,13 +85,11 @@ namespace WebBalanceTracker
             return t;
         }
 
-        internal static Budget GetLatestBudget()
+        internal static BudgetMonth GetLatestBudget()
         {
-
-            var d = DateTime.Now.Date;
             using (var context = new BalanceAdmin_Entities())
             {
-                return new Budget(context.BudgetMonth.OrderByDescending(x => x.Month).First(), context);
+                return context.BudgetMonth.OrderByDescending(x => x.Month).First();
             }
         }
 
@@ -108,7 +106,7 @@ namespace WebBalanceTracker
                 var nextB = context.BudgetMonth.SingleOrDefault(x => x.Month == nextDate);
                 if (nextB != null)
                 {
-                    CurrentBudget = new Budget(nextB,context);
+                    CurrentBudget = nextB;
                 }
             }
         }
@@ -120,13 +118,13 @@ namespace WebBalanceTracker
                 var nextB = context.BudgetMonth.SingleOrDefault(x => x.Id == nextId); 
                 if (nextB != null)
                 {
-                    CurrentBudget = new Budget(nextB, context);
+                    CurrentBudget = nextB;
                 }
             }
         }
 
-        static Budget b;
-        public static Budget CurrentBudget
+        static BudgetMonth b;
+        public static BudgetMonth CurrentBudget
         {
             get
             {
@@ -145,17 +143,17 @@ namespace WebBalanceTracker
         {
             get
             {
-                return CurrentBudget?.Title;
+                return CurrentBudget?.Name;
             }
         }
 
 
-        internal static Budget GenerateDefaultInitialBudget()
+        internal static BudgetMonth GenerateDefaultInitialBudget()
         {
             using (var context = new BalanceAdmin_Entities())
             {
-                var buudget = new Budget(DateTime.Now.FirstDayOfMonth(), context);
-                context.BudgetMonth.Add(new BudgetMonth { Month = buudget.Month });
+                var buudget = new BudgetMonth { Month = DateTime.Now.FirstDayOfMonth() };
+                context.BudgetMonth.Add(buudget);
                 context.SaveChanges();
                 return buudget;
             }

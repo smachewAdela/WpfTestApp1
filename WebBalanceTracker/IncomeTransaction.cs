@@ -15,12 +15,9 @@ namespace WebBalanceTracker
     public partial class IncomeTransaction
     {
         public int Id { get; set; }
-        public Nullable<int> Amount { get; set; }
+        public int Amount { get; set; }
         public string Name { get; set; }
         public Nullable<int> AbstractIncomeId { get; set; }
-        public Nullable<int> BudgetMonthId { get; set; }
-    
-        public virtual AbstractIncome AbstractIncome { get; set; }
-        public virtual BudgetMonth BudgetMonth { get; set; }
+        public int BudgetMonthId { get; set; }
     }
 }

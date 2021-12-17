@@ -20,8 +20,5 @@ namespace WebBalanceTracker
         public int AbstractCatrgoryId { get; set; }
         public int BudgetMonthId { get; set; }
         public Nullable<int> BudgetAutoTransactionId { get; set; }
-    
-        public virtual BudgetAutoTransaction BudgetAutoTransaction { get; set; }
-        public virtual BudgetMonth BudgetMonth { get; set; }
     }
 }

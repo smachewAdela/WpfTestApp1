@@ -268,10 +268,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BalanceAdminEntities.edmx</DependentUpon>
     </Compile>
+    <Compile Include="BalanceCheckPoint.cs">
+      <DependentUpon>BalanceAdminEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="BaseForm.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Budget.cs" />
     <Compile Include="BudgetAutoTransaction.cs">
       <DependentUpon>BalanceAdminEntities.tt</DependentUpon>
     </Compile>
@@ -356,6 +358,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="GlobalDataProvider.cs" />
     <Compile Include="Incomes.aspx.cs">
       <DependentUpon>Incomes.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

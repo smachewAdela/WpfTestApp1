@@ -20,8 +20,5 @@ namespace WebBalanceTracker
         public int AbstractCatrgoryId { get; set; }
         public int DayInMonth { get; set; }
         public bool Active { get; set; }
-    
-        public virtual AbstractCategory AbstractCategory { get; set; }
-        public virtual BudgetTransaction BudgetTransaction { get; set; }
     }
 }

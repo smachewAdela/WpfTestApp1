@@ -19,8 +19,5 @@ namespace WebBalanceTracker
         public int Amount { get; set; }
         public int BudgetGroupId { get; set; }
         public bool Active { get; set; }
-    
-        public virtual BudgetAutoTransaction BudgetAutoTransaction { get; set; }
-        public virtual BudgetGroup BudgetGroup { get; set; }
     }
 }

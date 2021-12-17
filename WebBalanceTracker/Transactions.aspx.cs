@@ -1,5 +1,4 @@
-﻿using QBalanceDesktop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -7,7 +6,6 @@ using System.Web;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using WpfTestApp1;
 
 namespace WebBalanceTracker
 {
@@ -17,37 +15,24 @@ namespace WebBalanceTracker
         {
             XTitle = "תנועות אחרונות";
         }
-        
-
-        public List<GroupData> BudgetGroups
+        public List<BudgetGroup> BudgetGroups
         {
             get
             {
-                var tbl = new DataTable();
-                tbl.AddColumns(5);
-                var gData = new List<GroupData>();
-
-                var currentBudget = Global.CurrentBudget;
-                var gGroups = Db.GetData<BudgetGroup>(new SearchParameters { });
-
-                foreach (var g in gGroups)
-                {
-                    g.BudgetItems = currentBudget.Items.Where(x => x.GroupId == g.Id).ToList();
-                    gData.Add(new GroupData(g));
-                }
-
-                return gData;
+                using (var context = new BalanceAdmin_Entities())
+                    return context.BudgetGroup.ToList();
             }
         }
+      
 
         [WebMethod]
         public static string addTransaction(string userdata)
         {
             dynamic req = userdata.ToDynamicJObject();
 
-            var BudgetItemToUpdate = Db.GetSingle<BudgetItem>(new SearchParameters { BudgetItemId = (int)req.budgetItemId });
-            BudgetItemToUpdate.StatusAmount += (int)req.amountToAdd;
-            Global.Db.Update(BudgetItemToUpdate);
+            //var BudgetItemToUpdate = Db.GetSingle<BudgetItem>(new SearchParameters { BudgetItemId = (int)req.budgetItemId });
+            //BudgetItemToUpdate.StatusAmount += (int)req.amountToAdd;
+            //Global.Db.Update(BudgetItemToUpdate);
 
             Global.RefreshBudget();
             return "Posted";
@@ -59,9 +44,9 @@ namespace WebBalanceTracker
         {
             dynamic req = userdata.ToDynamicJObject();
 
-            var transactionCheckPoint = Db.GetSingle<TransactionCheckPoint>(new SearchParameters { TransactionCheckPointId = (int)req.checkPointId });
-            transactionCheckPoint.Description = (string)req.checkPointDescription;
-            Global.Db.Update(transactionCheckPoint);
+            //var transactionCheckPoint = Db.GetSingle<TransactionCheckPoint>(new SearchParameters { TransactionCheckPointId = (int)req.checkPointId });
+            //transactionCheckPoint.Description = (string)req.checkPointDescription;
+            //Global.Db.Update(transactionCheckPoint);
 
             Global.RefreshBudget();
             return "Posted";
@@ -90,27 +75,27 @@ namespace WebBalanceTracker
         }
     }
 
-    public class GroupData
-    {
-        public GroupData(BudgetGroup g)
-        {
-            this.GroupName = g.Name;
-            this.Id = g.Id;
-            BudgetGroups = g.BudgetItems.Where(x => x.Active).Select(x => new BudgetData(x)).ToList();
-        }
+    //public class GroupData
+    //{
+    //    public GroupData(BudgetGroup g)
+    //    {
+    //        this.GroupName = g.Name;
+    //        this.Id = g.Id;
+    //        BudgetGroups = g.BudgetItems.Where(x => x.Active).Select(x => new BudgetData(x)).ToList();
+    //    }
 
-        public int Id { get; set; }
-        public string GroupName { get; set; }
-        public List<BudgetData> BudgetGroups { get; set; }
+    //    public int Id { get; set; }
+    //    public string GroupName { get; set; }
+    //    public List<BudgetData> BudgetGroups { get; set; }
 
-        public string Status
-        {
-            get
-            {
-                return BudgetGroups.IsNotEmpty() ? BudgetGroups.Sum(x => x.StatusAmount).ToNumberFormat() : string.Empty;
-            }
-        }
-    }
+    //    public string Status
+    //    {
+    //        get
+    //        {
+    //            return BudgetGroups.IsNotEmpty() ? BudgetGroups.Sum(x => x.StatusAmount).ToNumberFormat() : string.Empty;
+    //        }
+    //    }
+    //}
 
     public class BudgetData
     {
@@ -175,7 +160,6 @@ namespace WebBalanceTracker
 
         public BudgetInfo(Budget x)
         {
-            this.Id = x.Id;
             this.Incomes = x.Incomes.Count();
             this.CheckPoints = x.TransactionCheckPoints.Count();
             this.BudgetItems = x.Items.Count();

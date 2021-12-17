@@ -32,5 +32,6 @@ namespace WebBalanceTracker
         public virtual DbSet<BudgetMonth> BudgetMonth { get; set; }
         public virtual DbSet<BudgetTransaction> BudgetTransaction { get; set; }
         public virtual DbSet<IncomeTransaction> IncomeTransaction { get; set; }
+        public virtual DbSet<BalanceCheckPoint> BalanceCheckPoint { get; set; }
     }
 }

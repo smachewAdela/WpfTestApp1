@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using QBalanceDesktop;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,7 +7,6 @@ using System.Web;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using WpfTestApp1;
 
 namespace WebBalanceTracker
 {
@@ -24,9 +22,7 @@ namespace WebBalanceTracker
         {
             get
             {
-                if (Global.CurrentBudget == null)
-                    return string.Empty;
-                return Global.CurrentBudget.Title;
+                return Global.CurrentBudget.Name;
             }
         }
 
@@ -34,9 +30,7 @@ namespace WebBalanceTracker
         {
             get
             {
-                if (Global.CurrentBudget == null)
-                    return string.Empty;
-                return Global.CurrentBudget.Items.Sum(x => x.StatusAmount).ToNumberFormat();
+                return Global.CurrentBudget.TotalExpenses.ToNumberFormat();
             }
         }
 
@@ -45,9 +39,7 @@ namespace WebBalanceTracker
         {
             get
             {
-                if (Global.CurrentBudget == null)
-                    return string.Empty;
-                return Global.CurrentBudget.Incomes.Sum(x => x.Amount).ToNumberFormat();
+                return Global.CurrentBudget.Totalincomes.ToNumberFormat();
             }
         }
 
@@ -57,9 +49,7 @@ namespace WebBalanceTracker
         {
             get
             {
-                if (Global.CurrentBudget == null)
-                    return string.Empty;
-                return (Global.CurrentBudget.Incomes.Sum(x => x.Amount) - Global.CurrentBudget.Items.Sum(x => x.StatusAmount)).ToNumberFormat();
+                return Global.CurrentBudget.LeftFromIncome.ToNumberFormat();
             }
         }
 
@@ -67,9 +57,7 @@ namespace WebBalanceTracker
         {
             get
             {
-                if (Global.CurrentBudget == null)
-                    return string.Empty;
-                return (Global.CurrentBudget.Items.Sum(x => x.BudgetAmount) - Global.CurrentBudget.Items.Sum(x => x.StatusAmount)).ToNumberFormat();
+                return Global.CurrentBudget.LefttoUse.ToNumberFormat();
             }
         }
         public int Ratio
@@ -80,8 +68,8 @@ namespace WebBalanceTracker
                 // 75/100
                 if (Global.CurrentBudget == null)
                     return 0;
-                var status = Global.CurrentBudget.Items.Sum(x => x.StatusAmount);
-                var budget = Global.CurrentBudget.Items.Sum(x => x.BudgetAmount);
+                var status = Global.CurrentBudget.TotalExpenses;
+                var budget = Global.CurrentBudget.TotalBudget;
                 var res = (status * 100) / (budget == 0 ? 100 : budget);
                 return res;
             }
