@@ -31,7 +31,7 @@
                                     <% foreach (var reportInfo in BudgetGroups)
                                         { %>
                                     <a class="dropdown-item w-100 text-center h5 btn-info " onclick="filterByGroup('<% =reportInfo.Id %>'); return false;">
-                                        <div class="text-center w-100 h4"><% =reportInfo.GroupName %></div>
+                                        <div class="text-center w-100 h4"><% =reportInfo.Name %></div>
                                     </a>
                                     <%}%>
                                 </div>

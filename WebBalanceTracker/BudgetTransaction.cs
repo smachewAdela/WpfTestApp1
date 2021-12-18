@@ -11,6 +11,7 @@ namespace WebBalanceTracker
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     
     public partial class BudgetTransaction
     {
@@ -20,5 +21,14 @@ namespace WebBalanceTracker
         public int AbstractCatrgoryId { get; set; }
         public int BudgetMonthId { get; set; }
         public Nullable<int> BudgetAutoTransactionId { get; set; }
+
+        public AbstractCategory AbstractCatrgory
+        {
+            get
+            {
+                using (var context = new BalanceAdmin_Entities())
+                    return context.AbstractCategory.SingleOrDefault(x => x.Id == AbstractCatrgoryId);
+            }
+        }
     }
 }

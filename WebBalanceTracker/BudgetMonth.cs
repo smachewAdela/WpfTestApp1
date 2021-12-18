@@ -46,24 +46,38 @@ namespace WebBalanceTracker
             }
         }
 
-        internal object StatusForGroup(int id)
+        internal int StatusForGroup(int id)
         {
-            throw new NotImplementedException();
+            return BudgetTransactions.Where(x => x.AbstractCatrgory.BudgetGroupId == id).Sum(x => x.Amount);
         }
 
-        internal object IsOverSpent(int id)
+        internal int IsGroupOverSpent(int id)
         {
-            throw new NotImplementedException(); //g.IsOverSpent ? "1" : "0"
+            var groupExpenses = StatusForGroup(id);
+            var budgetForGroup = BudgetForGroup(id);
+            return (groupExpenses * 100) / (budgetForGroup == 0 ? 100 : budgetForGroup);
         }
 
-        internal object RatioForGroup(int id)
+        internal int RatioForGroup(int id)
         {
-            throw new NotImplementedException();
+            using (var context = new BalanceAdmin_Entities())
+            {
+                var groupBudget = BudgetForGroup(id);
+                var groupStatus = StatusForGroup(id);
+                var res = (groupStatus * 100) / (groupBudget == 0 ? 100 : groupBudget);
+                return res;
+            }
         }
 
-        internal object BudgetForGroup(int id)
+        internal int BudgetForGroup(int id)
         {
-            throw new NotImplementedException();
+            using (var context = new BalanceAdmin_Entities())
+            {
+                var resItems = context.AbstractCategory.Where(x => x.Active && x.BudgetGroupId == id).ToList();
+                if (resItems.IsEmptyOrNull())
+                    return 0;
+                return resItems.Sum(x => x.Amount);
+            }
         }
 
         public int LefttoUse
@@ -78,10 +92,10 @@ namespace WebBalanceTracker
         {
             get
             {
-                return Totalincomes - Totalincomes;
+                return Totalincomes - TotalExpenses;
             }
-        }  
-        
+        }
+
         public int TotalExpenses
         {
             get
@@ -89,7 +103,7 @@ namespace WebBalanceTracker
                 return BudgetTransactions.Sum(x => x.Amount);
             }
         }
-        
+
         public int TotalBudget
         {
             get
@@ -99,6 +113,12 @@ namespace WebBalanceTracker
             }
         }
 
-        public object Ratio { get; internal set; }
+        public int Ratio
+        {
+            get
+            {
+                return (TotalExpenses * 100) / (TotalBudget == 0 ? 100 : TotalBudget);
+            }
+        }
     }
 }

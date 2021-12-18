@@ -14,12 +14,69 @@ namespace WebBalanceTracker
         }
 
         private static BugetGroupMigrationItemList bugetGroupMigrationItems = new BugetGroupMigrationItemList();
+        private static BugetMonthMigrationItemList bugetMonthMigrationItems = new BugetMonthMigrationItemList();
 
         private static void Start()
         {
             LoadBudgetMonths();
             LoadBudgetGroups();
             LoadAbstractCategories();
+            LoadAbstractIncomes();
+            LoadLegacyIncomeTransactions();
+            LoadLegacyTransactions();
+        }
+
+        private static void LoadAbstractIncomes()
+        {
+            using (var context = new BalanceAdmin_Entities())
+            using (var legacyContext = new Legacy_prodEntities())
+            {
+                if (context.AbstractIncome.Count() == 0)
+                {
+                    foreach (var legacyIncome in legacyContext.BudgetIncomes.GroupBy(x => x.Name).ToDictionary(x => x.Key, x => x.ToList().Average(g => g.Amount)))
+                    {
+                        context.AbstractIncome.Add(new AbstractIncome
+                        {
+                            Active = true,
+                            DefaultAmount = (int)legacyIncome.Value,
+                            Name = legacyIncome.Key
+                        });
+                    }
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        private static void LoadLegacyIncomeTransactions()
+        {
+            using (var context = new BalanceAdmin_Entities())
+            using (var legacyContext = new Legacy_prodEntities())
+            {
+                if (context.IncomeTransaction.Count() == 0)
+                {
+                    foreach (var legacyIncome in legacyContext.BudgetIncomes)
+                    {
+                        var newIncomeTran = new IncomeTransaction
+                        {
+                            Amount = legacyIncome.Amount,
+                            Name = legacyIncome.Name,
+                            BudgetMonthId = bugetMonthMigrationItems.TransformToNewId(legacyIncome.BudgetId),
+                            AbstractIncomeId = context.AbstractIncome.First(x => x.Name.Equals(legacyIncome.Name)).Id
+                        };
+                        context.IncomeTransaction.Add(newIncomeTran);
+                    }
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        private static void LoadLegacyTransactions()
+        {
+            using (var context = new BalanceAdmin_Entities())
+            using (var legacyContext = new Legacy_prodEntities())
+            {
+
+            }
         }
 
         private static void LoadBudgetGroups()
@@ -42,10 +99,9 @@ namespace WebBalanceTracker
                 foreach (var legacyGroup in legacyContext.BudgetItemGroup)
                 {
                     var matchingGroup = context.BudgetGroup.OrderBy(x => x.Id).SingleOrDefault(x => x.Name.Equals(legacyGroup.Name));
-                    bugetGroupMigrationItems.Add(new BugetGroupMigrationItem
+                    bugetGroupMigrationItems.Add(new BugetMigrationItem
                     {
                         LegacyId = legacyGroup.Id,
-                        Name = legacyGroup.Name,
                         NewId = matchingGroup.Id
                     });
                 }
@@ -93,11 +149,21 @@ namespace WebBalanceTracker
                     }
                     context.SaveChanges();
                 }
+                foreach (var legacyMonth in legacyContext.BudgetForMonth)
+                {
+                    var matchingMonth = context.BudgetMonth.SingleOrDefault(x => x.Month.Equals(legacyMonth.Month));
+                    bugetMonthMigrationItems.Add(new BugetMigrationItem
+                    {
+                        LegacyId = legacyMonth.Id,
+                        NewId = matchingMonth.Id
+                    });
+                }
+
             }
         }
     }
 
-    public class BugetGroupMigrationItemList : List<BugetGroupMigrationItem>
+    public class BugetGroupMigrationItemList : List<BugetMigrationItem>
     {
         internal int TransformToNewId(int gId)
         {
@@ -108,10 +174,22 @@ namespace WebBalanceTracker
         }
     }
 
-    public class BugetGroupMigrationItem
+    public class BugetMonthMigrationItemList : List<BugetMigrationItem>
+    {
+        internal int TransformToNewId(int gId)
+        {
+            var EX = this.FirstOrDefault(x => x.LegacyId == gId);
+            if (EX == null)
+                return 0;
+            return EX.NewId;
+        }
+    }
+
+
+
+    public class BugetMigrationItem
     {
         public int LegacyId { get; set; }
         public int NewId { get; set; }
-        public string Name { get; set; }
     }
 }
