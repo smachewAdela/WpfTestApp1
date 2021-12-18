@@ -6,7 +6,7 @@ namespace WebBalanceTracker
     {
         internal static void Perform()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
