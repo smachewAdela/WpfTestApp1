@@ -1,5 +1,4 @@
-﻿using QBalanceDesktop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,32 +11,11 @@ namespace WebBalanceTracker
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //lock (obj)
-            //{
-            //    //GenerateAbstractCategories();
-            //}
         }
 
         private static object obj = new object();
 
-        private void GenerateAbstractCategories()
-        {
-            var latestBudget = Global.Db.GetSingle<Budget>(new SearchParameters { BudgetDate = new DateTime(2021,09,01) });
-            var ttl = latestBudget.Title;
-
-            foreach (var req in latestBudget.Items)
-            {
-                var upsertC = new AbstractCategory
-                {
-                    CategoryName = req.CategoryName,
-                    GroupId = req.GroupId,
-                    DefaultAmount = req.BudgetAmount,
-                    DayInMonth = 10,
-                    Active = true,
-                };
-                Global.Db.Insert(upsertC);
-            }
-        }
+       
 
         public bool hideBudgetNavigator { get; set; }
         public string xTitle { get; set; }
@@ -59,7 +37,8 @@ namespace WebBalanceTracker
         {
             get
             {
-                return Global.Db.GetData<Budget>().OrderByDescending(x => x.Id).ToDictionary(x => x.Id, x => x.Title);
+                using (var context = new BalanceAdmin_Entities())
+                    return context.BudgetMonth.ToDictionary(x => x.Id, x => x.Name);
             }
         }
     }

@@ -28,12 +28,42 @@ namespace WebBalanceTracker
             }
         }
 
+        public List<TransactionCheckPoint> TransactionCheckPoints
+        {
+            get
+            {
+                using (var context = new BalanceAdmin_Entities())
+                    return new List<TransactionCheckPoint>();
+            }
+        }
+
+
         public int Totalincomes
         {
             get
             {
                 return IncomeTransactions.Sum(x => x.Amount);
             }
+        }
+
+        internal object StatusForGroup(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal object IsOverSpent(int id)
+        {
+            throw new NotImplementedException(); //g.IsOverSpent ? "1" : "0"
+        }
+
+        internal object RatioForGroup(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal object BudgetForGroup(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public int LefttoUse
@@ -68,6 +98,7 @@ namespace WebBalanceTracker
                     return context.AbstractCategory.Where(x => x.Active).Sum(x => x.Amount);
             }
         }
-        
+
+        public object Ratio { get; internal set; }
     }
 }

@@ -17,24 +17,12 @@ namespace WebBalanceTracker
             this.XTitle = "הגדרת תקציב";
         }
 
-        public List<GroupData> BudgetGroups
+        public List<BudgetGroup> BudgetGroups
         {
             get
             {
-                var tbl = new DataTable();
-                tbl.AddColumns(5);
-                var gData = new List<GroupData>();
-
-                //var currentBudget = Global.CurrentBudget;
-                //var gGroups = Db.GetData<BudgetGroup>(new SearchParameters { });
-
-                //foreach (var g in gGroups)
-                //{
-                //    g.BudgetItems = currentBudget.Items.Where(x => x.GroupId == g.Id).ToList();
-                //    gData.Add(new GroupData(g));
-                //}
-
-                return gData;
+                using (var context = new BalanceAdmin_Entities())
+                    return context.BudgetGroup.ToList();
             }
         }
 

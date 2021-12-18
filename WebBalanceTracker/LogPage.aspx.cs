@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using WpfTestApp1.MVVM.Model;
 
 namespace WebBalanceTracker
 {
@@ -19,17 +18,19 @@ namespace WebBalanceTracker
         {
             get
             {
-                var budgets = Db.GetData<I_Message>();
-                return budgets.OrderByDescending(x => x.Date).Select(x => 
-                new LogInfo
-                {
-                    Date = x.Date.ToString(),
-                    Title = x.Title,
-                    Message = x.Message,
-                    ExtraData = x.ExtraData,
-                    Type = x.IType.ToString()
+                //var budgets = Db.GetData<I_Message>();
+                //return budgets.OrderByDescending(x => x.Date).Select(x => 
+                //new LogInfo
+                //{
+                //    Date = x.Date.ToString(),
+                //    Title = x.Title,
+                //    Message = x.Message,
+                //    ExtraData = x.ExtraData,
+                //    Type = x.IType.ToString()
 
-                }).ToList();
+                //}).ToList();
+
+                return new List<LogInfo>();
             }
         }
     }

@@ -15,6 +15,7 @@ namespace WebBalanceTracker
         {
             XTitle = "תנועות אחרונות";
         }
+
         public List<BudgetGroup> BudgetGroups
         {
             get
@@ -53,24 +54,11 @@ namespace WebBalanceTracker
         }
 
 
-        public List<CheckPointData> CheckPoints
+        public List<TransactionCheckPoint> CheckPoints
         {
             get
             {
-                if (Global.CurrentBudget == null)
-                    return new List<CheckPointData>();
-
-                if (Global.CurrentBudget.TransactionCheckPoints.IsEmptyOrNull())
-                {
-                    var _t = Global.GenerateDefaultCheckPoints();
-                    foreach (var checkPoint in _t)
-                    {
-                        checkPoint.BudgetId = Global.CurrentBudget.Id;
-                        Global.Db.Insert(checkPoint);
-                    }
-                    Global.CurrentBudget.TransactionCheckPoints = Global.Db.GetData<TransactionCheckPoint>(new SearchParameters { TransactionCheckPointBudgetId = Global.CurrentBudget.Id });
-                }
-                return Global.CurrentBudget.TransactionCheckPoints.Select(x => new CheckPointData(x)).ToList();
+                return Global.CurrentBudget.TransactionCheckPoints;
             }
         }
     }
@@ -125,45 +113,17 @@ namespace WebBalanceTracker
         }
 
 
-        public BudgetData(BudgetItem x)
-        {
-            this.BudgetAmount = x.BudgetAmount;
-            this.BudgetId = x.BudgetId;
-            this.CategoryName = x.CategoryName;
-            this.GroupId = x.GroupId;
-            this.StatusAmount = x.StatusAmount;
-            this.Id = x.Id;
-        }
+        //public BudgetData(BudgetItem x)
+        //{
+        //    this.BudgetAmount = x.BudgetAmount;
+        //    this.BudgetId = x.BudgetId;
+        //    this.CategoryName = x.CategoryName;
+        //    this.GroupId = x.GroupId;
+        //    this.StatusAmount = x.StatusAmount;
+        //    this.Id = x.Id;
+        //}
     }
 
-    public class CheckPointData
-    {
-        public CheckPointData(TransactionCheckPoint x)
-        {
-            this.Id = x.Id;
-            this.Name = x.Name;
-            this.Description = x.Description;
-        }
-
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-    }
-
-    public class BudgetInfo
-    {
-        public int Id { get; set; }
-        public int Incomes { get; set; }
-        public int CheckPoints { get; set; }
-        public int BudgetItems { get; set; }
-        public string Title { get; set; }
-
-        public BudgetInfo(Budget x)
-        {
-            this.Incomes = x.Incomes.Count();
-            this.CheckPoints = x.TransactionCheckPoints.Count();
-            this.BudgetItems = x.Items.Count();
-            this.Title = x.Title;
-        }
-    }
+  
+    
 }

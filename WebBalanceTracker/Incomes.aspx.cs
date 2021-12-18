@@ -1,5 +1,4 @@
-﻿using QBalanceDesktop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -27,14 +26,12 @@ namespace WebBalanceTracker
                 var currentBudget = Global.CurrentBudget;
                 if (currentBudget != null)
                 {
-                    var items = currentBudget.Incomes;
-
-                    foreach (var g in items)
+                    foreach (var g in currentBudget.IncomeTransactions)
                     {
                         var rw = tbl.NewRow();
 
                         rw[0] = g.Id;
-                        rw[1] = g.BudgetId;
+                        rw[1] = g.BudgetMonthId;
                         rw[2] = g.Name;
                         rw[3] = g.Amount.ToNumberFormat();
                         rw[4] = "0";
@@ -44,8 +41,8 @@ namespace WebBalanceTracker
                     var totalRow = tbl.NewRow();
                     totalRow[0] = "0";
                     totalRow[1] = currentBudget.Id;
-                    totalRow[2] = currentBudget.Title;
-                    totalRow[3] = items.Sum(x => x.Amount).ToNumberFormat();
+                    totalRow[2] = currentBudget.Name;
+                    totalRow[3] = currentBudget.Totalincomes;
                     totalRow[4] = "1";
                     tbl.Rows.Add(totalRow);
                 }
@@ -61,11 +58,13 @@ namespace WebBalanceTracker
             var lBudget = Global.GetLatestBudget();
 
             int idToFinfd = req.incomeId;
-            var iIncome = Global.CurrentBudget.Incomes.First(x => x.Id == idToFinfd);
-            iIncome.Amount += (int)req.amountToAdd;
+            using (var context = new BalanceAdmin_Entities())
+            {
+                var iIncome = context.IncomeTransaction.SingleOrDefault(x => x.Id == idToFinfd);
+                iIncome.Amount += (int)req.amountToAdd;
 
-            Global.Db.Update(iIncome);
-
+                context.SaveChanges();
+            }
             Global.RefreshBudget();
             return "Posted";
         }
@@ -78,13 +77,13 @@ namespace WebBalanceTracker
 
             var incomeName = req.incomeName;
 
-            BudgetIncomeItem bi = new BudgetIncomeItem
-            {
-                Amount = 0,
-                Name = incomeName,
-                BudgetId = lBudget.Id
-            };
-            Global.Db.Insert(bi);
+            //BudgetIncomeItem bi = new BudgetIncomeItem
+            //{
+            //    Amount = 0,
+            //    Name = incomeName,
+            //    BudgetId = lBudget.Id
+            //};
+            //Global.Db.Insert(bi);
 
             return "Posted";
         }

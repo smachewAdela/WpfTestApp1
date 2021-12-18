@@ -1,14 +1,13 @@
 ﻿using Newtonsoft.Json;
-using QBalanceDesktop;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using WpfTestApp1.MVVM.Model;
 
 namespace WebBalanceTracker
 {
@@ -35,11 +34,11 @@ namespace WebBalanceTracker
                 dynamic req = userdata.ToDynamicJObject();
                 var tbl = new DataTable();
 
-                var manager = new ReportManager();
-                ReportTypeEnum currentReport = (ReportTypeEnum)Enum.Parse(typeof(ReportTypeEnum), (string)req.reportType);
-                var CurrentReportContent = manager.GenerateReport(currentReport);
+                //var manager = new ReportManager();
+                //ReportTypeEnum currentReport = (ReportTypeEnum)Enum.Parse(typeof(ReportTypeEnum), (string)req.reportType);
+                //var CurrentReportContent = manager.GenerateReport(currentReport);
 
-                return JsonConvert.SerializeObject(CurrentReportContent.Table);
+                //return JsonConvert.SerializeObject(CurrentReportContent.Table);
             }
             catch (Exception ex)
             {
@@ -48,5 +47,25 @@ namespace WebBalanceTracker
             return string.Empty;
         }
 
+    }
+
+    public enum ReportTypeEnum
+    {
+        [Description("הכנסה מול תקציב")]
+        IncomeVsBudget,
+        [Description("הכנסה מול פעילות")]
+        IncomeVsStatus,
+        [Description("נתוני קבוצה")]
+        GroupDetails,
+        [Description("נתוני קטגוריה")]
+        CategoryDetails,
+        [Description("הכנסות")]
+        IncomeDetails,
+        [Description("הכנסות - מורחב")]
+        IncomeDetailsExpanded,
+        //[Description("יתרות")]
+        //Balances,
+        [Description("חריגות")]
+        BudgetExceptions,
     }
 }
