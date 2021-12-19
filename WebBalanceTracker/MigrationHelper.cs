@@ -75,7 +75,29 @@ namespace WebBalanceTracker
             using (var context = new BalanceAdmin_Entities())
             using (var legacyContext = new Legacy_prodEntities())
             {
-
+                if (context.BudgetTransaction.Count() == 0)
+                {
+                    foreach (var item in legacyContext.BudgetItems)
+                    {
+                        var matchingAbstractCategory = context.AbstractCategory.SingleOrDefault(x => x.Name.Equals(item.CategoryName));
+                        if (matchingAbstractCategory != null)
+                        {
+                            var newB = new BudgetTransaction
+                            {
+                                AbstractCatrgoryId = matchingAbstractCategory.Id,
+                                Amount = item.StatusAmount,
+                                BudgetMonthId = bugetMonthMigrationItems.TransformToNewId(item.BudgetId),
+                                Description = $"Migrated transaction",
+                            };
+                            context.BudgetTransaction.Add(newB);
+                        }
+                        else
+                        {
+                            //throw new Exception("UnKnown category fort transaction");
+                        }
+                    }
+                    context.SaveChanges();
+                }
             }
         }
 

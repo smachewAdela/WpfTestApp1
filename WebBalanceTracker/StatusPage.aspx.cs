@@ -39,7 +39,7 @@ namespace WebBalanceTracker
                                 rw[1] = currentBudget.BudgetForGroup(g.Id);// g.BudgetStr;
                                 rw[2] = currentBudget.StatusForGroup(g.Id); 
                                 rw[3] = currentBudget.RatioForGroup(g.Id); 
-                                rw[4] = currentBudget.IsGroupOverSpent(g.Id);
+                                rw[4] = currentBudget.IsGroupOverSpent(g.Id) ? "1" : "0";
                                 tbl.Rows.Add(rw);
                             }
                             var totalRow = tbl.NewRow();
@@ -48,7 +48,7 @@ namespace WebBalanceTracker
                             totalRow[1] = currentBudget.TotalBudget;
                             totalRow[2] = currentBudget.TotalExpenses;
                             totalRow[3] = $"{currentBudget.Ratio}%";
-                            totalRow[4] = "0";
+                            totalRow[4] = currentBudget.IsOverSpent ? "1" : "0";
                             totalRow[5] = "1"; // is total
                             tbl.Rows.Add(totalRow);
                         }

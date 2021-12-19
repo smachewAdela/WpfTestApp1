@@ -51,11 +51,9 @@ namespace WebBalanceTracker
             return BudgetTransactions.Where(x => x.AbstractCatrgory.BudgetGroupId == id).Sum(x => x.Amount);
         }
 
-        internal int IsGroupOverSpent(int id)
+        internal bool IsGroupOverSpent(int id)
         {
-            var groupExpenses = StatusForGroup(id);
-            var budgetForGroup = BudgetForGroup(id);
-            return (groupExpenses * 100) / (budgetForGroup == 0 ? 100 : budgetForGroup);
+            return RatioForGroup(id) > 100;
         }
 
         internal int RatioForGroup(int id)
@@ -118,6 +116,14 @@ namespace WebBalanceTracker
             get
             {
                 return (TotalExpenses * 100) / (TotalBudget == 0 ? 100 : TotalBudget);
+            }
+        }
+
+        public bool IsOverSpent
+        {
+            get
+            {
+                return Ratio > 100;
             }
         }
     }

@@ -40,17 +40,17 @@
                         <tr class="text-center text-info  bg-white border-bottom">
 
                             <td>
-                                <% =bi.Title %>
+                                <% =bi.Name %>
                             </td>
                             <td>
-                                <% =bi.BudgetItems %> 
+                                <% =bi.BudgetTransactions.Count %> 
                             </td>
                             <td>
-                                <% =bi.Incomes %>
+                                <% =bi.BudgetTransactions.Count %>
                             </td>
 
                             <td>
-                                <% =bi.CheckPoints %>
+                                <% =bi.BudgetTransactions.Count %>
                             </td>
                             <td>
                                 <button id="btnclk" onclick="deleteBudget('<% =bi.Id %>'); return false;"
